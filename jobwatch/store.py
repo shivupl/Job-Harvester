@@ -132,6 +132,26 @@ class Store:
         self.con.commit()
         return True
 
+    def board_rows(self, profile: dict, now: datetime) -> list[dict]:
+        """Every posting currently worth looking at, for board.html."""
+        cutoff = _iso(now - timedelta(days=profile["board_days"]))
+        hidden = list(profile.get("hide_location_fits", []))
+        placeholders = ",".join("?" * len(hidden)) or "''"
+        rows = self.con.execute(
+            "select key, title, company, url, fit, relevance, category, location_fit, location, "
+            "posted_at, reason, first_seen from seen where status='scored' and fit is not null "
+            "and relevance >= ? and fit >= ? and first_seen >= ? "
+            f"and coalesce(location_fit, 'unknown') not in ({placeholders}) "
+            "order by relevance desc, fit desc, posted_at desc",
+            [profile["min_relevance"], profile["min_fit"], cutoff] + hidden,
+        ).fetchall()
+        out = []
+        for r in rows:
+            d = dict(r)
+            d["comp"] = None   # comp is not persisted; the digest shows it at scoring time
+            out.append(d)
+        return out
+
     def audit(self) -> list[tuple[str, int]]:
         rows = self.con.execute(
             "select reason, count(*) from seen where status='dropped' group by reason order by 2 desc, 1"

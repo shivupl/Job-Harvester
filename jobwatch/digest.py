@@ -48,6 +48,9 @@ def render(date_str: str, slot: str, funnel: dict, shown: list[dict], unscored: 
         f"prefiltered {funnel['prefiltered']} · scored {funnel['scored']} · shown {funnel['shown']}"
     )
     lines.append("")
+    lines.append("_New since the last run. For everything currently open, sorted and filterable: "
+                 "`git pull && python -m jobwatch board --open`._")
+    lines.append("")
     if not shown:
         lines.append("No new postings worth showing.")
     by_cat: dict[str, list[dict]] = {}

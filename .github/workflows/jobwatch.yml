@@ -79,7 +79,7 @@ jobs:
         run: |
           git config user.name "jobwatch-bot"
           git config user.email "jobwatch-bot@users.noreply.github.com"
-          git add -A -- jobwatch.db companies.json digests
+          git add -A -- jobwatch.db companies.json digests board.html
           git commit -m "jobwatch ${{ steps.slot.outputs.date }} ${{ steps.slot.outputs.slot }}" || echo "nothing to commit"
           git pull --rebase
           git push

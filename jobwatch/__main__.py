@@ -58,7 +58,7 @@ async def cmd_run(args) -> dict:
     client = anthropic.AsyncAnthropic()
     try:
         r = await run(http, store, client, Path(args.companies), Path(args.digests), args.slot,
-                      backfill_days=args.backfill_days)
+                      backfill_days=args.backfill_days, board_path=Path(args.board))
     finally:
         await http.aclose()
         store.close()
@@ -66,6 +66,19 @@ async def cmd_run(args) -> dict:
     print(f"SHOWN={r.shown}")
     print(f"DIGEST={r.digest_path or ''}")
     return out
+
+
+async def cmd_board(args) -> dict:
+    from .run import write_board
+    store = Store(args.db)
+    try:
+        n = write_board(store, Path(args.out))
+    finally:
+        store.close()
+    if args.open:
+        import webbrowser
+        webbrowser.open(Path(args.out).resolve().as_uri())
+    return {"rows": n, "board": args.out}
 
 
 def main(argv=None) -> None:
@@ -91,7 +104,14 @@ def main(argv=None) -> None:
     r.add_argument("--digests", default="digests")
     r.add_argument("--backfill-days", type=int, default=None,
                    help="one-off: re-score baseline postings from the last N days")
+    r.add_argument("--board", default="board.html")
     r.set_defaults(fn=cmd_run)
+
+    b = sub.add_parser("board", help="rebuild board.html from the local database (no network)")
+    b.add_argument("--db", default="jobwatch.db")
+    b.add_argument("--out", default="board.html")
+    b.add_argument("--open", action="store_true", help="open it in your browser")
+    b.set_defaults(fn=cmd_board)
 
     args = ap.parse_args(argv)
     summary = asyncio.run(args.fn(args))

@@ -12,6 +12,7 @@ from zoneinfo import ZoneInfo
 import httpx
 
 from .ats import ADAPTERS
+from .board import render_board
 from .digest import render
 from .http import Http
 from .models import FetchError, Posting
@@ -20,6 +21,14 @@ from .profile import PROFILE
 from .score import score_all
 from .store import Store
 from .util import now_utc
+
+
+def write_board(store: Store, path: Path, profile: dict = PROFILE, now: Optional[datetime] = None) -> int:
+    """Regenerate board.html from the store. Returns the row count."""
+    now = now or now_utc()
+    rows = store.board_rows(profile, now)
+    path.write_text(render_board(rows, now, profile))
+    return len(rows)
 
 
 @dataclass
@@ -53,7 +62,7 @@ async def fetch_all(http: Http, companies: list[dict]) -> tuple[list[Posting], l
 
 async def run(http: Http, store: Store, client, companies_path: Path, digests_dir: Path,
               slot: str, profile: dict = PROFILE, now: Optional[datetime] = None,
-              backfill_days: Optional[int] = None) -> RunResult:
+              backfill_days: Optional[int] = None, board_path: Optional[Path] = None) -> RunResult:
     now = now or now_utc()
     companies = json.loads(companies_path.read_text())
     max_age = profile["max_posting_age_days"]
@@ -125,6 +134,7 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
     path = digests_dir / f"{local_date}-{slot}.md"
     path.write_text(render(local_date, slot, funnel, shown, unscored, errors, now=now,
                            stretch_fit=profile["stretch_fit"]))
+    write_board(store, board_path or digests_dir.parent / "board.html", profile, now)
 
     store.prune(profile["prune_days"], now)
     store.maybe_vacuum(now)

@@ -93,6 +93,7 @@ PROFILE = {
     "min_fit": 4,                  # ... and fit >= this (4-5 is tagged 'stretch')
     "stretch_fit": 6,              # fit below this gets the 'stretch' tag
     "hide_location_fits": ["non_us"],   # model-tagged location fits never shown
+    "board_days": 30,              # board.html shows eligible postings first seen within this window
     "candidate": (
         "Computer science new grad (2026) who ships independently: three "
         "published Adobe Express add-ons with 4,500+ installs and $8,000 in "

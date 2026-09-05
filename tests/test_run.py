@@ -173,3 +173,17 @@ async def test_model_tagged_non_us_is_hidden(tmp_path):
     r = await run(make_http([ashby_job(1, "Product Engineer", fresh, location="United States; Oxford, UK")]),
                   store, FakeClient(fit=9, relevance=9, location_fit="non_us"), companies, digests, "midday", PROFILE, now=NOW)
     assert r.funnel["scored"] == 1 and r.shown == 0
+
+
+async def test_run_writes_board(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    board = tmp_path / "board.html"
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW, board_path=board)
+    assert not board.exists()                                   # baseline writes no board
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url=""), "baseline", None, NOW)
+    await run(make_http([ashby_job(1, "Product Engineer", fresh)]), store, FakeClient(fit=9, relevance=9),
+              companies, digests, "midday", PROFILE, now=NOW, board_path=board)
+    html = board.read_text()
+    assert "Product Engineer" in html and "1 eligible postings" in html
