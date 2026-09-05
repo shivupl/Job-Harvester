@@ -23,7 +23,15 @@ async def probe(http: Http, slug: str) -> Optional[dict]:
 
 
 def _write(path: Path, companies: list[dict]) -> None:
-    companies.sort(key=lambda c: c["slug"])
+    # Ashby and Lever answer case-variant slugs for the same board; keep one.
+    seen: set[tuple[str, str]] = set()
+    kept = []
+    for c in sorted(companies, key=lambda c: c["slug"]):
+        k = (c["ats"], c["slug"].lower())
+        if k not in seen:
+            seen.add(k)
+            kept.append(c)
+    companies[:] = kept
     path.write_text(json.dumps(companies, indent=1) + "\n")
 
 

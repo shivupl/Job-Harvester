@@ -92,3 +92,12 @@ async def test_verify_resumes_from_fresh_companies_file(tmp_path):
     assert "done" not in probed and "new" in probed and "stale" in probed
     assert summary["resumed"] == 1 and summary["probed"] == 2 and summary["confirmed"] == 3
     assert [c["slug"] for c in json.loads(out.read_text())] == ["done", "new", "stale"]
+
+
+async def test_verify_dedupes_case_variant_slugs(tmp_path):
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text("Solace\nsolace\n")
+    out = tmp_path / "companies.json"
+    await verify(make_http(router({("ashby", "Solace"): 4, ("ashby", "solace"): 4})), seeds, out,
+                 Store(tmp_path / "t.db"), now=NOW)
+    assert [c["slug"] for c in json.loads(out.read_text())] == ["Solace"]

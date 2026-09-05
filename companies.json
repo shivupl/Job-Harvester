@@ -560,13 +560,6 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
-  "slug": "aegisventures",
-  "ats": "greenhouse",
-  "name": "Aegis Ventures",
-  "open_roles": 11,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
   "slug": "afero",
   "ats": "lever",
   "name": "afero",
@@ -690,13 +683,6 @@
   "ats": "lever",
   "name": "alltrails",
   "open_roles": 2,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
-  "slug": "alpaca",
-  "ats": "greenhouse",
-  "name": "Alpaca ",
-  "open_roles": 59,
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
@@ -1596,13 +1582,6 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
-  "slug": "cambly",
-  "ats": "ashby",
-  "name": "cambly",
-  "open_roles": 3,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
   "slug": "cameo",
   "ats": "greenhouse",
   "name": "Cameo",
@@ -1925,13 +1904,6 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
-  "slug": "cleric",
-  "ats": "ashby",
-  "name": "cleric",
-  "open_roles": 1,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
   "slug": "clickhouse",
   "ats": "ashby",
   "name": "clickhouse",
@@ -1943,13 +1915,6 @@
   "ats": "lever",
   "name": "clicktime",
   "open_roles": 1,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
-  "slug": "close",
-  "ats": "ashby",
-  "name": "close",
-  "open_roles": 8,
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
@@ -2013,13 +1978,6 @@
   "ats": "greenhouse",
   "name": "CodeAI",
   "open_roles": 5,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
-  "slug": "coder",
-  "ats": "ashby",
-  "name": "coder",
-  "open_roles": 30,
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
@@ -2713,13 +2671,6 @@
   "ats": "ashby",
   "name": "evervault",
   "open_roles": 4,
-  "verified_at": "2026-09-05T04:16:19+00:00"
- },
- {
-  "slug": "extend",
-  "ats": "greenhouse",
-  "name": "Extend",
-  "open_roles": 18,
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
@@ -4144,13 +4095,6 @@
   "verified_at": "2026-09-05T04:36:50+00:00"
  },
  {
-  "slug": "mapbox",
-  "ats": "ashby",
-  "name": "mapbox",
-  "open_roles": 52,
-  "verified_at": "2026-09-05T04:36:50+00:00"
- },
- {
   "slug": "markforged",
   "ats": "greenhouse",
   "name": "Markforged",
@@ -4725,13 +4669,6 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
-  "slug": "ontic",
-  "ats": "ashby",
-  "name": "ontic",
-  "open_roles": 17,
-  "verified_at": "2026-09-05T09:03:05+00:00"
- },
- {
   "slug": "oomnitza",
   "ats": "lever",
   "name": "oomnitza",
@@ -4827,13 +4764,6 @@
   "ats": "ashby",
   "name": "osmo",
   "open_roles": 12,
-  "verified_at": "2026-09-05T09:03:05+00:00"
- },
- {
-  "slug": "oso",
-  "ats": "ashby",
-  "name": "oso",
-  "open_roles": 7,
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
@@ -6111,13 +6041,6 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
-  "slug": "solace",
-  "ats": "ashby",
-  "name": "solace",
-  "open_roles": 27,
-  "verified_at": "2026-09-05T09:03:05+00:00"
- },
- {
   "slug": "soloioinc",
   "ats": "greenhouse",
   "name": "Solo.io, Inc.",
@@ -6923,13 +6846,6 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
-  "slug": "voldex",
-  "ats": "ashby",
-  "name": "voldex",
-  "open_roles": 4,
-  "verified_at": "2026-09-05T09:03:05+00:00"
- },
- {
   "slug": "voleon",
   "ats": "ashby",
   "name": "voleon",
@@ -7018,13 +6934,6 @@
   "ats": "ashby",
   "name": "wealthsimple",
   "open_roles": 48,
-  "verified_at": "2026-09-05T09:03:05+00:00"
- },
- {
-  "slug": "weave",
-  "ats": "greenhouse",
-  "name": "Weave",
-  "open_roles": 5,
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
