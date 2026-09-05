@@ -21,6 +21,9 @@ def load_dotenv(path: Path = Path(".env")) -> None:
             continue
         k, _, v = line.partition("=")
         os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+    # Accept a bare API_KEY= line as an alias for what the SDK reads.
+    if "ANTHROPIC_API_KEY" not in os.environ and os.environ.get("API_KEY"):
+        os.environ["ANTHROPIC_API_KEY"] = os.environ["API_KEY"]
 
 
 def make_http() -> Http:

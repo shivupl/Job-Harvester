@@ -84,6 +84,7 @@ def validate(data: Any) -> dict:
 async def score_posting(client, p: Posting, profile: dict = PROFILE) -> Optional[dict]:
     """Two attempts. Returns None on repeated failure; the caller surfaces the posting as unscored."""
     for attempt in range(2):
+        resp = None
         try:
             resp = await client.messages.create(
                 model=profile["model"],
@@ -92,15 +93,19 @@ async def score_posting(client, p: Posting, profile: dict = PROFILE) -> Optional
                 messages=[{"role": "user", "content": build_user_message(p, profile["max_description_chars"])}],
                 output_config={"format": {"type": "json_schema", "schema": SCHEMA}},
             )
-            text = next(b.text for b in resp.content if getattr(b, "type", "") == "text")
-            return validate(json.loads(text))
-        except (json.JSONDecodeError, StopIteration, ValueError, TypeError, KeyError):
-            pass
+        except anthropic.AuthenticationError:
+            raise                    # misconfiguration: fail the run loudly, never mark unscored
         except anthropic.APIStatusError as e:
             if e.status_code < 500 and e.status_code != 429:
-                return None          # bad request or auth: retrying won't help
+                return None          # bad request: retrying won't help
         except anthropic.APIConnectionError:
             pass
+        if resp is not None:
+            try:
+                text = next(b.text for b in resp.content if getattr(b, "type", "") == "text")
+                return validate(json.loads(text))
+            except (json.JSONDecodeError, StopIteration, ValueError, TypeError, KeyError):
+                pass                 # malformed output: retry once
         if attempt == 0:
             await asyncio.sleep(1)
     return None
