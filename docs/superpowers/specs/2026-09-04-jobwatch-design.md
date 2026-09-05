@@ -117,12 +117,11 @@ UTC string. `comp` is a display string or `None`.
    - `grnh\.se/([A-Za-z0-9]+)` — collect codes, then resolve each:
      `HEAD` without following redirects and read `Location`; if the
      status is not 3xx, retry as `GET` (streamed, body discarded). Run the
-     Greenhouse patterns on the `Location` value. If `Location` is on a
-     non-Greenhouse host but carries `gh_jid` or `gh_src` in its query,
-     the company is on Greenhouse under an unknown slug: add the domain's
-     first label (e.g. `chronograph` from `chronograph.pe`) as a seed
-     candidate for verify to confirm. Verified 2026-09-04: 15 of 15 codes
-     answered `HEAD` with a 301; 1 of 15 landed on a company site.
+     Greenhouse patterns on the `Location` value. If `Location` is not on
+     a Greenhouse host (some short links land on a company's own careers
+     page), discard it; harvest extracts facts and never guesses slugs.
+     Verified 2026-09-04: 15 of 15 codes answered `HEAD` with a 301; 1 of
+     15 landed on a company site.
 5. Blocklist: `embed, api, v0, v1, static, assets, search, login, about,
    privacy, terms, jobs, careers` and any segment containing a `.` followed
    by 2–4 letters at the end (file extension). Ashby slugs may legitimately
@@ -381,8 +380,7 @@ workflow, so one cron line changes one slot.
   take at least N/3 seconds wall-clock; two hostnames get two independent
   buckets; an unseen hostname gets a bucket on first use.
 - Short-link test: a fake resolver returning 405 on HEAD and 301 on GET
-  still yields the slug; a Location on a company domain with `gh_jid`
-  yields the domain label as a seed.
+  still yields the slug; a Location on a company domain yields nothing.
 - Prefilter tests, table-driven: title/location/description in, reason
   out. Includes "Sales Engineer" kept, "Product Lead" dropped,
   "Leadership Program" kept, "5+ years" dropped, "1-3 years" kept.
