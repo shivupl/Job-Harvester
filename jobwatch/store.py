@@ -18,10 +18,14 @@ create table if not exists seen (
   reason       text,
   location     text,
   url          text,
-  score        integer,
+  score        integer,       -- legacy single score (pre two-score); unused
   level        text,
-  new_grad_fit real,
-  years_stated integer
+  new_grad_fit real,          -- legacy; unused
+  years_stated integer,
+  fit          integer,
+  relevance    integer,
+  category     text,
+  location_fit text
 );
 create index if not exists seen_first_seen on seen(first_seen);
 create table if not exists dead (
@@ -40,7 +44,15 @@ create table if not exists meta (
 );
 """
 
-FIELDS = ("location", "url", "score", "level", "new_grad_fit", "years_stated", "status", "reason")
+FIELDS = ("location", "url", "score", "level", "new_grad_fit", "years_stated", "status", "reason",
+          "fit", "relevance", "category", "location_fit")
+# Additive migrations for databases created before a column existed.
+MIGRATIONS = [
+    ("seen", "fit", "integer"),
+    ("seen", "relevance", "integer"),
+    ("seen", "category", "text"),
+    ("seen", "location_fit", "text"),
+]
 
 
 def _iso(dt: datetime) -> str:
@@ -53,7 +65,14 @@ class Store:
         self.con = sqlite3.connect(str(self.path))
         self.con.row_factory = sqlite3.Row
         self.con.executescript(SCHEMA)
+        self._migrate()
         self.con.commit()
+
+    def _migrate(self) -> None:
+        for table, col, typ in MIGRATIONS:
+            cols = {r[1] for r in self.con.execute(f"pragma table_info({table})")}
+            if col not in cols:
+                self.con.execute(f"alter table {table} add column {col} {typ}")
 
     def close(self) -> None:
         self.con.close()
@@ -87,9 +106,11 @@ class Store:
         self.con.commit()
 
     def release_baseline_since(self, cutoff_iso: str) -> int:
-        """Forget baseline rows posted on/after cutoff so a backfill run treats them as new."""
+        """Forget baseline rows, and rows dropped for level/location, posted on/after
+        cutoff, so a backfill run re-evaluates them under current rules."""
         cur = self.con.execute(
-            "delete from seen where status='baseline' and posted_at >= ?", (cutoff_iso,))
+            "delete from seen where posted_at >= ? and (status='baseline' "
+            "or (status='dropped' and reason in ('level', 'location')))", (cutoff_iso,))
         self.con.commit()
         return cur.rowcount
 

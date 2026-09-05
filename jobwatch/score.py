@@ -11,17 +11,21 @@ from .models import Posting
 from .profile import PROFILE
 
 LEVELS = ["new_grad", "junior", "mid", "senior", "unclear"]
+CATEGORIES = ["fde", "product", "applied_ai", "devrel", "swe", "other"]
+LOCATION_FITS = ["bay_area", "us_remote", "other_us", "non_us", "unknown"]
 
 SCHEMA = {
     "type": "object",
     "properties": {
         "level": {"type": "string", "enum": LEVELS},
-        "new_grad_fit": {"type": "number"},
+        "category": {"type": "string", "enum": CATEGORIES},
+        "location_fit": {"type": "string", "enum": LOCATION_FITS},
         "years_stated": {"type": "integer"},
-        "score": {"type": "integer"},
+        "fit": {"type": "integer"},
+        "relevance": {"type": "integer"},
         "reason": {"type": "string"},
     },
-    "required": ["level", "new_grad_fit", "years_stated", "score", "reason"],
+    "required": ["level", "category", "location_fit", "years_stated", "fit", "relevance", "reason"],
     "additionalProperties": False,
 }
 
@@ -29,17 +33,30 @@ SYSTEM_PROMPT = f"""You screen job postings for one specific candidate and retur
 
 Candidate: {PROFILE["candidate"]}
 
-Read the whole posting. Titles lie; the body tells you the real level. Decide:
+Read the whole posting. Titles lie; the body tells you the real level and the real work. Return:
 
 - level: the seniority the posting actually wants. "new_grad" if it explicitly welcomes new grads or 0-1 years. "junior" for 1-2 years or an early-career framing. "mid" when responsibilities or requirements imply 3-5 years even if the title is neutral. "senior" for 5+ years, ownership of teams or systems, mentoring. "unclear" only when the body gives no signal.
-- new_grad_fit: 0.0-1.0 probability that this candidate could realistically be hired into this role.
+- category: what the job is, by the work described, not the title.
+  "fde" = forward deployed, solutions, implementation, technical success, customer engineer, sales engineer: customer-facing roles that build.
+  "product" = associate product manager, product manager, deployment strategist, product operations, chief-of-staff-style builder roles.
+  "applied_ai" = applied AI / ML engineer, AI engineer, LLM/agent builder, ML platform.
+  "devrel" = developer relations, developer advocate, developer education.
+  "swe" = traditional software engineering (frontend, backend, full-stack, infra, platform) with no customer-facing or product framing.
+  "other" = anything else that survived.
+- location_fit: "bay_area" if the role can be done from the SF Bay Area (on-site, hybrid, or a listed Bay Area office); "us_remote" if remote within the US; "other_us" if a US city outside the Bay Area with no remote option; "non_us" if outside the US only; "unknown" if the posting does not say.
 - years_stated: the minimum years of experience the posting states, or -1 if none is stated.
-- score: 0-10 for this candidate, calibrated as follows.
-  9-10: clearly open to new grads or 0-2 years, a product/founding/FDE/solutions/applied-AI builder role, Bay Area or US-remote.
-  6-8: plausible for a strong new grad; level not stated or early-career; minor mismatch on role type or location.
-  3-5: reads as mid-level despite a neutral title, or the role type is a stretch (pure research, pure infra, non-engineering).
-  0-2: senior in substance, wrong function, or wrong region.
-  Penalize implied seniority even when the title sounds junior. Do not reward a role for being at a famous company. Treat "founding engineer" as open unless the body says otherwise.
+- fit: 0-10, would they realistically hire this candidate.
+  9-10: explicitly open to new grads or 0-2 years, requirements match the candidate's background.
+  6-8: level not stated or early-career framing; a strong new grad with shipped work could get an interview.
+  3-5: reads as mid-level; 3+ years implied by responsibilities; a stretch.
+  0-2: senior in substance, or requirements the candidate cannot meet.
+  Penalize implied seniority even when the title sounds junior. Ignore location and company fame for fit.
+- relevance: 0-10, how much this role matches what the candidate wants, judged by the decisive criterion above.
+  9-10: writing code and building most days, in a target category, at a startup.
+  6-8: mostly building, or a target category with some non-building duties.
+  3-5: builder title but the body describes configuration, onboarding, training, account management, or running playbooks; or a category the candidate did not target.
+  0-2: not a building role.
+  Ignore location for relevance; it is reported separately in location_fit.
 - reason: at most 15 words, specific to this posting, no fluff.
 
 Return only the JSON object."""
@@ -65,18 +82,17 @@ def build_user_message(p: Posting, max_chars: int) -> str:
 def validate(data: Any) -> dict:
     if not isinstance(data, dict):
         raise ValueError("not an object")
-    for k in ("level", "new_grad_fit", "years_stated", "score", "reason"):
+    for k in ("level", "category", "location_fit", "years_stated", "fit", "relevance", "reason"):
         if k not in data:
             raise ValueError(f"missing {k}")
-    level = data["level"] if data["level"] in LEVELS else "unclear"
-    fit = max(0.0, min(1.0, float(data["new_grad_fit"])))
     years = int(data["years_stated"])
-    score = max(0, min(10, int(data["score"])))
     return {
-        "level": level,
-        "new_grad_fit": fit,
+        "level": data["level"] if data["level"] in LEVELS else "unclear",
+        "category": data["category"] if data["category"] in CATEGORIES else "other",
+        "location_fit": data["location_fit"] if data["location_fit"] in LOCATION_FITS else "unknown",
         "years_stated": None if years < 0 else years,
-        "score": score,
+        "fit": max(0, min(10, int(data["fit"]))),
+        "relevance": max(0, min(10, int(data["relevance"]))),
         "reason": str(data["reason"]).strip()[:200],
     }
 

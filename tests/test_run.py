@@ -20,15 +20,15 @@ def ashby_job(i, title, published, location="San Francisco", desc="New grads wel
 
 
 class FakeClient:
-    def __init__(self, score=8):
-        self.score = score
+    def __init__(self, fit=8, relevance=8):
+        self.fit, self.relevance = fit, relevance
         self.calls = 0
         self.messages = self
 
     async def create(self, **kw):
         self.calls += 1
-        text = json.dumps({"level": "new_grad", "new_grad_fit": 0.8, "years_stated": -1,
-                           "score": self.score, "reason": "fits"})
+        text = json.dumps({"level": "new_grad", "category": "fde", "location_fit": "bay_area", "years_stated": -1,
+                           "fit": self.fit, "relevance": self.relevance, "reason": "fits"})
         return SimpleNamespace(content=[SimpleNamespace(type="text", text=text)])
 
 
@@ -70,13 +70,13 @@ async def test_baseline_then_diff_then_digest(tmp_path):
     r2 = await run(make_http(jobs2), store, client, companies, digests, "midday", PROFILE, now=later)
     assert not r2.baseline and r2.shown == 1 and client.calls == 1
     assert r2.funnel == {"fetched": 6, "new": 4, "stale": 1, "prefiltered": 2, "scored": 1, "shown": 1}
-    assert store.get("ashby:acme:j3")["score"] == 8
+    assert store.get("ashby:acme:j3")["fit"] == 8 and store.get("ashby:acme:j3")["category"] == "fde"
     assert store.get("ashby:acme:j4")["reason"] == "level" and store.get("ashby:acme:j4")["title"] == "Staff Engineer"
     assert store.get("ashby:acme:j5")["status"] == "stale"
     assert store.get("ashby:acme:j6")["reason"] == "location"
     assert r2.digest_path == digests / "2026-09-04-midday.md"
     text = r2.digest_path.read_text()
-    assert "[Founding Engineer](https://jobs.ashbyhq.com/acme/j3)" in text
+    assert "## FDE & Solutions (1)" in text and "[Founding Engineer](https://jobs.ashbyhq.com/acme/j3)" in text
     assert "## Fetch errors (1)" in text and "greenhouse:gone" in text
 
     r3 = await run(make_http(jobs2), store, client, companies, digests, "evening", PROFILE, now=later + timedelta(hours=5))
@@ -102,9 +102,35 @@ async def test_low_score_not_shown_and_unscored_surfaced(tmp_path):
     assert r.shown == 0 and store.get("ashby:acme:j1")["status"] == "unscored"
     assert "## Unscored (1)" in r.digest_path.read_text()
 
-    r = await run(make_http(jobs + [ashby_job(2, "Product Engineer", fresh)]), store, FakeClient(score=4),
+    r = await run(make_http(jobs + [ashby_job(2, "Product Engineer", fresh)]), store, FakeClient(fit=3, relevance=9),
                   companies, digests, "evening", PROFILE, now=NOW)
-    assert r.shown == 0 and store.get("ashby:acme:j2")["score"] == 4
+    assert r.shown == 0 and store.get("ashby:acme:j2")["fit"] == 3   # fit below min_fit: hidden
+
+
+async def test_stretch_shown_when_relevant_but_low_relevance_hidden(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url=""), "baseline", None, NOW)
+    jobs = [ashby_job(1, "Product Engineer", fresh)]
+    r = await run(make_http(jobs), store, FakeClient(fit=4, relevance=8), companies, digests, "midday", PROFILE, now=NOW)
+    assert r.shown == 1 and "stretch" in r.digest_path.read_text()
+    r = await run(make_http(jobs + [ashby_job(2, "Product Engineer", fresh)]), store, FakeClient(fit=9, relevance=5),
+                  companies, digests, "evening", PROFILE, now=NOW)
+    assert r.shown == 0
+
+
+async def test_dropped_rows_store_location(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url=""), "baseline", None, NOW)
+    await run(make_http([ashby_job(1, "Engineer", fresh, location="London")]), store, FakeClient(),
+              companies, digests, "midday", PROFILE, now=NOW)
+    row = store.get("ashby:acme:j1")
+    assert row["reason"] == "location" and row["location"] == "London"
 
 
 async def test_backfill_rescores_recent_baseline_and_widens_stale_gate(tmp_path):
@@ -120,3 +146,19 @@ async def test_backfill_rescores_recent_baseline_and_widens_stale_gate(tmp_path)
     assert not r.baseline and r.funnel["new"] == 1 and r.funnel["stale"] == 0 and r.shown == 1
     assert store.get("ashby:acme:j1")["status"] == "scored"
     assert store.get("ashby:acme:j2")["status"] == "baseline"   # outside the window, untouched
+
+
+async def test_backfill_reevaluates_rows_dropped_for_level_or_location(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    d2 = (NOW - timedelta(days=2)).isoformat()
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    old_rule = Posting(ats="ashby", slug="acme", job_id="j1", title="Associate Product Manager", company="acme",
+                       location="San Francisco", remote=None, description="", posted_at=d2, url="")
+    store.insert(old_rule, "dropped", "level", NOW)          # dropped under the old 'manager' rule
+    fn = Posting(ats="ashby", slug="acme", job_id="j2", title="Recruiter", company="acme",
+                 location="San Francisco", remote=None, description="", posted_at=d2, url="")
+    store.insert(fn, "dropped", "function", NOW)              # function drops are not re-evaluated
+    jobs = [ashby_job(1, "Associate Product Manager", d2), ashby_job(2, "Recruiter", d2)]
+    r = await run(make_http(jobs), store, FakeClient(), companies, digests, "manual", PROFILE, now=NOW, backfill_days=16)
+    assert store.get("ashby:acme:j1")["status"] == "scored"
+    assert store.get("ashby:acme:j2")["status"] == "dropped" and r.funnel["new"] == 1

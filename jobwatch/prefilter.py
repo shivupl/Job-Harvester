@@ -41,12 +41,26 @@ def is_stale(posted_at: Optional[str], now: datetime, max_days: int) -> bool:
 
 
 def _location_ok(p: Posting, profile: dict) -> bool:
+    """Keep anything that could be Bay Area, US-remote, or US anywhere.
+
+    A US signal beats a non-US term (multi-region remote that includes the US
+    is kept). Two-letter state codes are ambiguous ("Toronto, CA"), so they only
+    count when no non-US term is present. Location no longer affects the score;
+    the model tags location_fit and the digest shows it.
+    """
     low = p.location.strip().lower()
     if low in ("", "n/a"):
         return True
     if _terms_re(profile["bay_area_terms"]).search(low):
         return True
     non_us = _terms_re(profile["non_us_terms"]).search(low) is not None
+    if _terms_re(profile["us_terms"]).search(low):
+        return True
+    states = profile["us_states"]
+    if _terms_re([t for t in states if len(t) > 2]).search(low):
+        return True
+    if not non_us and _terms_re([t for t in states if len(t) == 2]).search(low):
+        return True
     if p.remote is True and not non_us:
         return True
     if p.remote is None and "remote" in low and not non_us:
@@ -55,7 +69,8 @@ def _location_ok(p: Posting, profile: dict) -> bool:
 
 
 def prefilter(p: Posting, profile: dict = PROFILE) -> Optional[str]:
-    if _terms_re(profile["level_terms"]).search(p.title):
+    bypass = _terms_re(profile["early_career_bypass"]).search(p.title) is not None
+    if not bypass and _terms_re(profile["level_terms"]).search(p.title):
         return "level"
     if _terms_re(profile["function_terms"]).search(p.title):
         return "function"

@@ -400,3 +400,42 @@ workflow, so one cron line changes one slot.
 - Score tests with a fake client returning canned structured output and
   one returning garbage twice.
 - No live network in tests.
+
+## Revision 2026-09-05: two-score model, wider funnel, grouped digest
+
+Decided after reviewing the first 16-day backfill (7,908 released, 502 scored,
+22 shown). Changes to Parts 5–7; harvest, verify, diff, and delivery are
+unchanged.
+
+- **Prefilter level list** drops the bare words `manager` and `lead` in favor
+  of explicit senior phrases (engineering manager, general manager, tech lead,
+  ...). Measured: bare `manager` alone had dropped 1,045 postings, 252 of them
+  actually senior.
+- **Early-career bypass.** A title containing associate, new grad, entry level,
+  early career, university, graduate, college grad, junior, rotational, cohort,
+  apprentice, or the word `I` skips the level check only. Function, location,
+  and years still apply.
+- **Location rule** keeps any US-inclusive posting: Bay Area term, US term
+  (`united states`, `usa`, ...), or a US state. A US signal beats a non-US
+  term ("USA, Chile, UK" is kept). Two-letter state codes count only when no
+  non-US term is present ("Toronto, CA" drops). Bay Area list gained San
+  Carlos, Fremont, and 13 other cities; both had been leaking. Location no
+  longer affects the score.
+- **Scoring returns two numbers** instead of one. `fit` (0–10): would they
+  realistically hire this candidate. `relevance` (0–10): how much the role is
+  what the candidate wants, judged by the "writing code and building most
+  days" criterion in `PROFILE["candidate"]`. Plus `category` (fde, product,
+  applied_ai, devrel, swe, other) and `location_fit` (bay_area, us_remote,
+  other_us, non_us, unknown). Legacy `score` and `new_grad_fit` columns stay
+  in the schema, unused.
+- **Shown** when `relevance >= min_relevance` (6) and `fit >= min_fit` (4);
+  fit below `stretch_fit` (6) is tagged `stretch`. Sorted by relevance, then
+  fit, then posting age.
+- **Digest** groups entries under FDE & Solutions, Product & Strategy, Applied
+  AI, Software Engineering, DevRel, Other, and tags each with `[Bay Area]`,
+  `[US remote]`, `[non-US]`, or the raw location.
+- **Dropped rows store location** so the audit can answer location questions.
+- **Backfill** (`--backfill-days N`) also releases rows dropped for level or
+  location in the window, so rule changes can be re-evaluated. Function and
+  years drops are not re-evaluated.
+- **Store migration** is additive: missing columns are added on open.

@@ -17,11 +17,15 @@ def mk(title="Software Engineer", location="San Francisco", remote=None, descrip
     ("Senior Software Engineer", "level"),
     ("Sr. Engineer", "level"),
     ("Software Engineer II", "level"),
-    ("Product Lead", "level"),
-    ("Engineering Manager", "level"),
     ("Software Engineer, L5", "level"),
     ("Software Engineering Intern", "level"),
-    ("Leadership Development Program Engineer", None),   # 'lead' must be word-bounded
+    ("Engineering Manager", "level"),
+    ("Tech Lead, Platform", "level"),
+    ("Leadership Development Program Engineer", None),   # 'lead' no longer a term at all
+    ("Product Lead", None),                               # bare 'lead' removed by design
+    ("Product Manager", None),                            # bare 'manager' removed by design
+    ("Implementation Manager", None),
+    ("Forward Deployed Product Manager", None),
     ("Sales Engineer", None),
     ("Solutions Engineer", None),
     ("Account Executive", "function"),
@@ -36,20 +40,49 @@ def test_title_filters(title, expected):
     assert prefilter(mk(title=title)) == expected
 
 
+@pytest.mark.parametrize("title,expected", [
+    ("Associate Product Manager", None),                  # bypass beats nothing here anyway
+    ("Senior Associate Product Manager", None),           # bypass skips the level check
+    ("Software Engineer I", None),                        # 'i' as a word
+    ("Software Engineer II", "level"),                    # 'ii' is not 'i'
+    ("Staff Engineer (University Grad)", None),
+    ("Junior Engineering Manager", None),
+    ("Associate Counsel", "function"),                    # function still applies
+    ("Associate Recruiter", "function"),
+    ("Cohort 0", None),
+])
+def test_early_career_bypass(title, expected):
+    assert prefilter(mk(title=title)) == expected
+
+
 @pytest.mark.parametrize("location,remote,expected", [
     ("San Francisco", None, None),
     ("Palo Alto, CA", False, None),
-    ("New York", False, "location"),
-    ("Los Angeles, California", False, "location"),
-    ("London", True, "location"),
+    ("San Carlos, CA", False, None),
+    ("Fremont, CA", False, None),
+    ("New York", False, None),                            # US city: kept, model tags location_fit
+    ("New York, New York, United States", False, None),
+    ("Austin, TX", False, None),
+    ("Boston, MA, Massachusetts", False, None),
+    ("Los Angeles, California", False, None),
+    ("United States", False, None),                       # bare US: kept
+    ("USA (Houston)", False, None),
     ("Remote - US", True, None),
     ("Remote", True, None),
-    ("Remote (EMEA)", True, "location"),
     ("Remote", None, None),
     ("N/A", None, None),
     ("", None, None),
-    ("Dublin", None, "location"),
+    ("USA, Chile, UK, Uruguay, Canada", True, None),      # US-inclusive beats non-US
+    ("London", False, "location"),
+    ("London", True, "location"),
+    ("Lisbon, Portugal", False, "location"),
+    ("Guatemala", False, "location"),
+    ("Remote (EMEA)", True, "location"),
+    ("Remote - Canada", True, "location"),
+    ("Toronto, CA", False, "location"),                   # ambiguous 'CA' loses to 'toronto'
     ("Toronto / Remote - Canada", True, "location"),
+    ("Dublin", None, "location"),
+    ("Paris", None, "location"),
 ])
 def test_location_filter(location, remote, expected):
     assert prefilter(mk(location=location, remote=remote)) == expected

@@ -88,7 +88,7 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
                 continue
             reason = prefilter(p, profile)
             if reason:
-                store.insert(p, "dropped", reason, now)
+                store.insert(p, "dropped", reason, now, location=p.location)
                 funnel["prefiltered"] += 1
             else:
                 store.insert(p, "unscored", None, now, location=p.location, url=p.url)  # placeholder until scored
@@ -107,20 +107,23 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
             unscored.append({"title": p.title, "url": p.url, "company": p.company})
             continue
         funnel["scored"] += 1
-        store.update(p.key, status="scored", reason=r["reason"], score=r["score"], level=r["level"],
-                     new_grad_fit=r["new_grad_fit"], years_stated=r["years_stated"])
-        if r["score"] >= profile["min_score"]:
-            shown.append({"score": r["score"], "title": p.title, "url": p.url, "company": p.company,
-                          "location": p.location, "posted_at": p.posted_at, "comp": p.comp,
-                          "reason": r["reason"]})
-    shown.sort(key=lambda d: d["posted_at"] or "", reverse=True)   # newest first...
-    shown.sort(key=lambda d: -d["score"])                             # ...within score desc (stable)
+        store.update(p.key, status="scored", reason=r["reason"], fit=r["fit"], relevance=r["relevance"],
+                     level=r["level"], category=r["category"], location_fit=r["location_fit"],
+                     years_stated=r["years_stated"])
+        if r["relevance"] >= profile["min_relevance"] and r["fit"] >= profile["min_fit"]:
+            shown.append({"fit": r["fit"], "relevance": r["relevance"], "category": r["category"],
+                          "location_fit": r["location_fit"], "title": p.title, "url": p.url,
+                          "company": p.company, "location": p.location, "posted_at": p.posted_at,
+                          "comp": p.comp, "reason": r["reason"]})
+    shown.sort(key=lambda d: d["posted_at"] or "", reverse=True)          # newest first...
+    shown.sort(key=lambda d: (-d["relevance"], -d["fit"]))                 # ...within relevance, fit (stable)
     funnel["shown"] = len(shown)
 
     local_date = now.astimezone(ZoneInfo(profile["timezone"])).strftime("%Y-%m-%d")
     digests_dir.mkdir(parents=True, exist_ok=True)
     path = digests_dir / f"{local_date}-{slot}.md"
-    path.write_text(render(local_date, slot, funnel, shown, unscored, errors, now=now))
+    path.write_text(render(local_date, slot, funnel, shown, unscored, errors, now=now,
+                           stretch_fit=profile["stretch_fit"]))
 
     store.prune(profile["prune_days"], now)
     store.maybe_vacuum(now)
