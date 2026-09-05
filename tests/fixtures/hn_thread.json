@@ -1,0 +1,49 @@
+{
+ "id": 49522897,
+ "title": "Ask HN: Who is hiring? (September 2026)",
+ "children": [
+  {
+   "id": 1,
+   "author": "x",
+   "text": "Oklo | SF | <a href=\"https:&#x2F;&#x2F;job-boards.greenhouse.io&#x2F;oklo&#x2F;jobs&#x2F;4018702004\" rel=\"nofollow\">https:&#x2F;&#x2F;job-boards.greenhouse.io&#x2F;oklo&#x2F;jobs&#x2F;40...</a>",
+   "children": []
+  },
+  {
+   "id": 2,
+   "author": "x",
+   "text": "Smarkets | <a href=\"https:&#x2F;&#x2F;jobs.ashbyhq.com&#x2F;smarkets&#x2F;aaaf901f-77c0-4b35-9240-ed4cfa668ba9\">apply</a>",
+   "children": []
+  },
+  {
+   "id": 3,
+   "author": "x",
+   "text": "Findigs | <a href=\"https:&#x2F;&#x2F;jobs.lever.co&#x2F;findigs\">jobs</a> and EU: <a href=\"https:&#x2F;&#x2F;jobs.eu.lever.co&#x2F;euco\">eu</a>",
+   "children": []
+  },
+  {
+   "id": 4,
+   "author": "x",
+   "text": "Embed test <a href=\"https:&#x2F;&#x2F;boards.greenhouse.io&#x2F;embed&#x2F;job_board?for=embedco\">x</a> <a href=\"https:&#x2F;&#x2F;boards.greenhouse.io&#x2F;embed\">bad</a>",
+   "children": []
+  },
+  {
+   "id": 5,
+   "author": "x",
+   "text": "EU GH <a href=\"https:&#x2F;&#x2F;job-boards.eu.greenhouse.io&#x2F;eggai?gh_src=x\">x</a> and short <a href=\"https:&#x2F;&#x2F;grnh.se&#x2F;0572f98b4us\">short</a>",
+   "children": []
+  },
+  {
+   "id": 6,
+   "author": "x",
+   "text": "Nested",
+   "children": [
+    {
+     "id": 7,
+     "author": "x",
+     "text": "Reply with <a href=\"https:&#x2F;&#x2F;jobs.ashbyhq.com&#x2F;Nested.Co&#x2F;123\">nested</a> and <a href=\"https:&#x2F;&#x2F;jobs.ashbyhq.com&#x2F;static&#x2F;logo.png\">img</a>",
+     "children": []
+    }
+   ]
+  }
+ ]
+}

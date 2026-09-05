@@ -87,8 +87,12 @@ tests/
 .github/workflows/jobwatch.yml
 ```
 
-Dependencies: Python 3.12, `httpx`, `anthropic`, `pytest`, `pytest-asyncio`.
-Stdlib `sqlite3`, `re`, `html`, `json`.
+Dependencies: Python 3.9+ syntax (the laptop has 3.9; Actions runs 3.12),
+`httpx`, `anthropic` (0.125 verified to support `output_config` and
+`cache_control`), `pytest`, `pytest-asyncio`. Stdlib `sqlite3`, `re`,
+`html`, `json`. Structured outputs use the raw JSON-schema form on
+`messages.create` rather than `messages.parse`, to avoid a pydantic
+dependency.
 
 ### Normalized posting
 
@@ -123,9 +127,10 @@ UTC string. `comp` is a display string or `None`.
      Verified 2026-09-04: 15 of 15 codes answered `HEAD` with a 301; 1 of
      15 landed on a company site.
 5. Blocklist: `embed, api, v0, v1, static, assets, search, login, about,
-   privacy, terms, jobs, careers` and any segment containing a `.` followed
-   by 2–4 letters at the end (file extension). Ashby slugs may legitimately
-   contain dots, so the extension check is on the final segment only.
+   privacy, terms, jobs, careers, job_board` and any slug ending in a known
+   file extension (`png jpg jpeg gif svg webp ico css js html htm json xml
+   txt pdf`). Ashby slugs may legitimately contain dots (`arch.co` is a
+   real one), so a generic "dot plus letters" rule is wrong.
 6. Output: `seeds.txt`, one slug per line, case preserved, deduped
    case-sensitively against existing content, sorted.
 
@@ -239,7 +244,8 @@ Per run:
 4. Survivors go to prefilter, then scoring.
 5. Delete rows with `first_seen` older than 90 days. Do not `VACUUM`;
    freed pages are reused and the file stays near its steady-state size.
-   `VACUUM` only on the first morning run of each month. Measured
+   `VACUUM` once per calendar month, tracked in a `meta(last_vacuum)`
+   row so weekends and skipped runs don't matter. Measured
    2026-09-04 over 90 simulated commits: per-run VACUUM grew the repo
    ~60% faster (324 KB vs 197 KB per commit after `git gc`).
 
@@ -273,9 +279,13 @@ this order; the first failure is the recorded reason.
      palo alto, mountain view, menlo park, redwood city, san mateo,
      oakland, berkeley, sunnyvale, san jose, cupertino, santa clara,
      south san francisco, foster city, burlingame),
-   - Ashby `addressRegion == "California"`,
+   - `remote` is unknown but the location text contains "remote" and no
+     `non_us_terms`,
    - location text is empty or "N/A" (unknown; keep and let the model
      judge).
+   A bare `addressRegion == "California"` is not enough (Los Angeles is
+   California); the Ashby region is merged into the location text and
+   judged by the same city list.
    Otherwise drop with reason `location`.
 4. Years of experience. Regex over title + description for
    `(\d+)\s*\+?\s*(?:-\s*\d+\s*)?(?:years?|yrs?)` within 40 characters of
@@ -320,7 +330,9 @@ digest footer. Never drop a survivor silently.
 
 ## Part 7 — output
 
-File: `digests/YYYY-MM-DD-{slot}.md`, never overwritten.
+File: `digests/YYYY-MM-DD-{slot}.md`, never overwritten. The date is
+in `PROFILE["timezone"]` (America/Los_Angeles), because the evening slot
+runs at 00:00 UTC the next day.
 
 ```
 # jobwatch 2026-09-04 morning
