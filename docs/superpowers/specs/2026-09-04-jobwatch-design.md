@@ -261,7 +261,8 @@ this order; the first failure is the recorded reason.
      oakland, berkeley, sunnyvale, san jose, cupertino, santa clara,
      south san francisco, foster city, burlingame),
    - Ashby `addressRegion == "California"`,
-   - location is empty, "N/A", or `remote is None` with no city named.
+   - location text is empty or "N/A" (unknown; keep and let the model
+     judge).
    Otherwise drop with reason `location`.
 4. Years of experience. Regex over title + description for
    `(\d+)\s*\+?\s*(?:-\s*\d+\s*)?(?:years?|yrs?)` within 40 characters of
