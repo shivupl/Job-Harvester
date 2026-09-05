@@ -78,8 +78,10 @@ def test_release_baseline_since_also_releases_level_and_location_drops(tmp_path)
     s.insert(mk(2, posted_at="2026-09-03T00:00:00+00:00"), "dropped", "level", NOW)
     s.insert(mk(3, posted_at="2026-09-03T00:00:00+00:00"), "dropped", "location", NOW)
     s.insert(mk(4, posted_at="2026-09-03T00:00:00+00:00"), "dropped", "function", NOW)
-    s.insert(mk(5, posted_at="2026-09-03T00:00:00+00:00"), "scored", "x", NOW)
+    s.insert(mk(5, posted_at="2026-09-03T00:00:00+00:00"), "scored", "x", NOW, fit=7, relevance=7)
     s.insert(mk(6, posted_at="2026-08-01T00:00:00+00:00"), "baseline", None, NOW)
-    assert s.release_baseline_since("2026-09-01T00:00:00+00:00") == 3
+    s.insert(mk(7, posted_at="2026-09-03T00:00:00+00:00"), "scored", "legacy", NOW, score=8)   # no fit: legacy
+    assert s.release_baseline_since("2026-09-01T00:00:00+00:00") == 4
     assert not s.has("ashby:acme:1") and not s.has("ashby:acme:2") and not s.has("ashby:acme:3")
+    assert not s.has("ashby:acme:7")
     assert s.has("ashby:acme:4") and s.has("ashby:acme:5") and s.has("ashby:acme:6")

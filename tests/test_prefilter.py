@@ -43,8 +43,13 @@ def test_title_filters(title, expected):
 @pytest.mark.parametrize("title,expected", [
     ("Associate Product Manager", None),                  # bypass beats nothing here anyway
     ("Senior Associate Product Manager", None),           # bypass skips the level check
-    ("Software Engineer I", None),                        # 'i' as a word
+    ("Software Engineer I", None),                        # trailing level I
+    ("Software Engineer I, Platform", None),
+    ("Engineer I (Remote)", None),
     ("Software Engineer II", "level"),                    # 'ii' is not 'i'
+    ("A.I. Engineering Intern", "level"),                 # 'A.I.' is not level I; intern is hard
+    ("Senior A.I. Engineer", "level"),
+    ("Associate Software Engineering Intern", "level"),   # intern is never bypassed
     ("Staff Engineer (University Grad)", None),
     ("Junior Engineering Manager", None),
     ("Associate Counsel", "function"),                    # function still applies
@@ -81,6 +86,9 @@ def test_early_career_bypass(title, expected):
     ("Remote - Canada", True, "location"),
     ("Toronto, CA", False, "location"),                   # ambiguous 'CA' loses to 'toronto'
     ("Toronto / Remote - Canada", True, "location"),
+    ("Chile, Remote", True, "location"),
+    ("Latin America", None, "location"),
+    ("Calgary AB", False, "location"),
     ("Dublin", None, "location"),
     ("Paris", None, "location"),
 ])

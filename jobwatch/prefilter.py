@@ -68,9 +68,19 @@ def _location_ok(p: Posting, profile: dict) -> bool:
     return False
 
 
+# "Software Engineer I" / "Engineer I, Platform" / "Engineer I (Remote)" but not "A.I."
+_LEVEL_ONE = re.compile(r"(?<=\s)I(?=\s*(?:$|[,(\-\u2013/|]))")
+
+
+def _early_career(title: str, profile: dict) -> bool:
+    return (_terms_re(profile["early_career_bypass"]).search(title) is not None
+            or _LEVEL_ONE.search(title) is not None)
+
+
 def prefilter(p: Posting, profile: dict = PROFILE) -> Optional[str]:
-    bypass = _terms_re(profile["early_career_bypass"]).search(p.title) is not None
-    if not bypass and _terms_re(profile["level_terms"]).search(p.title):
+    if _terms_re(profile["hard_level_terms"]).search(p.title):
+        return "level"
+    if not _early_career(p.title, profile) and _terms_re(profile["level_terms"]).search(p.title):
         return "level"
     if _terms_re(profile["function_terms"]).search(p.title):
         return "function"

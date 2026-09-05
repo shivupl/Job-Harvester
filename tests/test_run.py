@@ -20,14 +20,14 @@ def ashby_job(i, title, published, location="San Francisco", desc="New grads wel
 
 
 class FakeClient:
-    def __init__(self, fit=8, relevance=8):
-        self.fit, self.relevance = fit, relevance
+    def __init__(self, fit=8, relevance=8, location_fit="bay_area"):
+        self.fit, self.relevance, self.location_fit = fit, relevance, location_fit
         self.calls = 0
         self.messages = self
 
     async def create(self, **kw):
         self.calls += 1
-        text = json.dumps({"level": "new_grad", "category": "fde", "location_fit": "bay_area", "years_stated": -1,
+        text = json.dumps({"level": "new_grad", "category": "fde", "location_fit": self.location_fit, "years_stated": -1,
                            "fit": self.fit, "relevance": self.relevance, "reason": "fits"})
         return SimpleNamespace(content=[SimpleNamespace(type="text", text=text)])
 
@@ -162,3 +162,14 @@ async def test_backfill_reevaluates_rows_dropped_for_level_or_location(tmp_path)
     r = await run(make_http(jobs), store, FakeClient(), companies, digests, "manual", PROFILE, now=NOW, backfill_days=16)
     assert store.get("ashby:acme:j1")["status"] == "scored"
     assert store.get("ashby:acme:j2")["status"] == "dropped" and r.funnel["new"] == 1
+
+
+async def test_model_tagged_non_us_is_hidden(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url=""), "baseline", None, NOW)
+    r = await run(make_http([ashby_job(1, "Product Engineer", fresh, location="United States; Oxford, UK")]),
+                  store, FakeClient(fit=9, relevance=9, location_fit="non_us"), companies, digests, "midday", PROFILE, now=NOW)
+    assert r.funnel["scored"] == 1 and r.shown == 0

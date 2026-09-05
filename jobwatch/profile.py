@@ -29,8 +29,10 @@ PROFILE = {
     "early_career_bypass": [
         "associate", "new grad", "new graduate", "entry level", "entry-level",
         "early career", "early-career", "university", "graduate", "college grad",
-        "junior", "rotational", "cohort", "apprentice", "i",   # word-bounded: "Engineer I"
+        "junior", "rotational", "cohort", "apprentice",
     ],
+    # Never bypassed, even by an early-career term in the same title.
+    "hard_level_terms": ["intern", "internship"],
     "function_terms": [
         "recruiter", "recruiting", "account executive", "account manager",
         "sales development", "sdr", "bdr", "marketing", "finance",
@@ -50,7 +52,7 @@ PROFILE = {
     # Any of these marks a posting as US-inclusive, which beats a non-US term
     # ("USA, Chile, UK" is kept). Ambiguous state codes count only when no
     # non-US term is present ("Toronto, CA" still drops).
-    "us_terms": ["united states", "usa", "u.s.", "u.s.a", "america", "us"],
+    "us_terms": ["united states", "usa", "u.s.", "u.s.a", "us"],
     "us_states": [
         "alabama", "alaska", "arizona", "arkansas", "california", "colorado",
         "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho",
@@ -74,6 +76,14 @@ PROFILE = {
         "ireland", "dublin", "spain", "portugal", "lisbon", "poland", "israel",
         "tel aviv", "singapore", "australia", "sydney", "japan", "tokyo",
         "brazil", "mexico", "argentina", "philippines", "nigeria", "guatemala",
+        "chile", "colombia", "costa rica", "latin america", "switzerland",
+        "new zealand", "nz", "calgary", "montreal", "ottawa", "munich",
+        "bavaria", "sweden", "stockholm", "denmark", "copenhagen", "norway",
+        "finland", "italy", "milan", "austria", "vienna", "belgium",
+        "czech", "prague", "hungary", "romania", "ukraine", "turkey",
+        "uae", "dubai", "saudi", "egypt", "south africa", "kenya", "pakistan",
+        "vietnam", "thailand", "indonesia", "malaysia", "korea", "seoul",
+        "taiwan", "hong kong", "china", "shanghai", "beijing",
     ],
     # --- score ---
     "model": "claude-haiku-4-5",
@@ -82,6 +92,7 @@ PROFILE = {
     "min_relevance": 6,            # shown when relevance >= this ...
     "min_fit": 4,                  # ... and fit >= this (4-5 is tagged 'stretch')
     "stretch_fit": 6,              # fit below this gets the 'stretch' tag
+    "hide_location_fits": ["non_us"],   # model-tagged location fits never shown
     "candidate": (
         "Computer science new grad (2026) who ships independently: three "
         "published Adobe Express add-ons with 4,500+ installs and $8,000 in "

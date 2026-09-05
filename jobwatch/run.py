@@ -110,7 +110,8 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
         store.update(p.key, status="scored", reason=r["reason"], fit=r["fit"], relevance=r["relevance"],
                      level=r["level"], category=r["category"], location_fit=r["location_fit"],
                      years_stated=r["years_stated"])
-        if r["relevance"] >= profile["min_relevance"] and r["fit"] >= profile["min_fit"]:
+        if (r["relevance"] >= profile["min_relevance"] and r["fit"] >= profile["min_fit"]
+                and r["location_fit"] not in profile.get("hide_location_fits", [])):
             shown.append({"fit": r["fit"], "relevance": r["relevance"], "category": r["category"],
                           "location_fit": r["location_fit"], "title": p.title, "url": p.url,
                           "company": p.company, "location": p.location, "posted_at": p.posted_at,

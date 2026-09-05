@@ -110,7 +110,8 @@ class Store:
         cutoff, so a backfill run re-evaluates them under current rules."""
         cur = self.con.execute(
             "delete from seen where posted_at >= ? and (status='baseline' "
-            "or (status='dropped' and reason in ('level', 'location')))", (cutoff_iso,))
+            "or (status='dropped' and reason in ('level', 'location')) "
+            "or (status='scored' and fit is null))", (cutoff_iso,))   # legacy single-score rows
         self.con.commit()
         return cur.rowcount
 
