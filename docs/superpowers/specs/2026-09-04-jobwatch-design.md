@@ -110,12 +110,19 @@ UTC string. `comp` is a display string or `None`.
    tree. Do not walk `children[]`.
 4. Run patterns; capture group 1 is the slug:
    - `boards\.greenhouse\.io/embed/job_board\?for=([A-Za-z0-9_-]+)`
-   - `(?:boards|job-boards)\.greenhouse\.io/([A-Za-z0-9_-]+)`
+   - `(?:boards|job-boards)\.(?:eu\.)?greenhouse\.io/([A-Za-z0-9_-]+)` — EU
+     boards exist and answer on the regular US API host.
    - `jobs\.(?:eu\.)?lever\.co/([A-Za-z0-9_-]+)`
    - `jobs\.ashbyhq\.com/([A-Za-z0-9_.-]+)`
-   - `grnh\.se/([A-Za-z0-9]+)` — collect codes, then `HEAD` each with
-     redirects followed (per-host limited) and run the Greenhouse patterns
-     on the final URL.
+   - `grnh\.se/([A-Za-z0-9]+)` — collect codes, then resolve each:
+     `HEAD` without following redirects and read `Location`; if the
+     status is not 3xx, retry as `GET` (streamed, body discarded). Run the
+     Greenhouse patterns on the `Location` value. If `Location` is on a
+     non-Greenhouse host but carries `gh_jid` or `gh_src` in its query,
+     the company is on Greenhouse under an unknown slug: add the domain's
+     first label (e.g. `chronograph` from `chronograph.pe`) as a seed
+     candidate for verify to confirm. Verified 2026-09-04: 15 of 15 codes
+     answered `HEAD` with a 301; 1 of 15 landed on a company site.
 5. Blocklist: `embed, api, v0, v1, static, assets, search, login, about,
    privacy, terms, jobs, careers` and any segment containing a `.` followed
    by 2–4 letters at the end (file extension). Ashby slugs may legitimately
@@ -143,9 +150,12 @@ Slugs are stored flat, never bucketed by ATS. Re-verify weekly re-probes
 every confirmed and every expired-dead slug, which is how ATS migrations
 are caught.
 
-Rate limiting: 30 async workers share three token buckets, one per ATS
-host, each refilling at `PROFILE["probe_rps_per_host"]` (default 3). The
-buckets are shared, not per-worker; the global ceiling is 9 req/s. A 429
+Rate limiting: 30 async workers share one token bucket per hostname,
+created on first use and refilling at `PROFILE["probe_rps_per_host"]`
+(default 3). Buckets are shared across workers, never per-worker, and
+keyed by hostname so `grnh.se`, the Lever EU host, and any future host
+are limited automatically rather than exempt. With three ATS hosts the
+global ceiling is 9 req/s. A 429
 or 5xx sleeps for `Retry-After` if present, else exponential backoff
 starting at 2 s, three attempts. 15k requests complete in ~30 minutes.
 
@@ -228,7 +238,11 @@ Per run:
    (14) are inserted with `status=stale` and go no further. Missing
    `posted_at` is kept.
 4. Survivors go to prefilter, then scoring.
-5. Delete rows with `first_seen` older than 90 days. `VACUUM`.
+5. Delete rows with `first_seen` older than 90 days. Do not `VACUUM`;
+   freed pages are reused and the file stays near its steady-state size.
+   `VACUUM` only on the first morning run of each month. Measured
+   2026-09-04 over 90 simulated commits: per-run VACUUM grew the repo
+   ~60% faster (324 KB vs 197 KB per commit after `git gc`).
 
 Every row keeps title and company so drops are auditable:
 
@@ -364,7 +378,11 @@ workflow, so one cron line changes one slot.
 - Harvest test: fixture thread with `&#x2F;` escaping yields expected
   slugs; blocklist and extension rules.
 - Rate limiter test: 30 concurrent tasks through a bucket at 3/s must
-  take at least N/3 seconds wall-clock.
+  take at least N/3 seconds wall-clock; two hostnames get two independent
+  buckets; an unseen hostname gets a bucket on first use.
+- Short-link test: a fake resolver returning 405 on HEAD and 301 on GET
+  still yields the slug; a Location on a company domain with `gh_jid`
+  yields the domain label as a seed.
 - Prefilter tests, table-driven: title/location/description in, reason
   out. Includes "Sales Engineer" kept, "Product Lead" dropped,
   "Leadership Program" kept, "5+ years" dropped, "1-3 years" kept.
