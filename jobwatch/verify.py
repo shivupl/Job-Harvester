@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -28,15 +28,23 @@ def _write(path: Path, companies: list[dict]) -> None:
 
 
 async def verify(http: Http, seeds_path: Path, companies_path: Path, store: Store,
-                 dead_days: int = 30, now: Optional[datetime] = None, chunk: int = 100) -> dict:
+                 dead_days: int = 30, now: Optional[datetime] = None, chunk: int = 100,
+                 fresh_days: float = 1.0) -> dict:
     """Probe seeds in chunks; companies.json is rewritten after every chunk so a
     killed run keeps its progress."""
     now = now or now_utc()
     seeds = [s for s in seeds_path.read_text().split() if s]
     dead = store.dead_slugs(dead_days, now)
-    todo = [s for s in seeds if s not in dead]
-    stamp = now.replace(microsecond=0).isoformat()
+    # Resume: entries confirmed within `fresh_days` are kept without re-probing,
+    # so a killed run picks up where it stopped. Weekly re-verify is unaffected.
     companies: list[dict] = []
+    if companies_path.exists():
+        cutoff = (now - timedelta(days=fresh_days)).replace(microsecond=0).isoformat()
+        companies = [c for c in json.loads(companies_path.read_text())
+                     if c.get("verified_at", "") >= cutoff and c["slug"] in seeds]
+    fresh = {c["slug"] for c in companies}
+    todo = [s for s in seeds if s not in dead and s not in fresh]
+    stamp = now.replace(microsecond=0).isoformat()
     for i in range(0, len(todo), chunk):
         batch = todo[i:i + chunk]
         results = await asyncio.gather(*(probe(http, s) for s in batch))
@@ -54,6 +62,7 @@ async def verify(http: Http, seeds_path: Path, companies_path: Path, store: Stor
     return {
         "seeds": len(seeds),
         "skipped_dead": len([s for s in seeds if s in dead]),
+        "resumed": len(fresh),
         "probed": len(todo),
         "confirmed": len(companies),
     }

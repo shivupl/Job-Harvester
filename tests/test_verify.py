@@ -54,7 +54,7 @@ async def test_verify_writes_companies_and_caches_dead(tmp_path):
     assert [c["slug"] for c in companies] == ["acme", "zed"]
     assert companies[0] == {"slug": "acme", "ats": "greenhouse", "name": "Acme", "open_roles": 3,
                             "verified_at": "2026-09-04T14:00:00+00:00"}
-    assert summary == {"seeds": 4, "skipped_dead": 1, "probed": 3, "confirmed": 2}
+    assert summary == {"seeds": 4, "skipped_dead": 1, "resumed": 0, "probed": 3, "confirmed": 2}
     assert store.dead_slugs(30, NOW) == {"skipme", "gone"}
 
 
@@ -72,3 +72,23 @@ async def test_verify_writes_after_each_chunk(tmp_path):
     summary = await verify(make_http(handler), seeds, out, Store(tmp_path / "t.db"), now=NOW, chunk=1)
     assert summary["confirmed"] == 3
     assert writes and max(writes) >= 1   # the file existed with content while later probes ran
+
+
+async def test_verify_resumes_from_fresh_companies_file(tmp_path):
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text("done\nnew\nstale\n")
+    out = tmp_path / "companies.json"
+    out.write_text(json.dumps([
+        {"slug": "done", "ats": "ashby", "name": "done", "open_roles": 1, "verified_at": (NOW - timedelta(hours=2)).isoformat()},
+        {"slug": "stale", "ats": "ashby", "name": "stale", "open_roles": 1, "verified_at": (NOW - timedelta(days=7)).isoformat()},
+    ]))
+    probed = []
+
+    def handler(req):
+        probed.append(req.url.path.split("/")[3])
+        return router({("ashby", "new"): 2, ("ashby", "stale"): 3})(req)
+
+    summary = await verify(make_http(handler), seeds, out, Store(tmp_path / "t.db"), now=NOW)
+    assert "done" not in probed and "new" in probed and "stale" in probed
+    assert summary["resumed"] == 1 and summary["probed"] == 2 and summary["confirmed"] == 3
+    assert [c["slug"] for c in json.loads(out.read_text())] == ["done", "new", "stale"]

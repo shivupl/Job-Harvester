@@ -55,34 +55,40 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
               slot: str, profile: dict = PROFILE, now: Optional[datetime] = None) -> RunResult:
     now = now or now_utc()
     companies = json.loads(companies_path.read_text())
-    postings, errors = await fetch_all(http, companies)
-    funnel = {"fetched": len(postings), "new": 0, "stale": 0, "prefiltered": 0, "scored": 0, "shown": 0}
+    baseline = store.is_empty()
+    funnel = {"fetched": 0, "new": 0, "stale": 0, "prefiltered": 0, "scored": 0, "shown": 0}
+    errors: list[str] = []
+    survivors: list[Posting] = []
+    chunk = profile.get("fetch_chunk", 50)
 
-    if store.is_empty():
+    # Boards are fetched in chunks and folded into the store immediately, so
+    # memory is bounded by one chunk rather than every board's postings.
+    for i in range(0, len(companies), chunk):
+        postings, errs = await fetch_all(http, companies[i:i + chunk])
+        errors.extend(errs)
+        funnel["fetched"] += len(postings)
         for p in postings:
-            store.insert(p, "baseline", None, now)
+            if store.has(p.key):
+                continue
+            if baseline:
+                store.insert(p, "baseline", None, now)
+                continue
+            funnel["new"] += 1
+            if is_stale(p.posted_at, now, profile["max_posting_age_days"]):
+                store.insert(p, "stale", "stale", now)
+                funnel["stale"] += 1
+                continue
+            reason = prefilter(p, profile)
+            if reason:
+                store.insert(p, "dropped", reason, now)
+                funnel["prefiltered"] += 1
+            else:
+                store.insert(p, "unscored", None, now, location=p.location, url=p.url)  # placeholder until scored
+                survivors.append(p)
+
+    if baseline:
         store.record_run(now, slot, **funnel)
         return RunResult(0, None, True, funnel)
-
-    new = [p for p in postings if not store.has(p.key)]
-    funnel["new"] = len(new)
-
-    fresh: list[Posting] = []
-    for p in new:
-        if is_stale(p.posted_at, now, profile["max_posting_age_days"]):
-            store.insert(p, "stale", "stale", now)
-            funnel["stale"] += 1
-        else:
-            fresh.append(p)
-
-    survivors: list[Posting] = []
-    for p in fresh:
-        reason = prefilter(p, profile)
-        if reason:
-            store.insert(p, "dropped", reason, now)
-            funnel["prefiltered"] += 1
-        else:
-            survivors.append(p)
 
     results = await score_all(client, survivors, profile) if survivors else {}
     shown: list[dict] = []
@@ -90,12 +96,11 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
     for p in survivors:
         r = results.get(p.key)
         if r is None:
-            store.insert(p, "unscored", None, now, location=p.location, url=p.url)
             unscored.append({"title": p.title, "url": p.url, "company": p.company})
             continue
         funnel["scored"] += 1
-        store.insert(p, "scored", r["reason"], now, location=p.location, url=p.url, score=r["score"],
-                     level=r["level"], new_grad_fit=r["new_grad_fit"], years_stated=r["years_stated"])
+        store.update(p.key, status="scored", reason=r["reason"], score=r["score"], level=r["level"],
+                     new_grad_fit=r["new_grad_fit"], years_stated=r["years_stated"])
         if r["score"] >= profile["min_score"]:
             shown.append({"score": r["score"], "title": p.title, "url": p.url, "company": p.company,
                           "location": p.location, "posted_at": p.posted_at, "comp": p.comp,

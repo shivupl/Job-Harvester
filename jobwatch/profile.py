@@ -4,13 +4,14 @@ from __future__ import annotations
 PROFILE = {
     # --- HTTP ---
     "probe_rps_per_host": 3.0,     # shared per-hostname ceiling, all workers
-    "workers": 12,                 # in-flight requests; more just holds more bodies in RAM at 3 rps/host
+    "workers": 8,                  # in-flight requests; more just holds more bodies in RAM at 3 rps/host
     "http_retries": 3,
     # --- verify ---
     "dead_slug_days": 30,          # skip re-probing a dead slug for this long
     # --- diff ---
     "max_posting_age_days": 14,    # older postings are 'stale', never scored
     "prune_days": 90,
+    "fetch_chunk": 50,             # boards fetched per batch; bounds memory
     "timezone": "America/Los_Angeles",
     # --- prefilter ---
     "max_years": 3,
