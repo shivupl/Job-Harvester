@@ -1,0 +1,88 @@
+name: jobwatch
+
+on:
+  schedule:
+    # GitHub cron is UTC. These are written for Pacific Daylight Time (UTC-7).
+    # When DST ends (early November) they fire an hour earlier Pacific time
+    # unless you edit them. To change a slot, edit one line here and the
+    # matching line in the "slot" step below.
+    - cron: "0 14 * * 1-5"   # 07:00 PDT  morning   Mon-Fri
+    - cron: "0 19 * * 1-5"   # 12:00 PDT  midday    Mon-Fri
+    - cron: "0 0 * * 2-6"    # 17:00 PDT  evening   Mon-Fri (00:00 UTC next day → Tue-Sat)
+  workflow_dispatch:
+    inputs:
+      slot:
+        type: choice
+        options: [manual, morning, midday, evening]
+        default: manual
+      verify:
+        type: boolean
+        default: false
+        description: run verify before the digest
+
+# Runs queue behind each other; never overlap, never cancel.
+concurrency:
+  group: jobwatch
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -e .
+
+      - name: Resolve slot
+        id: slot
+        run: |
+          case "${{ github.event.schedule }}" in
+            "0 14 * * 1-5") slot=morning ;;
+            "0 19 * * 1-5") slot=midday ;;
+            "0 0 * * 2-6")  slot=evening ;;
+            *)              slot="${{ inputs.slot || 'manual' }}" ;;
+          esac
+          echo "slot=$slot" >> "$GITHUB_OUTPUT"
+          echo "date=$(TZ=America/Los_Angeles date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          if { [ "$slot" = morning ] && [ "$(date -u +%u)" = 1 ]; } || [ "${{ inputs.verify }}" = true ]; then
+            echo "verify=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "verify=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify (weekly, Monday morning)
+        if: steps.slot.outputs.verify == 'true'
+        run: python -m jobwatch verify
+
+      - name: Run digest
+        id: run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python -m jobwatch run --slot "${{ steps.slot.outputs.slot }}" | tee run.log
+          grep '^SHOWN=' run.log >> "$GITHUB_OUTPUT"
+          grep '^DIGEST=' run.log >> "$GITHUB_OUTPUT"
+
+      - name: Commit state
+        run: |
+          git config user.name "jobwatch-bot"
+          git config user.email "jobwatch-bot@users.noreply.github.com"
+          git add jobwatch.db companies.json digests/ || true
+          git commit -m "jobwatch ${{ steps.slot.outputs.date }} ${{ steps.slot.outputs.slot }}" || echo "nothing to commit"
+          git pull --rebase
+          git push
+
+      - name: Open issue
+        if: steps.run.outputs.SHOWN != '0' && steps.run.outputs.DIGEST != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "jobwatch ${{ steps.slot.outputs.date }} ${{ steps.slot.outputs.slot }} (${{ steps.run.outputs.SHOWN }})" \
+            --body-file "${{ steps.run.outputs.DIGEST }}"
