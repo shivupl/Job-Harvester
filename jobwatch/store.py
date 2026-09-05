@@ -86,6 +86,13 @@ class Store:
         self.con.execute(f"update seen set {sets} where key=?", list(fields.values()) + [key])
         self.con.commit()
 
+    def release_baseline_since(self, cutoff_iso: str) -> int:
+        """Forget baseline rows posted on/after cutoff so a backfill run treats them as new."""
+        cur = self.con.execute(
+            "delete from seen where status='baseline' and posted_at >= ?", (cutoff_iso,))
+        self.con.commit()
+        return cur.rowcount
+
     def prune(self, days: int, now: datetime) -> int:
         cutoff = _iso(now - timedelta(days=days))
         cur = self.con.execute("delete from seen where first_seen < ?", (cutoff,))

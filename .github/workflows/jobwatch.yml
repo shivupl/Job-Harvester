@@ -19,6 +19,10 @@ on:
         type: boolean
         default: false
         description: run verify before the digest
+      backfill_days:
+        type: string
+        default: ""
+        description: one-off, re-score baseline postings from the last N days
 
 # Runs queue behind each other; never overlap, never cancel.
 concurrency:
@@ -65,7 +69,9 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          python -m jobwatch run --slot "${{ steps.slot.outputs.slot }}" | tee run.log
+          extra=""
+          if [ -n "${{ inputs.backfill_days }}" ]; then extra="--backfill-days ${{ inputs.backfill_days }}"; fi
+          python -m jobwatch run --slot "${{ steps.slot.outputs.slot }}" $extra | tee run.log
           grep '^SHOWN=' run.log >> "$GITHUB_OUTPUT"
           grep '^DIGEST=' run.log >> "$GITHUB_OUTPUT"
 

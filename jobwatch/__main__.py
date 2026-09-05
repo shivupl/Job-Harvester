@@ -57,7 +57,8 @@ async def cmd_run(args) -> dict:
     http, store = make_http(), Store(args.db)
     client = anthropic.AsyncAnthropic()
     try:
-        r = await run(http, store, client, Path(args.companies), Path(args.digests), args.slot)
+        r = await run(http, store, client, Path(args.companies), Path(args.digests), args.slot,
+                      backfill_days=args.backfill_days)
     finally:
         await http.aclose()
         store.close()
@@ -88,6 +89,8 @@ def main(argv=None) -> None:
     r.add_argument("--companies", default="companies.json")
     r.add_argument("--db", default="jobwatch.db")
     r.add_argument("--digests", default="digests")
+    r.add_argument("--backfill-days", type=int, default=None,
+                   help="one-off: re-score baseline postings from the last N days")
     r.set_defaults(fn=cmd_run)
 
     args = ap.parse_args(argv)

@@ -105,3 +105,18 @@ async def test_low_score_not_shown_and_unscored_surfaced(tmp_path):
     r = await run(make_http(jobs + [ashby_job(2, "Product Engineer", fresh)]), store, FakeClient(score=4),
                   companies, digests, "evening", PROFILE, now=NOW)
     assert r.shown == 0 and store.get("ashby:acme:j2")["score"] == 4
+
+
+async def test_backfill_rescores_recent_baseline_and_widens_stale_gate(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    d15 = (NOW - timedelta(days=15)).isoformat()
+    d30 = (NOW - timedelta(days=30)).isoformat()
+    jobs = [ashby_job(1, "Product Engineer", d15), ashby_job(2, "Product Engineer", d30)]
+    client = FakeClient()
+    await run(make_http(jobs), store, client, companies, digests, "morning", PROFILE, now=NOW)
+    assert store.get("ashby:acme:j1")["status"] == "baseline"
+
+    r = await run(make_http(jobs), store, client, companies, digests, "manual", PROFILE, now=NOW, backfill_days=16)
+    assert not r.baseline and r.funnel["new"] == 1 and r.funnel["stale"] == 0 and r.shown == 1
+    assert store.get("ashby:acme:j1")["status"] == "scored"
+    assert store.get("ashby:acme:j2")["status"] == "baseline"   # outside the window, untouched
