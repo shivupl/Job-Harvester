@@ -4,7 +4,7 @@ from __future__ import annotations
 PROFILE = {
     # --- HTTP ---
     "probe_rps_per_host": 3.0,     # shared per-hostname ceiling, all workers
-    "workers": 30,                 # concurrent in-flight requests
+    "workers": 12,                 # in-flight requests; more just holds more bodies in RAM at 3 rps/host
     "http_retries": 3,
     # --- verify ---
     "dead_slug_days": 30,          # skip re-probing a dead slug for this long

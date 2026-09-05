@@ -48,10 +48,13 @@ async def fetch(http: Http, slug: str) -> list[Posting]:
 
 
 async def count(http: Http, slug: str) -> tuple[int, str]:
+    """Count listed jobs by scanning the raw body. A full board can be 13 MB and
+    parsing it into objects costs ~100 MB; the probe only needs a number."""
     try:
-        status, data = await http.get_json(API.format(slug=slug))
+        resp = await http.get(API.format(slug=slug))
     except Exception:
         return 0, slug
-    if status != 200 or not data:
+    if resp.status_code != 200:
         return 0, slug
-    return len([j for j in data.get("jobs") or [] if j.get("isListed") is not False]), slug
+    text = resp.text
+    return text.count('"isListed":true') + text.count('"isListed": true'), slug

@@ -42,3 +42,12 @@ async def test_fetch_and_count(fixture_json):
     assert await ashby.count(make_http(handler), "openai") == (3, "openai")
     assert await ashby.count(make_http(handler), "Openai") == (0, "Openai")   # case-sensitive
     assert set(ADAPTERS) == {"greenhouse", "lever", "ashby"}
+
+
+async def test_count_scans_compact_json_without_parsing():
+    body = '{"jobs":[{"id":"1","isListed":true},{"id":"2","isListed":false},{"id":"3","isListed":true}]}'
+
+    def handler(req):
+        return httpx.Response(200, text=body, headers={"content-type": "application/json"})
+
+    assert await ashby.count(make_http(handler), "x") == (2, "x")

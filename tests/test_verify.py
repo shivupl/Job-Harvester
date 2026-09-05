@@ -56,3 +56,19 @@ async def test_verify_writes_companies_and_caches_dead(tmp_path):
                             "verified_at": "2026-09-04T14:00:00+00:00"}
     assert summary == {"seeds": 4, "skipped_dead": 1, "probed": 3, "confirmed": 2}
     assert store.dead_slugs(30, NOW) == {"skipme", "gone"}
+
+
+async def test_verify_writes_after_each_chunk(tmp_path):
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text("a\nb\nc\n")
+    out = tmp_path / "companies.json"
+    writes = []
+
+    def handler(req):
+        if out.exists():
+            writes.append(len(json.loads(out.read_text())))
+        return router({("ashby", "a"): 1, ("ashby", "b"): 1, ("ashby", "c"): 1})(req)
+
+    summary = await verify(make_http(handler), seeds, out, Store(tmp_path / "t.db"), now=NOW, chunk=1)
+    assert summary["confirmed"] == 3
+    assert writes and max(writes) >= 1   # the file existed with content while later probes ran
