@@ -53,30 +53,43 @@ body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 .toolbar label.check{display:inline-flex;gap:6px;align-items:center;color:var(--muted)}
 .toolbar .count{margin-left:auto;color:var(--faint);font-size:13px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.card{position:relative;display:flex;flex-direction:column;gap:8px;aspect-ratio:1/1;min-height:250px;padding:16px;
-  background:var(--bg);border:1px solid var(--line);border-radius:12px;cursor:pointer;text-align:left;
-  transition:box-shadow .12s ease,border-color .12s ease,transform .12s ease}
-.card:hover{box-shadow:0 6px 20px rgba(17,24,39,.08);border-color:#D1D5DB;transform:translateY(-1px)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{position:relative;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;min-height:310px;padding:18px 18px 14px;
+  background:var(--bg);border:1px solid var(--line);border-radius:14px;cursor:pointer;text-align:left;
+  transition:box-shadow .15s ease,border-color .15s ease,transform .15s ease}
+.card:hover{box-shadow:0 10px 30px rgba(17,24,39,.09);border-color:#D1D5DB;transform:translateY(-2px)}
 .card.selected{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .card.seen{opacity:.5}
-.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.fit{display:inline-flex;align-items:baseline;gap:5px;padding:5px 10px;border-radius:8px;font-weight:700;font-size:18px;line-height:1}
-.fit small{font-size:11px;font-weight:600;letter-spacing:.02em}
-.fit.good{background:var(--good-soft);color:var(--good)}.fit.ok{background:var(--ok-soft);color:var(--ok)}.fit.warn{background:var(--warn-soft);color:var(--warn)}
-.card input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;margin:2px 0 0}
-.card h3{flex:none;font:600 15px/1.3 var(--sans);margin:2px 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card .co{flex:none;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .why{flex:none;color:var(--muted);font-size:13px;line-height:1.45;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card .top,.card .facts,.card .foot{flex:none}
-.card .facts{margin-top:auto;display:flex;flex-direction:column;gap:6px;font-size:13px}
-.card .fact{display:flex;gap:8px;align-items:center;color:var(--ink);min-width:0}
-.card .fact svg{flex:none;width:14px;height:14px;color:var(--faint)}
-.card .fact span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .fact.bay span{color:var(--accent);font-weight:500}
-.card .foot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--faint);padding-top:8px;border-top:1px solid var(--line)}
-.card .rel{color:var(--muted)}
-.chip{display:inline-block;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted);font-size:12px}
+.card>*{flex:none}
+.card .top{display:flex;align-items:center;gap:10px}
+.avatar{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;letter-spacing:.02em;flex:none}
+.card .co{color:var(--ink);font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.card .age{color:var(--faint);font-size:12px;white-space:nowrap}
+.seenbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;color:transparent;flex:none;padding:0}
+.seenbtn:hover{border-color:var(--faint);color:var(--faint)}
+.seenbtn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.seenbtn svg{width:14px;height:14px}
+.card h3{font:600 16px/1.3 var(--sans);margin:4px 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;letter-spacing:-.005em}
+.card .why{color:var(--muted);font-size:13px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card .pills{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;background:var(--soft);color:var(--muted);font-size:12px;max-width:100%}
+.pill svg{width:12px;height:12px;flex:none}
+.pill span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill.bay{background:var(--accent-soft);color:var(--accent);font-weight:500}
+.pill.cash{background:var(--good-soft);color:var(--good)}
+.card .scores{display:flex;align-items:center;gap:18px;padding-top:12px;border-top:1px solid var(--line)}
+.gauge{display:flex;align-items:center;gap:8px}
+.gauge svg{width:40px;height:40px;transform:rotate(-90deg)}
+.gauge circle{fill:none;stroke-width:4}
+.gauge .track{stroke:var(--soft)}
+.gauge .arc{stroke-linecap:round;transition:stroke-dashoffset .3s ease}
+.gauge .good{stroke:var(--good)}.gauge .ok{stroke:var(--ok)}.gauge .warn{stroke:var(--warn)}.gauge .rel{stroke:#6366F1}
+.gauge .val{position:absolute}
+.gauge .wrap{position:relative;width:40px;height:40px;display:grid;place-items:center}
+.gauge .num{position:absolute;font-weight:700;font-size:13px}
+.gauge .lbl{font-size:11px;color:var(--muted);line-height:1.25;white-space:nowrap}
+.gauge .lbl b{display:block;font-size:12px;color:var(--ink);font-weight:600}
+.pill.cat{background:transparent;border:1px solid var(--line)}
 
 .empty{grid-column:1/-1;padding:56px 0;text-align:center;color:var(--muted)}
 
@@ -127,6 +140,14 @@ const ICON = {
   cash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>'
 };
 
+const PALETTE = ['#2563EB','#7C3AED','#DB2777','#DC2626','#EA580C','#D97706','#059669','#0891B2','#4F46E5','#0D9488'];
+function avatarColor(name){ let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0; return PALETTE[h % PALETTE.length]; }
+function initials(name){ const w = name.replace(/[^a-z0-9 ]/gi, ' ').trim().split(/\s+/).filter(Boolean); return ((w[0] || '?')[0] + (w[1] ? w[1][0] : '')).toUpperCase(); }
+function gauge(value, cls, label, sub){
+  const r = 16, c = 2 * Math.PI * r, off = c * (1 - Math.max(0, Math.min(10, value)) / 10);
+  return `<div class="gauge"><div class="wrap"><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="${r}"/><circle class="arc ${cls}" cx="20" cy="20" r="${r}" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><span class="num">${value}</span></div><div class="lbl"><b>${label}</b>${esc(sub)}</div></div>`;
+}
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function age(iso){
   if (!iso) return 'date not stated';
@@ -167,20 +188,27 @@ function rows(t){
 
 function cardHtml(r){
   const isSeen = seen.has(r.key), bay = r.location_fit === 'bay_area';
+  const fitSub = r.fit >= 9 ? 'new-grad open' : r.fit >= D.stretch_fit ? 'worth a shot' : 'stretch';
+  const relSub = r.relevance >= 9 ? 'builds daily' : r.relevance >= 6 ? 'mostly builds' : 'less building';
+  const co = r.company ? r.company[0].toUpperCase() + r.company.slice(1) : '';
   return `<div class="card ${isSeen ? 'seen' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}">
     <div class="top">
-      <span class="fit ${fitClass(r.fit)}" title="${esc(fitWords(r.fit))}">${r.fit}<small>FIT</small></span>
-      <input type="checkbox" ${isSeen ? 'checked' : ''} aria-label="seen" title="seen">
+      <div class="avatar" style="background:${avatarColor(r.company)}">${esc(initials(r.company))}</div>
+      <div class="co" title="${esc(r.company)}">${esc(co)}</div>
+      <span class="age">${esc(age(r.posted_at))}</span>
+      <button class="seenbtn ${isSeen ? 'on' : ''}" data-seen aria-label="${isSeen ? 'Mark unseen' : 'Mark seen'}" title="${isSeen ? 'Seen' : 'Mark seen'}">${CHECK}</button>
     </div>
     <h3>${esc(r.title)}</h3>
-    <div class="co">${esc(r.company)}</div>
     ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
-    <div class="facts">
-      <div class="fact ${bay ? 'bay' : ''}">${ICON.pin}<span title="${esc(r.location || '')}">${esc(locLabel(r))}</span></div>
-      <div class="fact">${ICON.cal}<span>Posted ${esc(age(r.posted_at))}</span></div>
-      ${r.comp ? `<div class="fact">${ICON.cash}<span title="${esc(r.comp)}">${esc(r.comp)}</span></div>` : ''}
+    <div class="pills">
+      <span class="pill ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${ICON.pin}<span>${esc(locLabel(r))}</span></span>
+      ${r.comp ? `<span class="pill cash" title="${esc(r.comp)}">${ICON.cash}<span>${esc(r.comp)}</span></span>` : ''}
+      ${tab === 'all' || tab === 'stretch' ? `<span class="pill cat"><span>${esc(CATS.get(r.category) || 'Other')}</span></span>` : ''}
     </div>
-    <div class="foot"><span class="rel">Relevance ${r.relevance}</span>${tab === 'all' || tab === 'stretch' ? `<span class="chip">${esc(CATS.get(r.category) || 'Other')}</span>` : ''}</div>
+    <div class="scores">
+      ${gauge(r.fit, fitClass(r.fit), 'Fit', fitSub)}
+      ${gauge(r.relevance, 'rel', 'Relevance', relSub)}
+    </div>
   </div>`;
 }
 
@@ -249,7 +277,8 @@ $('#tabs').addEventListener('click', e => {
 });
 $('#grid').addEventListener('click', e => {
   const card = e.target.closest('.card'); if (!card) return;
-  if (e.target.matches('input[type=checkbox]')) { toggleSeen(card.dataset.key, e.target.checked); return; }
+  const btn = e.target.closest('[data-seen]');
+  if (btn) { e.stopPropagation(); toggleSeen(card.dataset.key, !seen.has(card.dataset.key)); return; }
   showPanel(card.dataset.key);
 });
 $('#grid').addEventListener('keydown', e => {
