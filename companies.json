@@ -679,6 +679,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "akidolabs",
+  "ats": "greenhouse",
+  "name": "Akido",
+  "open_roles": 12,
+  "verified_at": "2026-09-06T03:01:40+00:00"
+ },
+ {
   "slug": "akur8",
   "ats": "ashby",
   "name": "akur8",
@@ -896,6 +903,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "apolloio",
+  "ats": "greenhouse",
+  "name": "Apollo.io",
+  "open_roles": 39,
+  "verified_at": "2026-09-06T03:01:40+00:00"
+ },
+ {
   "slug": "apolloresearch",
   "ats": "lever",
   "name": "apolloresearch",
@@ -1022,6 +1036,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "arizeai",
+  "ats": "greenhouse",
+  "name": "Arize AI",
+  "open_roles": 28,
+  "verified_at": "2026-09-06T03:01:40+00:00"
+ },
+ {
   "slug": "armissecurity",
   "ats": "greenhouse",
   "name": "Armis Security",
@@ -1076,6 +1097,13 @@
   "name": "askfavor",
   "open_roles": 10,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "assembledhq",
+  "ats": "ashby",
+  "name": "assembledhq",
+  "open_roles": 21,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "assemblyai",
@@ -2049,6 +2077,13 @@
   "name": "ClassPass",
   "open_roles": 48,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "claylabs",
+  "ats": "ashby",
+  "name": "claylabs",
+  "open_roles": 57,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "clear",
@@ -3388,6 +3423,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "gleanwork",
+  "ats": "greenhouse",
+  "name": "Glean",
+  "open_roles": 117,
+  "verified_at": "2026-09-06T03:01:40+00:00"
+ },
+ {
   "slug": "globalityinc",
   "ats": "greenhouse",
   "name": "Globality, Inc.",
@@ -3435,6 +3477,13 @@
   "name": "GoFundMe",
   "open_roles": 41,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "gongio",
+  "ats": "greenhouse",
+  "name": "Gong.io",
+  "open_roles": 94,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "goodjobgames",
@@ -3526,6 +3575,13 @@
   "name": "greenlight",
   "open_roles": 14,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "greenlitecareers",
+  "ats": "ashby",
+  "name": "greenlitecareers",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "greptile",
@@ -3897,6 +3953,13 @@
   "name": "inductive-bio",
   "open_roles": 7,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "inflectionai",
+  "ats": "greenhouse",
+  "name": "Inflection AI",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "inngest",
@@ -4611,6 +4674,13 @@
   "name": "Maven Clinic",
   "open_roles": 32,
   "verified_at": "2026-09-05T04:36:50+00:00"
+ },
+ {
+  "slug": "mazehq",
+  "ats": "ashby",
+  "name": "mazehq",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "mcgovern",
@@ -7950,6 +8020,13 @@
   "name": "withdaydream",
   "open_roles": 3,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "wizinc",
+  "ats": "greenhouse",
+  "name": "Wiz, Inc.",
+  "open_roles": 128,
+  "verified_at": "2026-09-06T03:01:40+00:00"
  },
  {
   "slug": "wolt",
