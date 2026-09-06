@@ -62,7 +62,8 @@ async def fetch_all(http: Http, companies: list[dict]) -> tuple[list[Posting], l
 
 async def run(http: Http, store: Store, client, companies_path: Path, digests_dir: Path,
               slot: str, profile: dict = PROFILE, now: Optional[datetime] = None,
-              backfill_days: Optional[int] = None, board_path: Optional[Path] = None) -> RunResult:
+              backfill_days: Optional[int] = None, board_path: Optional[Path] = None,
+              rescore: bool = False) -> RunResult:
     now = now or now_utc()
     companies = json.loads(companies_path.read_text())
     max_age = profile["max_posting_age_days"]
@@ -70,7 +71,7 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
         # One-off: re-score baseline postings from the last N days and widen the
         # stale gate to match, so the first digest isn't empty.
         cutoff = (now - timedelta(days=backfill_days)).replace(microsecond=0).isoformat()
-        store.release_baseline_since(cutoff)
+        store.release_baseline_since(cutoff, rescore=rescore)
         max_age = max(max_age, backfill_days)
     baseline = store.is_empty()
     funnel = {"fetched": 0, "new": 0, "stale": 0, "prefiltered": 0, "scored": 0, "shown": 0}

@@ -22,7 +22,11 @@ on:
       backfill_days:
         type: string
         default: ""
-        description: one-off, re-score baseline postings from the last N days
+        description: one-off, re-evaluate postings from the last N days
+      rescore:
+        type: boolean
+        default: false
+        description: with backfill_days, also re-judge already-scored postings (model change)
 
 # Runs queue behind each other; never overlap, never cancel.
 concurrency:
@@ -72,6 +76,7 @@ jobs:
         run: |
           extra=""
           if [ -n "${{ inputs.backfill_days }}" ]; then extra="--backfill-days ${{ inputs.backfill_days }}"; fi
+          if [ "${{ inputs.rescore }}" = true ]; then extra="$extra --rescore"; fi
           python -m jobwatch run --slot "${{ steps.slot.outputs.slot }}" $extra | tee run.log
           grep '^SHOWN=' run.log >> "$GITHUB_OUTPUT"
           grep '^DIGEST=' run.log >> "$GITHUB_OUTPUT"

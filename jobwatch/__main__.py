@@ -58,7 +58,8 @@ async def cmd_run(args) -> dict:
     client = make_client()
     try:
         r = await run(http, store, client, Path(args.companies), Path(args.digests), args.slot,
-                      backfill_days=args.backfill_days, board_path=Path(args.board))
+                      backfill_days=args.backfill_days, board_path=Path(args.board),
+                      rescore=args.rescore)
     finally:
         await http.aclose()
         store.close()
@@ -105,6 +106,8 @@ def main(argv=None) -> None:
     r.add_argument("--backfill-days", type=int, default=None,
                    help="one-off: re-score baseline postings from the last N days")
     r.add_argument("--board", default="board.html")
+    r.add_argument("--rescore", action="store_true",
+                   help="with --backfill-days: also re-judge already-scored postings (model change)")
     r.set_defaults(fn=cmd_run)
 
     b = sub.add_parser("board", help="rebuild board.html from the local database (no network)")

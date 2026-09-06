@@ -105,13 +105,15 @@ class Store:
         self.con.execute(f"update seen set {sets} where key=?", list(fields.values()) + [key])
         self.con.commit()
 
-    def release_baseline_since(self, cutoff_iso: str) -> int:
+    def release_baseline_since(self, cutoff_iso: str, rescore: bool = False) -> int:
         """Forget baseline rows, and rows dropped for level/location, posted on/after
-        cutoff, so a backfill run re-evaluates them under current rules."""
+        cutoff, so a backfill run re-evaluates them under current rules. With
+        rescore=True, already-scored and unscored rows are released too, so a new
+        model re-judges everything in the window."""
+        extra = " or status in ('scored', 'unscored')" if rescore else " or (status='scored' and fit is null)"
         cur = self.con.execute(
             "delete from seen where posted_at >= ? and (status='baseline' "
-            "or (status='dropped' and reason in ('level', 'location')) "
-            "or (status='scored' and fit is null))", (cutoff_iso,))   # legacy single-score rows
+            "or (status='dropped' and reason in ('level', 'location'))" + extra + ")", (cutoff_iso,))
         self.con.commit()
         return cur.rowcount
 
