@@ -34,6 +34,11 @@ create table if not exists dead (
   slug       text primary key,
   checked_at text not null
 );
+create table if not exists short_links (
+  code        text primary key,
+  slug        text,
+  resolved_at text not null
+);
 create table if not exists runs (
   started_at  text not null,
   slot        text not null,
@@ -184,6 +189,19 @@ class Store:
 
     def unmark_dead(self, slug: str) -> None:
         self.con.execute("delete from dead where slug=?", (slug,))
+        self.con.commit()
+
+    # --- short links (grnh.se → Greenhouse slug, or None when it pointed elsewhere) ---
+    def cached_short(self, codes: set[str]) -> dict[str, Optional[str]]:
+        if not codes:
+            return {}
+        q = ",".join("?" * len(codes))
+        return {r[0]: r[1] for r in self.con.execute(f"select code, slug from short_links where code in ({q})",
+                                                       sorted(codes))}
+
+    def cache_short(self, code: str, slug: Optional[str], now: datetime) -> None:
+        self.con.execute("insert or replace into short_links(code, slug, resolved_at) values (?,?,?)",
+                         (code, slug, _iso(now)))
         self.con.commit()
 
     # --- runs ---

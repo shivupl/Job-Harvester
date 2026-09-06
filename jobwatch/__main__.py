@@ -32,18 +32,20 @@ def make_http() -> Http:
 
 async def cmd_harvest(args) -> dict:
     from .harvest import harvest
-    http = make_http()
+    http, store = make_http(), Store(args.db)
     try:
-        return await harvest(http, Path(args.seeds), months=args.months)
+        return await harvest(http, Path(args.seeds), months=args.months, store=store)
     finally:
         await http.aclose()
+        store.close()
 
 
 async def cmd_verify(args) -> dict:
     from .verify import verify
     http, store = make_http(), Store(args.db)
     try:
-        return await verify(http, Path(args.seeds), Path(args.companies), store, dead_days=PROFILE["dead_slug_days"])
+        return await verify(http, Path(args.seeds), Path(args.companies), store, dead_days=PROFILE["dead_slug_days"],
+                            manual_path=Path(args.manual), only_new=args.only_new)
     finally:
         await http.aclose()
         store.close()
@@ -102,10 +104,14 @@ def main(argv=None) -> None:
     h = sub.add_parser("harvest", help="HN 'Who is hiring' threads → seeds.txt")
     h.add_argument("--months", type=int, default=None, help="newest N threads (default: all)")
     h.add_argument("--seeds", default="seeds.txt")
+    h.add_argument("--db", default="jobwatch.db", help="caches grnh.se link resolution")
     h.set_defaults(fn=cmd_harvest)
 
-    v = sub.add_parser("verify", help="seeds.txt → companies.json")
+    v = sub.add_parser("verify", help="seeds.txt + seeds-manual.txt → companies.json")
     v.add_argument("--seeds", default="seeds.txt")
+    v.add_argument("--manual", default="seeds-manual.txt", help="hand-kept slugs, '#' comments allowed")
+    v.add_argument("--only-new", action="store_true",
+                   help="probe only seeds not yet in companies.json; keep the rest untouched")
     v.add_argument("--companies", default="companies.json")
     v.add_argument("--db", default="jobwatch.db")
     v.set_defaults(fn=cmd_verify)

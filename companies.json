@@ -3479,6 +3479,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "imbue",
+  "ats": "greenhouse",
+  "name": "Imbue",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T02:34:37+00:00"
+ },
+ {
   "slug": "immuta",
   "ats": "lever",
   "name": "immuta",

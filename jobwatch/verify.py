@@ -35,19 +35,35 @@ def _write(path: Path, companies: list[dict]) -> None:
     path.write_text(json.dumps(companies, indent=1) + "\n")
 
 
+def read_seeds(*paths: Path) -> list[str]:
+    """Union of slug files. One slug per line; blank lines and `#` comments are ignored."""
+    out: set[str] = set()
+    for path in paths:
+        if not path.exists():
+            continue
+        for line in path.read_text().splitlines():
+            slug = line.split("#", 1)[0].strip()
+            if slug:
+                out.add(slug)
+    return sorted(out)
+
+
 async def verify(http: Http, seeds_path: Path, companies_path: Path, store: Store,
                  dead_days: int = 30, now: Optional[datetime] = None, chunk: int = 100,
-                 fresh_days: float = 1.0) -> dict:
+                 fresh_days: float = 1.0, manual_path: Optional[Path] = None,
+                 only_new: bool = False) -> dict:
     """Probe seeds in chunks; companies.json is rewritten after every chunk so a
-    killed run keeps its progress."""
+    killed run keeps its progress. `manual_path` is a hand-kept slug list merged
+    with the harvested one. `only_new` keeps every confirmed company as is and
+    probes just the seeds it has never confirmed (the daily rescan)."""
     now = now or now_utc()
-    seeds = [s for s in seeds_path.read_text().split() if s]
+    seeds = read_seeds(seeds_path, *([manual_path] if manual_path else []))
     dead = store.dead_slugs(dead_days, now)
     # Resume: entries confirmed within `fresh_days` are kept without re-probing,
     # so a killed run picks up where it stopped. Weekly re-verify is unaffected.
     companies: list[dict] = []
     if companies_path.exists():
-        cutoff = (now - timedelta(days=fresh_days)).replace(microsecond=0).isoformat()
+        cutoff = "" if only_new else (now - timedelta(days=fresh_days)).replace(microsecond=0).isoformat()
         companies = [c for c in json.loads(companies_path.read_text())
                      if c.get("verified_at", "") >= cutoff and c["slug"] in seeds]
     fresh = {c["slug"] for c in companies}

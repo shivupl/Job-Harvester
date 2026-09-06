@@ -101,3 +101,42 @@ async def test_verify_dedupes_case_variant_slugs(tmp_path):
     await verify(make_http(router({("ashby", "Solace"): 4, ("ashby", "solace"): 4})), seeds, out,
                  Store(tmp_path / "t.db"), now=NOW)
     assert [c["slug"] for c in json.loads(out.read_text())] == ["Solace"]
+
+
+async def test_manual_seeds_merge_and_allow_comments(tmp_path):
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text("acme\n")
+    manual = tmp_path / "seeds-manual.txt"
+    manual.write_text("# companies I spotted elsewhere\nimbue   # LinkedIn\n\nacme\n")
+    http = make_http(router({("greenhouse", "acme"): 3, ("greenhouse", "imbue"): 2}))
+    out = tmp_path / "companies.json"
+    summary = await verify(http, seeds, out, Store(tmp_path / "t.db"), now=NOW, manual_path=manual)
+    assert [c["slug"] for c in json.loads(out.read_text())] == ["acme", "imbue"]
+    assert summary["seeds"] == 2 and summary["probed"] == 2
+    # A missing manual file is not an error.
+    summary = await verify(http, seeds, out, Store(tmp_path / "t2.db"), now=NOW, manual_path=tmp_path / "nope.txt")
+    assert summary["seeds"] == 1
+
+
+async def test_only_new_probes_unknown_seeds_and_keeps_the_rest(tmp_path):
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text("old\nnew\ndead\n")
+    out = tmp_path / "companies.json"
+    out.write_text(json.dumps([
+        {"slug": "old", "ats": "ashby", "name": "old", "open_roles": 1, "verified_at": (NOW - timedelta(days=6)).isoformat()},
+        {"slug": "removed", "ats": "ashby", "name": "removed", "open_roles": 1, "verified_at": (NOW - timedelta(days=6)).isoformat()},
+    ]))
+    store = Store(tmp_path / "t.db")
+    store.mark_dead("dead", NOW - timedelta(days=1))
+    probed = []
+
+    def handler(req):
+        probed.append(req.url.path.split("/")[3])
+        return router({("ashby", "new"): 2})(req)
+
+    summary = await verify(make_http(handler), seeds, out, store, now=NOW, only_new=True)
+    assert set(probed) == {"new"}                       # "old" kept without a probe despite being 6 days stale
+    assert summary["resumed"] == 1 and summary["probed"] == 1 and summary["confirmed"] == 2
+    companies = json.loads(out.read_text())
+    assert [c["slug"] for c in companies] == ["new", "old"]
+    assert companies[1]["verified_at"] == (NOW - timedelta(days=6)).isoformat()   # untouched

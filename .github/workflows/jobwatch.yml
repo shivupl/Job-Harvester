@@ -64,6 +64,14 @@ jobs:
             echo "verify=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Rescan HN (weekday mornings)
+        # Re-read this month's and last month's "Who is hiring?" threads (3 requests) and
+        # probe only slugs not yet confirmed. seeds-manual.txt is merged here too.
+        if: steps.slot.outputs.slot == 'morning' || inputs.verify == true
+        run: |
+          python -m jobwatch harvest --months 2
+          python -m jobwatch verify --only-new
+
       - name: Verify (weekly, Monday morning)
         if: steps.slot.outputs.verify == 'true'
         run: python -m jobwatch verify
@@ -85,7 +93,7 @@ jobs:
         run: |
           git config user.name "jobwatch-bot"
           git config user.email "jobwatch-bot@users.noreply.github.com"
-          git add -A -- jobwatch.db companies.json digests board.html
+          git add -A -- jobwatch.db seeds.txt companies.json digests board.html
           git commit -m "jobwatch ${{ steps.slot.outputs.date }} ${{ steps.slot.outputs.slot }}" || echo "nothing to commit"
           git pull --rebase
           git push

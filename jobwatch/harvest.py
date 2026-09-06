@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 from .http import Http
+from .util import now_utc
 
 ALGOLIA = "https://hn.algolia.com/api/v1"
 SEARCH_URL = (
@@ -104,7 +105,9 @@ def merge_seeds(path: Path, slugs: set[str]) -> tuple[list[str], int]:
     return merged, len(merged) - len(existing)
 
 
-async def harvest(http: Http, seeds_path: Path, months: Optional[int] = None) -> dict:
+async def harvest(http: Http, seeds_path: Path, months: Optional[int] = None, store=None) -> dict:
+    """Newest `months` threads (all when None) → seeds. With a store, grnh.se
+    resolutions are cached so a daily rescan does not re-resolve the same links."""
     threads = await list_threads(http, months)
     results = await asyncio.gather(*(harvest_thread(http, h["objectID"]) for h in threads))
     slugs: set[str] = set()
@@ -112,10 +115,16 @@ async def harvest(http: Http, seeds_path: Path, months: Optional[int] = None) ->
     for s, c in results:
         slugs |= s
         codes |= c
-    resolved = await asyncio.gather(*(resolve_short(http, c) for c in sorted(codes)))
-    slugs |= {s for s in resolved if s}
+    cached = store.cached_short(codes) if store else {}
+    todo = sorted(codes - set(cached))
+    resolved = await asyncio.gather(*(resolve_short(http, c) for c in todo))
+    if store:
+        now = now_utc()
+        for code, slug in zip(todo, resolved):
+            store.cache_short(code, slug, now)
+    slugs |= {s for s in list(cached.values()) + list(resolved) if s}
     merged, new = merge_seeds(seeds_path, slugs)
     return {
-        "threads": len(threads), "slugs": len(slugs), "short_codes": len(codes),
+        "threads": len(threads), "slugs": len(slugs), "short_codes": len(codes), "resolved": len(todo),
         "new": new, "total": len(merged),
     }

@@ -13,7 +13,7 @@ Preferences: `jobwatch/profile.py`. There is no other configuration.
     .venv/bin/python -m pytest -q
 
     .venv/bin/python -m jobwatch harvest              # all HN threads → seeds.txt (~200 requests)
-    .venv/bin/python -m jobwatch verify               # seeds.txt → companies.json (~30 min, rate-limited)
+    .venv/bin/python -m jobwatch verify               # seeds.txt + seeds-manual.txt → companies.json (~30 min, rate-limited)
     .venv/bin/python -m jobwatch run                  # first run is a silent baseline
     git add seeds.txt companies.json jobwatch.db && git commit -m "baseline"
 
@@ -30,4 +30,9 @@ and the workflow takes over. Verify re-runs every Monday morning.
       sqlite3 jobwatch.db "select reason, count(*) from seen where status='dropped' group by 1 order by 2 desc"
       sqlite3 jobwatch.db "select reason, title, company from seen where status='dropped' order by first_seen desc limit 50"
 
+- Add a company you found elsewhere: put its board slug (the last path segment of
+  its Greenhouse, Lever, or Ashby URL) on a line in `seeds-manual.txt`. The next
+  morning run probes it; `python -m jobwatch verify --only-new` does it now.
+- New HN companies arrive on their own: every weekday morning the workflow re-reads
+  the newest two "Who is hiring?" threads and probes any slug it hasn't confirmed.
 - Persistent fetch errors in a digest footer mean stale slugs: run verify.

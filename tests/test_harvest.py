@@ -115,3 +115,38 @@ async def test_harvest_end_to_end(fixture_json, fixture_text, tmp_path: Path):
     got = set(seeds.read_text().split())
     assert "sourcegraph91" in got and "oklo" in got and "Nested.Co" in got
     assert summary["threads"] == 2 and summary["short_codes"] == 1
+
+
+async def test_harvest_caches_short_link_resolution(fixture_json, fixture_text, tmp_path: Path):
+    from jobwatch.store import Store
+    heads = []
+
+    def handler(req):
+        if "search_by_date" in req.url.path:
+            page = int(req.url.params.get("page", "0"))
+            if page == 0:
+                d = fixture_json("hn_search.json"); d["nbPages"] = 1
+                return httpx.Response(200, json=d)
+            return httpx.Response(200, json={"hits": [], "nbPages": 1})
+        if req.url.path.startswith("/api/v1/items/"):
+            return httpx.Response(200, text=fixture_text("hn_thread.json"))
+        if req.url.host == "grnh.se":
+            heads.append(req.url.path)
+            return httpx.Response(301, headers={"Location": "https://job-boards.greenhouse.io/sourcegraph91"})
+        return httpx.Response(404)
+
+    seeds = tmp_path / "seeds.txt"
+    store = Store(tmp_path / "t.db")
+    s1 = await harvest(make_http(handler), seeds, months=None, store=store)
+    assert len(heads) == 1 and s1["short_codes"] == 1 and s1["resolved"] == 1
+    s2 = await harvest(make_http(handler), seeds, months=None, store=store)
+    assert len(heads) == 1                                  # cached: no second HEAD
+    assert s2["resolved"] == 0 and s2["new"] == 0
+    assert "sourcegraph91" in seeds.read_text().split()
+
+
+async def test_harvest_caches_unresolvable_short_links_too(tmp_path: Path):
+    from jobwatch.store import Store
+    store = Store(tmp_path / "t.db")
+    store.cache_short("abc", None, __import__("datetime").datetime(2026, 9, 4))
+    assert store.cached_short({"abc", "xyz"}) == {"abc": None}
