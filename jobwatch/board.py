@@ -18,6 +18,7 @@ _CSS = """
   /* Ash (light) */
   --bg:#ECEDEA;--card:#FFFFFF;--line:#D9DAD5;--ink:#1B1C1F;--muted:#5F615C;--faint:#8A8C86;--hover:#F6F6F4;
   --good:#1E9E5C;--good-soft:#E3F5EA;--ok:#2A6FD6;--warn:#C4841A;--rel:#6B55D6;--accent:#2A6FD6;
+  --gold:#B8860B;--gold-soft:#FBF3DC;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"IBM Plex Mono","JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
   --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
@@ -26,10 +27,12 @@ _CSS = """
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1B1C1F;--card:#232428;--line:#303136;--ink:#F4F4F2;--muted:#A9AAA6;--faint:#8C8D8A;--hover:#2A2B30;
   --good:#5AD27A;--good-soft:#1E3327;--ok:#7AAFFF;--warn:#F2B54B;--rel:#B49CFF;--accent:#7AAFFF;
+  --gold:#F2C94C;--gold-soft:#3A3120;
 }}
 :root[data-theme="dark"]{
   --bg:#1B1C1F;--card:#232428;--line:#303136;--ink:#F4F4F2;--muted:#A9AAA6;--faint:#8C8D8A;--hover:#2A2B30;
   --good:#5AD27A;--good-soft:#1E3327;--ok:#7AAFFF;--warn:#F2B54B;--rel:#B49CFF;--accent:#7AAFFF;
+  --gold:#F2C94C;--gold-soft:#3A3120;
 }
 *{box-sizing:border-box}
 html,body{background:var(--bg)}
@@ -81,10 +84,10 @@ body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .card .top .r{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:2px;min-width:0;max-width:60%}
 .card .top .r .loc{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .card .top .r .loc.bay{color:var(--ok)}
-.seenbtn{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;color:transparent;flex:none;padding:0;margin-top:1px}
-.seenbtn:hover{border-color:var(--faint);color:var(--faint)}
-.seenbtn.on{background:var(--ink);border-color:var(--ink);color:var(--card)}
-.seenbtn svg{width:12px;height:12px}
+.card.newgrad{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.card.newgrad:hover{border-color:var(--gold)}
+.card.newgrad h3{color:var(--gold)}
+.tag.newgrad{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--gold-soft);color:var(--gold);font:500 10.5px var(--mono);letter-spacing:.02em;white-space:nowrap}
 .card h3{font:600 15px/1.3 var(--sans);margin:4px 0 0;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card .why{color:var(--muted);font-size:13px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .comp{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;max-width:100%;padding:4px 10px;border-radius:999px;background:var(--good-soft);color:var(--good);font-size:12px;font-weight:500}
@@ -163,7 +166,6 @@ function gauge(value, cls, label, sub){
   const r = 16, c = 2 * Math.PI * r, off = c * (1 - Math.max(0, Math.min(10, value)) / 10);
   return `<div class="gauge"><div class="wrap"><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="${r}"/><circle class="arc ${cls}" cx="20" cy="20" r="${r}" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><span class="num">${value}</span></div><div class="lbl"><b>${label}</b>${esc(sub)}</div></div>`;
 }
-const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
 function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function age(iso){
   if (!iso) return 'date not stated';
@@ -203,13 +205,12 @@ function rows(t){
 }
 
 function cardHtml(r){
-  const isSeen = seen.has(r.key), bay = r.location_fit === 'bay_area';
+  const isSeen = seen.has(r.key), bay = r.location_fit === 'bay_area', ng = r.level === 'new_grad';
   const co = r.company ? r.company[0].toUpperCase() + r.company.slice(1) : '';
-  return `<div class="card ${isSeen ? 'seen' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}">
+  return `<div class="card ${isSeen ? 'seen' : ''} ${ng ? 'newgrad' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}${ng ? ', new grad role' : ''}">
     <div class="top">
       <div class="l"><b title="${esc(r.company)}">${esc(co)}</b>${esc(age(r.posted_at))}</div>
-      <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span></div>
-      <button class="seenbtn ${isSeen ? 'on' : ''}" data-seen aria-label="${isSeen ? 'Mark unseen' : 'Mark seen'}" title="${isSeen ? 'Seen' : 'Mark seen'}">${CHECK}</button>
+      <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span>${ng ? '<span class="tag newgrad" title="The posting explicitly targets new grads">new grad</span>' : ''}</div>
     </div>
     <h3>${esc(r.title)}</h3>
     ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
@@ -288,8 +289,6 @@ $('#tabs').addEventListener('click', e => {
 });
 $('#grid').addEventListener('click', e => {
   const card = e.target.closest('.card'); if (!card) return;
-  const btn = e.target.closest('[data-seen]');
-  if (btn) { e.stopPropagation(); toggleSeen(card.dataset.key, !seen.has(card.dataset.key)); return; }
   showPanel(card.dataset.key);
 });
 $('#grid').addEventListener('keydown', e => {

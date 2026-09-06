@@ -67,3 +67,12 @@ def test_render_board_escapes_script_terminator_in_data():
     html = render_board(rows, NOW, PROFILE)
     block = html.split('id="data" type="application/json">')[1].split("</script>")[0]
     assert "alert(1)" in block and "</script>" not in block
+
+
+def test_new_grad_cards_are_marked_and_seen_button_is_gone(tmp_path):
+    s = Store(tmp_path / "t.db")
+    scored(s, 1, 9, 9)
+    html = render_board(s.board_rows(PROFILE, NOW), NOW, PROFILE)
+    assert "card.newgrad" in html and "--gold:" in html          # style present in the CSS
+    assert "data-seen" not in html and "seenbtn" not in html     # no corner button on cards
+    assert "r.level === 'new_grad'" in html                       # class is driven by the scorer's level
