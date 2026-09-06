@@ -25,5 +25,5 @@ def test_board_command_writes_file(tmp_path, capsys):
     db = tmp_path / "t.db"
     out = tmp_path / "board.html"
     main(["board", "--db", str(db), "--out", str(out)])
-    assert out.exists() and "0 eligible postings" in out.read_text()
+    assert out.exists() and "Nothing to look at right now" in out.read_text()
     assert '"rows": 0' in capsys.readouterr().out

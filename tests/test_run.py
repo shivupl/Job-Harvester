@@ -7,7 +7,7 @@ import httpx
 from jobwatch.http import Http
 from jobwatch.models import Posting
 from jobwatch.profile import PROFILE as _BASE
-from jobwatch.run import run
+from jobwatch.run import enrich, run
 
 PROFILE = {**_BASE, "provider": "anthropic", "model": "claude-haiku-4-5"}   # FakeClient is anthropic-shaped
 from jobwatch.store import Store
@@ -188,4 +188,33 @@ async def test_run_writes_board(tmp_path):
     await run(make_http([ashby_job(1, "Product Engineer", fresh)]), store, FakeClient(fit=9, relevance=9),
               companies, digests, "midday", PROFILE, now=NOW, board_path=board)
     html = board.read_text()
-    assert "Product Engineer" in html and "1 eligible postings" in html
+    assert "Product Engineer" in html and "role worth a look" in html
+
+
+async def test_scored_rows_keep_comp_and_excerpt(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url=""), "baseline", None, NOW)
+    job = ashby_job(1, "Product Engineer", fresh, desc="y" * 2000)
+    job["compensation"] = {"compensationTierSummary": "$120K – $150K"}
+    await run(make_http([job]), store, FakeClient(), companies, digests, "midday", PROFILE, now=NOW)
+    row = store.get("ashby:acme:j1")
+    assert row["comp"] == "$120K – $150K" and len(row["excerpt"]) == 800
+
+
+async def test_enrich_fills_missing_details_without_model(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    store.insert(Posting(ats="ashby", slug="acme", job_id="j1", title="Product Engineer", company="acme",
+                         location="SF", remote=None, description="", posted_at=fresh, url="u"),
+                 "scored", "r", NOW, fit=8, relevance=8, category="swe", location_fit="bay_area")
+    assert store.keys_missing_details() == {"ashby:acme:j1"}
+    job = ashby_job(1, "Product Engineer", fresh, desc="real description text")
+    job["compensation"] = {"compensationTierSummary": "$1"}
+    out = await enrich(make_http([job]), store, companies, PROFILE)
+    assert out["filled"] == 1 and out["missing"] == 1
+    row = store.get("ashby:acme:j1")
+    assert row["excerpt"] == "real description text" and row["comp"] == "$1"
+    assert (await enrich(make_http([job]), store, companies, PROFILE))["missing"] == 0

@@ -68,7 +68,7 @@ def test_migration_adds_columns_to_old_db(tmp_path):
     con.commit(); con.close()
     s = Store(path)
     cols = {r[1] for r in s.con.execute("pragma table_info(seen)")}
-    assert {"fit", "relevance", "category", "location_fit"} <= cols
+    assert {"fit", "relevance", "category", "location_fit", "comp", "excerpt"} <= cols
     assert s.has("a:b:1")
 
 
@@ -97,3 +97,17 @@ def test_release_with_rescore_also_releases_scored_and_unscored(tmp_path):
     assert s.release_baseline_since("2026-09-01T00:00:00+00:00", rescore=True) == 3
     assert not s.has("ashby:acme:1") and not s.has("ashby:acme:2") and not s.has("ashby:acme:3")
     assert s.has("ashby:acme:4") and s.has("ashby:acme:5")   # outside window; stale untouched
+
+
+def test_details_helpers(tmp_path):
+    s = Store(tmp_path / "t.db")
+    s.insert(mk(1), "scored", "r", NOW, fit=8, relevance=8, category="swe", location_fit="bay_area")
+    s.insert(mk(2), "scored", "r", NOW, fit=8, relevance=8, category="swe", location_fit="bay_area",
+             comp="$1", excerpt="hello")
+    s.insert(mk(3), "dropped", "level", NOW)
+    assert s.keys_missing_details() == {"ashby:acme:1"}
+    s.set_details("ashby:acme:1", "$100K", "desc...")
+    assert s.keys_missing_details() == set()
+    from jobwatch.profile import PROFILE
+    rows = {r["key"]: r for r in s.board_rows(PROFILE, NOW)}
+    assert rows["ashby:acme:1"]["comp"] == "$100K" and rows["ashby:acme:1"]["excerpt"] == "desc..."

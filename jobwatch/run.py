@@ -19,8 +19,28 @@ from .models import FetchError, Posting
 from .prefilter import is_stale, prefilter
 from .profile import PROFILE
 from .score import score_all
-from .store import Store
+from .store import EXCERPT_CHARS, Store
 from .util import now_utc
+
+
+async def enrich(http: Http, store: Store, companies_path: Path, profile: dict = PROFILE) -> dict:
+    """One-off: fill comp and description excerpts for scored rows written before those
+    columns existed. Re-fetches boards (free); no model calls."""
+    missing = store.keys_missing_details()
+    if not missing:
+        return {"missing": 0, "filled": 0, "errors": 0}
+    companies = json.loads(companies_path.read_text())
+    filled = 0
+    errors = 0
+    chunk = profile.get("fetch_chunk", 50)
+    for i in range(0, len(companies), chunk):
+        postings, errs = await fetch_all(http, companies[i:i + chunk])
+        errors += len(errs)
+        for p in postings:
+            if p.key in missing:
+                store.set_details(p.key, p.comp, p.description[:EXCERPT_CHARS])
+                filled += 1
+    return {"missing": len(missing), "filled": filled, "errors": errors}
 
 
 def write_board(store: Store, path: Path, profile: dict = PROFILE, now: Optional[datetime] = None) -> int:
@@ -101,7 +121,8 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
                 store.insert(p, "dropped", reason, now, location=p.location)
                 funnel["prefiltered"] += 1
             else:
-                store.insert(p, "unscored", None, now, location=p.location, url=p.url)  # placeholder until scored
+                store.insert(p, "unscored", None, now, location=p.location, url=p.url,   # placeholder until scored
+                             comp=p.comp, excerpt=p.description[:EXCERPT_CHARS])
                 survivors.append(p)
 
     if baseline:

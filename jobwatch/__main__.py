@@ -69,6 +69,18 @@ async def cmd_run(args) -> dict:
     return out
 
 
+async def cmd_enrich(args) -> dict:
+    from .run import enrich, write_board
+    http, store = make_http(), Store(args.db)
+    try:
+        out = await enrich(http, store, Path(args.companies))
+        out["board_rows"] = write_board(store, Path(args.board))
+        return out
+    finally:
+        await http.aclose()
+        store.close()
+
+
 async def cmd_board(args) -> dict:
     from .run import write_board
     store = Store(args.db)
@@ -109,6 +121,12 @@ def main(argv=None) -> None:
     r.add_argument("--rescore", action="store_true",
                    help="with --backfill-days: also re-judge already-scored postings (model change)")
     r.set_defaults(fn=cmd_run)
+
+    e = sub.add_parser("enrich", help="one-off: fill comp/excerpt for older scored rows by re-fetching boards")
+    e.add_argument("--db", default="jobwatch.db")
+    e.add_argument("--companies", default="companies.json")
+    e.add_argument("--board", default="board.html")
+    e.set_defaults(fn=cmd_enrich)
 
     b = sub.add_parser("board", help="rebuild board.html from the local database (no network)")
     b.add_argument("--db", default="jobwatch.db")

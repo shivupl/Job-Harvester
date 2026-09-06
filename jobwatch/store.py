@@ -25,7 +25,9 @@ create table if not exists seen (
   fit          integer,
   relevance    integer,
   category     text,
-  location_fit text
+  location_fit text,
+  comp         text,
+  excerpt      text
 );
 create index if not exists seen_first_seen on seen(first_seen);
 create table if not exists dead (
@@ -45,13 +47,16 @@ create table if not exists meta (
 """
 
 FIELDS = ("location", "url", "score", "level", "new_grad_fit", "years_stated", "status", "reason",
-          "fit", "relevance", "category", "location_fit")
+          "fit", "relevance", "category", "location_fit", "comp", "excerpt")
+EXCERPT_CHARS = 800
 # Additive migrations for databases created before a column existed.
 MIGRATIONS = [
     ("seen", "fit", "integer"),
     ("seen", "relevance", "integer"),
     ("seen", "category", "text"),
     ("seen", "location_fit", "text"),
+    ("seen", "comp", "text"),
+    ("seen", "excerpt", "text"),
 ]
 
 
@@ -144,18 +149,23 @@ class Store:
         placeholders = ",".join("?" * len(hidden)) or "''"
         rows = self.con.execute(
             "select key, title, company, url, fit, relevance, category, location_fit, location, "
-            "posted_at, reason, first_seen from seen where status='scored' and fit is not null "
+            "posted_at, reason, first_seen, comp, excerpt, level, years_stated from seen "
+            "where status='scored' and fit is not null "
             "and relevance >= ? and fit >= ? and first_seen >= ? "
             f"and coalesce(location_fit, 'unknown') not in ({placeholders}) "
             "order by relevance desc, fit desc, posted_at desc",
             [profile["min_relevance"], profile["min_fit"], cutoff] + hidden,
         ).fetchall()
-        out = []
-        for r in rows:
-            d = dict(r)
-            d["comp"] = None   # comp is not persisted; the digest shows it at scoring time
-            out.append(d)
-        return out
+        return [dict(r) for r in rows]
+
+    def keys_missing_details(self) -> set[str]:
+        """Scored postings with no excerpt yet (rows written before the column existed)."""
+        return {r[0] for r in self.con.execute(
+            "select key from seen where status='scored' and excerpt is null")}
+
+    def set_details(self, key: str, comp: Optional[str], excerpt: Optional[str]) -> None:
+        self.con.execute("update seen set comp=?, excerpt=? where key=?", (comp, excerpt, key))
+        self.con.commit()
 
     def audit(self) -> list[tuple[str, int]]:
         rows = self.con.execute(
