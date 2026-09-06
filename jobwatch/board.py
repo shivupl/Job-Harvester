@@ -244,13 +244,13 @@ def _summary(rows: list[dict], now: datetime, profile: dict) -> str:
     n = len(rows)
     if n == 0:
         return "Nothing to look at right now. The next run may change that."
-    day_ago = now.timestamp() - 86400
-    fresh = sum(1 for r in rows if r.get("first_seen") and
-                datetime.fromisoformat(r["first_seen"]).timestamp() >= day_ago)
+    two_days_ago = now.timestamp() - 2 * 86400
+    fresh = sum(1 for r in rows if r.get("posted_at") and
+                datetime.fromisoformat(r["posted_at"]).timestamp() >= two_days_ago)
     top = sum(1 for r in rows if r["relevance"] >= 9 and r["fit"] >= 8)
     parts = [f"<em>{n}</em> role{'s' if n != 1 else ''} worth a look from the last {profile['board_days']} days"]
-    if fresh:
-        parts.append(f"<em>{fresh}</em> arrived in the last day")
+    if 0 < fresh < n:
+        parts.append(f"<em>{fresh}</em> posted in the last two days")
     if top:
         parts.append(f"<em>{top}</em> score 9 or better on both counts")
     return ". ".join(parts) + "."
