@@ -29,7 +29,7 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button,select,input{font:inherit;color:inherit}
 
-.page{max-width:1240px;margin:0 auto;padding:36px 32px 96px;transition:padding-right .18s ease}
+.page{max-width:1180px;margin:0 auto;padding:36px 32px 96px;transition:padding-right .18s ease}
 body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 
 .masthead{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap}
@@ -53,7 +53,10 @@ body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 .toolbar label.check{display:inline-flex;gap:6px;align-items:center;color:var(--muted)}
 .toolbar .count{margin-left:auto;color:var(--faint);font-size:13px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;align-items:stretch}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:300px;padding:18px 18px 14px;
   background:var(--bg);border:1px solid var(--line);border-radius:14px;cursor:pointer;text-align:left;
   transition:box-shadow .15s ease,border-color .15s ease,transform .15s ease}
@@ -61,9 +64,11 @@ body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 .card.selected{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .card.seen{opacity:.5}
 .card>*{flex:none}
-.card .top{display:flex;align-items:center;gap:10px}
+.card .top{display:flex;align-items:flex-start;gap:10px}
+.card .topright{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;min-width:0;max-width:70%}
 .card .co{color:var(--muted);font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
 .card .age{color:var(--faint);font-size:12px;white-space:nowrap}
+.card .topright .pill{max-width:100%}
 .seenbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;color:transparent;flex:none;padding:0}
 .seenbtn:hover{border-color:var(--faint);color:var(--faint)}
 .seenbtn.on{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -190,13 +195,15 @@ function cardHtml(r){
   return `<div class="card ${isSeen ? 'seen' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}">
     <div class="top">
       <div class="co" title="${esc(r.company)}">${esc(co)}</div>
-      <span class="age">${esc(age(r.posted_at))}</span>
+      <div class="topright">
+        <span class="pill ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${ICON.pin}<span>${esc(locLabel(r))}</span></span>
+        <span class="age">Posted ${esc(age(r.posted_at))}</span>
+      </div>
       <button class="seenbtn ${isSeen ? 'on' : ''}" data-seen aria-label="${isSeen ? 'Mark unseen' : 'Mark seen'}" title="${isSeen ? 'Seen' : 'Mark seen'}">${CHECK}</button>
     </div>
     <h3>${esc(r.title)}</h3>
     ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
     <div class="pills">
-      <span class="pill ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${ICON.pin}<span>${esc(locLabel(r))}</span></span>
       ${r.comp ? `<span class="pill cash" title="${esc(r.comp)}">${ICON.cash}<span>${esc(r.comp)}</span></span>` : ''}
       ${tab === 'all' || tab === 'stretch' ? `<span class="pill cat"><span>${esc(CATS.get(r.category) || 'Other')}</span></span>` : ''}
     </div>
