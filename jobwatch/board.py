@@ -53,8 +53,8 @@ body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 .toolbar label.check{display:inline-flex;gap:6px;align-items:center;color:var(--muted)}
 .toolbar .count{margin-left:auto;color:var(--faint);font-size:13px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
-.card{position:relative;display:flex;flex-direction:column;gap:10px;aspect-ratio:1/1;min-height:310px;padding:18px 18px 14px;
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;align-items:stretch}
+.card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:300px;padding:18px 18px 14px;
   background:var(--bg);border:1px solid var(--line);border-radius:14px;cursor:pointer;text-align:left;
   transition:box-shadow .15s ease,border-color .15s ease,transform .15s ease}
 .card:hover{box-shadow:0 10px 30px rgba(17,24,39,.09);border-color:#D1D5DB;transform:translateY(-2px)}
@@ -62,8 +62,7 @@ body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 .card.seen{opacity:.5}
 .card>*{flex:none}
 .card .top{display:flex;align-items:center;gap:10px}
-.avatar{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;letter-spacing:.02em;flex:none}
-.card .co{color:var(--ink);font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.card .co{color:var(--muted);font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
 .card .age{color:var(--faint);font-size:12px;white-space:nowrap}
 .seenbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;color:transparent;flex:none;padding:0}
 .seenbtn:hover{border-color:var(--faint);color:var(--faint)}
@@ -77,7 +76,7 @@ body.open .page{padding-right:calc(var(--panel-w) + 48px)}
 .pill span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pill.bay{background:var(--accent-soft);color:var(--accent);font-weight:500}
 .pill.cash{background:var(--good-soft);color:var(--good)}
-.card .scores{display:flex;align-items:center;gap:18px;padding-top:12px;border-top:1px solid var(--line)}
+.card .scores{display:flex;align-items:center;gap:18px;padding-top:12px;margin-top:2px;border-top:1px solid var(--line)}
 .gauge{display:flex;align-items:center;gap:8px}
 .gauge svg{width:40px;height:40px;transform:rotate(-90deg)}
 .gauge circle{fill:none;stroke-width:4}
@@ -140,9 +139,6 @@ const ICON = {
   cash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>'
 };
 
-const PALETTE = ['#2563EB','#7C3AED','#DB2777','#DC2626','#EA580C','#D97706','#059669','#0891B2','#4F46E5','#0D9488'];
-function avatarColor(name){ let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) >>> 0; return PALETTE[h % PALETTE.length]; }
-function initials(name){ const w = name.replace(/[^a-z0-9 ]/gi, ' ').trim().split(/\s+/).filter(Boolean); return ((w[0] || '?')[0] + (w[1] ? w[1][0] : '')).toUpperCase(); }
 function gauge(value, cls, label, sub){
   const r = 16, c = 2 * Math.PI * r, off = c * (1 - Math.max(0, Math.min(10, value)) / 10);
   return `<div class="gauge"><div class="wrap"><svg viewBox="0 0 40 40" aria-hidden="true"><circle class="track" cx="20" cy="20" r="${r}"/><circle class="arc ${cls}" cx="20" cy="20" r="${r}" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg><span class="num">${value}</span></div><div class="lbl"><b>${label}</b>${esc(sub)}</div></div>`;
@@ -193,7 +189,6 @@ function cardHtml(r){
   const co = r.company ? r.company[0].toUpperCase() + r.company.slice(1) : '';
   return `<div class="card ${isSeen ? 'seen' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}">
     <div class="top">
-      <div class="avatar" style="background:${avatarColor(r.company)}">${esc(initials(r.company))}</div>
       <div class="co" title="${esc(r.company)}">${esc(co)}</div>
       <span class="age">${esc(age(r.posted_at))}</span>
       <button class="seenbtn ${isSeen ? 'on' : ''}" data-seen aria-label="${isSeen ? 'Mark unseen' : 'Mark seen'}" title="${isSeen ? 'Seen' : 'Mark seen'}">${CHECK}</button>
