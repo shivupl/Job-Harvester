@@ -1,3 +1,4 @@
+import asyncio
 import json
 from types import SimpleNamespace
 
@@ -5,7 +6,14 @@ import pytest
 
 from jobwatch.models import Posting
 from jobwatch.profile import PROFILE
-from jobwatch.score import SCHEMA, build_user_message, make_client, score_all, score_posting, validate
+from jobwatch.score import (SCHEMA, ScorerUnavailable, build_user_message, make_client, score_all,
+                            score_posting, validate)
+
+@pytest.fixture(autouse=True)
+def fast_sleep(monkeypatch):
+    real = asyncio.sleep
+    monkeypatch.setattr(asyncio, "sleep", lambda *_: real(0))
+
 
 ANTHROPIC = {**PROFILE, "provider": "anthropic", "model": "claude-haiku-4-5"}
 OPENAI = {**PROFILE, "provider": "openai", "model": "gpt-5.6-luna"}
@@ -51,9 +59,9 @@ async def test_score_posting_sends_schema_and_cached_system_prompt():
 
 
 async def test_retries_once_on_garbage_then_none():
-    client = FakeClient(["not json", "still not json"])
+    client = FakeClient(["not json", "still not json", "nope"])
     assert await score_posting(client, mk(), ANTHROPIC) is None
-    assert len(client.messages.calls) == 2
+    assert len(client.messages.calls) == 3
     client = FakeClient(["garbage", GOOD])
     assert (await score_posting(client, mk(), ANTHROPIC))["fit"] == 8
 
@@ -73,7 +81,7 @@ def test_build_user_message_truncates():
 
 
 async def test_score_all_keys_by_posting_key_and_limits_concurrency():
-    client = FakeClient([GOOD, GOOD, "bad", "bad"])
+    client = FakeClient([GOOD, GOOD, "bad", "bad", "bad"])
     res = await score_all(client, [mk(1), mk(2), mk(3)], {**ANTHROPIC, "score_concurrency": 2})
     assert res["ashby:s:1"]["fit"] == 8 and res["ashby:s:2"]["fit"] == 8 and res["ashby:s:3"] is None
 
@@ -112,9 +120,9 @@ async def test_openai_call_shape_and_parse():
 
 
 async def test_openai_refusal_and_truncation_retry_then_none():
-    client = FakeOpenAI([(None, "stop", "I cannot"), ("", "length", None)])
+    client = FakeOpenAI([(None, "stop", "I cannot"), ("", "length", None), ("", "length", None)])
     assert await score_posting(client, mk(), OPENAI) is None
-    assert len(client.chat.completions.calls) == 2
+    assert len(client.chat.completions.calls) == 3
     client = FakeOpenAI([("", "length", None), (GOOD, "stop", None)])
     assert (await score_posting(client, mk(), OPENAI))["relevance"] == 9
 
@@ -126,9 +134,29 @@ async def test_openai_auth_error_propagates_and_403_returns_none():
     with pytest.raises(openai.AuthenticationError):
         await score_posting(client, mk(), OPENAI)
     resp403 = httpx.Response(403, request=httpx.Request("POST", "https://api.openai.com/v1/chat/completions"))
-    client = FakeOpenAI([openai.PermissionDeniedError("no access", response=resp403, body=None)])
+    client = FakeOpenAI([openai.PermissionDeniedError("no", response=resp403, body={"error": {"code": "other"}})])
     assert await score_posting(client, mk(), OPENAI) is None
-    assert len(client.chat.completions.calls) == 1
+    assert len(client.chat.completions.calls) == 1        # a non-flap 403 is not retried
+
+
+async def test_model_access_flap_is_retried():
+    import httpx, openai
+    resp = httpx.Response(403, request=httpx.Request("POST", "https://api.openai.com/v1/chat/completions"))
+    flap = openai.PermissionDeniedError("no access", response=resp, body={"error": {"code": "model_not_found"}})
+    client = FakeOpenAI([flap, (GOOD, "stop", None)])
+    assert (await score_posting(client, mk(), OPENAI))["fit"] == 8
+    assert len(client.chat.completions.calls) == 2
+    client = FakeOpenAI([flap, flap, flap])
+    assert await score_posting(client, mk(), OPENAI) is None
+
+
+async def test_score_all_raises_when_everything_fails():
+    client = FakeOpenAI([("", "length", None)] * 15)
+    with pytest.raises(ScorerUnavailable):
+        await score_all(client, [mk(i) for i in range(5)], OPENAI)
+    client = FakeOpenAI([("", "length", None)] * 6)          # fewer than 5 postings: no raise
+    res = await score_all(client, [mk(1), mk(2)], OPENAI)
+    assert res == {"ashby:s:1": None, "ashby:s:2": None}
 
 
 def test_make_client_by_provider(monkeypatch):

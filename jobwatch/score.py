@@ -144,31 +144,45 @@ _CALLS = {"anthropic": _call_anthropic, "openai": _call_openai}
 _AUTH_ERRORS = (anthropic.AuthenticationError, openai.AuthenticationError)
 _STATUS_ERRORS = (anthropic.APIStatusError, openai.APIStatusError)
 _CONN_ERRORS = (anthropic.APIConnectionError, openai.APIConnectionError)
+ATTEMPTS = 3
+
+
+class ScorerUnavailable(RuntimeError):
+    """Every scoring call failed. Raised so the run fails visibly instead of filing everything as unscored."""
+
+
+def _model_access_flap(e) -> bool:
+    """403/404 model_not_found: seen to flap for minutes after a project permission change."""
+    code = None
+    body = getattr(e, "body", None)
+    if isinstance(body, dict):
+        code = (body.get("error") or {}).get("code") or body.get("code")
+    return e.status_code in (403, 404) and code == "model_not_found"
 
 
 async def score_posting(client, p: Posting, profile: dict = PROFILE) -> Optional[dict]:
-    """Two attempts. Returns None on repeated failure; the caller surfaces the posting as unscored."""
+    """Up to ATTEMPTS tries. Returns None on repeated failure; the caller surfaces the posting as unscored."""
     call = _CALLS[profile["provider"]]
-    for attempt in range(2):
+    for attempt in range(ATTEMPTS):
         text = None
         try:
             text = await call(client, p, profile)
         except _AUTH_ERRORS:
             raise                    # misconfiguration: fail the run loudly, never mark unscored
         except _STATUS_ERRORS as e:
-            if e.status_code < 500 and e.status_code != 429:
-                return None          # bad request / no model access: retrying won't help
+            if e.status_code < 500 and e.status_code != 429 and not _model_access_flap(e):
+                return None          # genuine bad request: retrying won't help
         except _CONN_ERRORS:
             pass
         except (ValueError, StopIteration, KeyError, TypeError, IndexError):
-            pass                     # refusal, truncation, or shape mismatch: retry once
+            pass                     # refusal, truncation, or shape mismatch: retry
         if text is not None:
             try:
                 return validate(json.loads(text))
             except (json.JSONDecodeError, ValueError, TypeError, KeyError):
-                pass                 # malformed output: retry once
-        if attempt == 0:
-            await asyncio.sleep(1)
+                pass                 # malformed output: retry
+        if attempt < ATTEMPTS - 1:
+            await asyncio.sleep(2 * (attempt + 1))
     return None
 
 
@@ -179,4 +193,8 @@ async def score_all(client, postings: list[Posting], profile: dict = PROFILE) ->
         async with sem:
             return p.key, await score_posting(client, p, profile)
 
-    return dict(await asyncio.gather(*(one(p) for p in postings)))
+    results = dict(await asyncio.gather(*(one(p) for p in postings)))
+    if len(postings) >= 5 and all(v is None for v in results.values()):
+        raise ScorerUnavailable(
+            f"all {len(postings)} scoring calls failed on {profile['provider']}:{profile['model']}")
+    return results
