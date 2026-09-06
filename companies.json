@@ -35,6 +35,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "9fin",
+  "ats": "ashby",
+  "name": "9fin",
+  "open_roles": 35,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "Abacus",
   "ats": "greenhouse",
   "name": "ABACUS",
@@ -61,6 +68,13 @@
   "name": "Alpaca ",
   "open_roles": 59,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "Amari",
+  "ats": "ashby",
+  "name": "Amari",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "AngleHealth",
@@ -231,6 +245,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "FlowGen%20Labs",
+  "ats": "ashby",
+  "name": "FlowGen%20Labs",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "GovSignals",
   "ats": "ashby",
   "name": "GovSignals",
@@ -329,11 +350,25 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "Neuromorphic-Labs",
+  "ats": "ashby",
+  "name": "Neuromorphic-Labs",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "NorthwoodSpace",
   "ats": "ashby",
   "name": "NorthwoodSpace",
   "open_roles": 84,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "OXIO",
+  "ats": "ashby",
+  "name": "OXIO",
+  "open_roles": 14,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "Ontic",
@@ -348,6 +383,13 @@
   "name": "Oso",
   "open_roles": 7,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "P-1%20AI",
+  "ats": "ashby",
+  "name": "P-1%20AI",
+  "open_roles": 9,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "Pear-VC",
@@ -420,6 +462,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "Sphinx",
+  "ats": "ashby",
+  "name": "Sphinx",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "TonicAI",
   "ats": "ashby",
   "name": "TonicAI",
@@ -439,6 +488,13 @@
   "name": "UpMetrics",
   "open_roles": 1,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "Urun",
+  "ats": "ashby",
+  "name": "Urun",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "Verse",
@@ -481,6 +537,13 @@
   "name": "Zadara",
   "open_roles": 8,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "Zingage",
+  "ats": "ashby",
+  "name": "Zingage",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "aavelabs",
@@ -700,6 +763,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "aircallioinc",
+  "ats": "greenhouse",
+  "name": "Aircall.io, Inc.",
+  "open_roles": 72,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "airgarage",
   "ats": "ashby",
   "name": "airgarage",
@@ -817,6 +887,13 @@
   "name": "alembic",
   "open_roles": 10,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "alexai",
+  "ats": "ashby",
+  "name": "alexai",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "algolia",
@@ -1043,6 +1120,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "antimetal",
+  "ats": "ashby",
+  "name": "antimetal",
+  "open_roles": 9,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "antithesis",
   "ats": "ashby",
   "name": "antithesis",
@@ -1111,6 +1195,13 @@
   "name": "Appian Corporation ",
   "open_roles": 154,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "applied",
+  "ats": "ashby",
+  "name": "applied",
+  "open_roles": 281,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "applovin",
@@ -1197,6 +1288,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "arcadeai",
+  "ats": "ashby",
+  "name": "arcadeai",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "archer56",
   "ats": "greenhouse",
   "name": "Archer",
@@ -1281,6 +1379,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "arthur-ai",
+  "ats": "ashby",
+  "name": "arthur-ai",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "artie",
   "ats": "ashby",
   "name": "artie",
@@ -1363,6 +1468,13 @@
   "name": "AssemblyAI",
   "open_roles": 18,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "assorthealth",
+  "ats": "ashby",
+  "name": "assorthealth",
+  "open_roles": 32,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "astera",
@@ -1594,6 +1706,20 @@
   "name": "axle-health",
   "open_roles": 7,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "axle-mobility",
+  "ats": "ashby",
+  "name": "axle-mobility",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "axleinsure",
+  "ats": "ashby",
+  "name": "axleinsure",
+  "open_roles": 17,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "axon",
@@ -1960,11 +2086,25 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "blitzy",
+  "ats": "ashby",
+  "name": "blitzy",
+  "open_roles": 38,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "blockchain",
   "ats": "greenhouse",
   "name": "Blockchain.com",
   "open_roles": 45,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "blockstream",
+  "ats": "ashby",
+  "name": "blockstream",
+  "open_roles": 53,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "blueberrypediatrics",
@@ -2079,6 +2219,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "brainco",
+  "ats": "ashby",
+  "name": "brainco",
+  "open_roles": 33,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "braintrust",
   "ats": "ashby",
   "name": "braintrust",
@@ -2191,6 +2338,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "buildout",
+  "ats": "ashby",
+  "name": "buildout",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "bunkerhillhealth",
   "ats": "ashby",
   "name": "bunkerhillhealth",
@@ -2217,6 +2371,13 @@
   "name": "Employment Opportunities at BuzzFeed, Inc.",
   "open_roles": 6,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "c3iot",
+  "ats": "greenhouse",
+  "name": "C3 AI",
+  "open_roles": 71,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "cabify",
@@ -2261,6 +2422,13 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "camunda",
+  "ats": "ashby",
+  "name": "camunda",
+  "open_roles": 32,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "canarytechnologies",
   "ats": "lever",
   "name": "canarytechnologies",
@@ -2273,6 +2441,13 @@
   "name": "Candid",
   "open_roles": 16,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "candidhealth",
+  "ats": "ashby",
+  "name": "candidhealth",
+  "open_roles": 37,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "canonical",
@@ -2420,6 +2595,13 @@
   "name": "Caribou Financial",
   "open_roles": 4,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "carnot-ai",
+  "ats": "ashby",
+  "name": "carnot-ai",
+  "open_roles": 9,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "carta",
@@ -2611,6 +2793,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "checkout.com",
+  "ats": "ashby",
+  "name": "checkout.com",
+  "open_roles": 171,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "checkr",
   "ats": "greenhouse",
   "name": "Checkr",
@@ -2625,6 +2814,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "chiefai",
+  "ats": "ashby",
+  "name": "chiefai",
+  "open_roles": 1,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "chile",
   "ats": "greenhouse",
   "name": "Checkr - Chile",
@@ -2637,6 +2833,13 @@
   "name": "chownow",
   "open_roles": 15,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "chromatic",
+  "ats": "ashby",
+  "name": "chromatic",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "cinder",
@@ -2765,6 +2968,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "clera",
+  "ats": "ashby",
+  "name": "clera",
+  "open_roles": 282,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "clever",
   "ats": "greenhouse",
   "name": "Clever",
@@ -2870,11 +3080,25 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "code-metal",
+  "ats": "ashby",
+  "name": "code-metal",
+  "open_roles": 27,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "codeorg",
   "ats": "greenhouse",
   "name": "CodeAI",
   "open_roles": 5,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "coderabbit",
+  "ats": "ashby",
+  "name": "coderabbit",
+  "open_roles": 47,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "coderpad",
@@ -2933,11 +3157,32 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "coinflow",
+  "ats": "ashby",
+  "name": "coinflow",
+  "open_roles": 14,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "colabsoftware",
+  "ats": "greenhouse",
+  "name": "CoLab Software",
+  "open_roles": 25,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "collabora",
   "ats": "lever",
   "name": "collabora",
   "open_roles": 3,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "collate",
+  "ats": "lever",
+  "name": "collate",
+  "open_roles": 19,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "collectivehealth",
@@ -3178,6 +3423,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "corelight",
+  "ats": "greenhouse",
+  "name": "Job Board",
+  "open_roles": 27,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "coreweave",
   "ats": "greenhouse",
   "name": "CoreWeave",
@@ -3381,6 +3633,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "dandelionhealth",
+  "ats": "ashby",
+  "name": "dandelionhealth",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "dapper",
   "ats": "ashby",
   "name": "dapper",
@@ -3400,6 +3659,13 @@
   "name": "DataCamp",
   "open_roles": 32,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "datadog",
+  "ats": "greenhouse",
+  "name": "Datadog",
+  "open_roles": 441,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "datafold",
@@ -3423,6 +3689,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "dataro",
+  "ats": "ashby",
+  "name": "dataro",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "dave",
   "ats": "ashby",
   "name": "dave",
@@ -3442,6 +3715,13 @@
   "name": "Daylight",
   "open_roles": 5,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "dealops",
+  "ats": "ashby",
+  "name": "dealops",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "decagon",
@@ -3514,6 +3794,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "defenseunicorns",
+  "ats": "greenhouse",
+  "name": "Defense Unicorns",
+  "open_roles": 50,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "degreed",
   "ats": "greenhouse",
   "name": "Degreed",
@@ -3535,6 +3822,13 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "depthfirst",
+  "ats": "ashby",
+  "name": "depthfirst",
+  "open_roles": 16,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "descope",
   "ats": "greenhouse",
   "name": "Descope",
@@ -3547,6 +3841,13 @@
   "name": "Descript",
   "open_roles": 10,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "devrev",
+  "ats": "greenhouse",
+  "name": "DevRev",
+  "open_roles": 44,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "dex",
@@ -3647,6 +3948,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "docker",
+  "ats": "ashby",
+  "name": "docker",
+  "open_roles": 62,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "dodmg",
   "ats": "lever",
   "name": "dodmg",
@@ -3659,6 +3967,13 @@
   "name": "DoiT",
   "open_roles": 82,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "doji",
+  "ats": "ashby",
+  "name": "doji",
+  "open_roles": 11,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "dominodatalab",
@@ -3808,6 +4123,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "dust",
+  "ats": "ashby",
+  "name": "dust",
+  "open_roles": 24,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "dyneti",
   "ats": "ashby",
   "name": "dyneti",
@@ -3927,6 +4249,20 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "elixirr",
+  "ats": "greenhouse",
+  "name": "Elixirr Consulting",
+  "open_roles": 19,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "eliza",
+  "ats": "ashby",
+  "name": "eliza",
+  "open_roles": 9,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "ello",
   "ats": "ashby",
   "name": "ello",
@@ -3953,6 +4289,13 @@
   "name": "emberai",
   "open_roles": 5,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "emergence-capital-partners",
+  "ats": "ashby",
+  "name": "emergence-capital-partners",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "emergentlabsinc",
@@ -4025,6 +4368,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "enterpret",
+  "ats": "greenhouse",
+  "name": "Enterpret",
+  "open_roles": 16,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "enveritas",
   "ats": "greenhouse",
   "name": "Enveritas",
@@ -4037,6 +4387,13 @@
   "name": "envoy",
   "open_roles": 18,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "enzianlabs",
+  "ats": "ashby",
+  "name": "enzianlabs",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "epickids",
@@ -4088,6 +4445,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "espa",
+  "ats": "ashby",
+  "name": "espa",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "espresso",
   "ats": "ashby",
   "name": "espresso",
@@ -4107,6 +4471,20 @@
   "name": "ether.fi",
   "open_roles": 13,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "eudia",
+  "ats": "greenhouse",
+  "name": "Eudia",
+  "open_roles": 20,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "eulerity",
+  "ats": "greenhouse",
+  "name": "Eulerity",
+  "open_roles": 17,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "eventual",
@@ -4137,11 +4515,32 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "exa",
+  "ats": "ashby",
+  "name": "exa",
+  "open_roles": 55,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "exowatt",
   "ats": "lever",
   "name": "exowatt",
   "open_roles": 17,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "f2-ai",
+  "ats": "ashby",
+  "name": "f2-ai",
+  "open_roles": 10,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "factory",
+  "ats": "ashby",
+  "name": "factory",
+  "open_roles": 55,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "faire",
@@ -4172,6 +4571,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "faros-ai",
+  "ats": "ashby",
+  "name": "faros-ai",
+  "open_roles": 10,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "fathom.video",
   "ats": "ashby",
   "name": "fathom.video",
@@ -4191,6 +4597,13 @@
   "name": "Feanix Biotechnologies",
   "open_roles": 5,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "federato",
+  "ats": "greenhouse",
+  "name": "Federato",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "feldera",
@@ -4233,6 +4646,13 @@
   "name": "finch",
   "open_roles": 10,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "findarbor",
+  "ats": "ashby",
+  "name": "findarbor",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "findhelp",
@@ -4459,6 +4879,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "flowengineering",
+  "ats": "ashby",
+  "name": "flowengineering",
+  "open_roles": 18,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "flowtel",
   "ats": "ashby",
   "name": "flowtel",
@@ -4499,6 +4926,13 @@
   "name": "forerunner",
   "open_roles": 8,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "forgd-ai",
+  "ats": "ashby",
+  "name": "forgd-ai",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "formal",
@@ -4718,6 +5152,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "gen-digital",
+  "ats": "ashby",
+  "name": "gen-digital",
+  "open_roles": 124,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "generalassembly",
   "ats": "greenhouse",
   "name": "General Assembly",
@@ -4751,6 +5192,13 @@
   "name": "Invite-Only Job Board ",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "genspark",
+  "ats": "ashby",
+  "name": "genspark",
+  "open_roles": 10,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "gensyn",
@@ -4863,6 +5311,13 @@
   "name": "Globality, Inc.",
   "open_roles": 12,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "globalwebindex",
+  "ats": "greenhouse",
+  "name": "GWI",
+  "open_roles": 30,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "glow",
@@ -5047,6 +5502,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "greenlightconsulting",
+  "ats": "greenhouse",
+  "name": "Greenlight Consulting",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "greenlitecareers",
   "ats": "ashby",
   "name": "greenlitecareers",
@@ -5110,6 +5572,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "habitathealth",
+  "ats": "greenhouse",
+  "name": "Habitat Health",
+  "open_roles": 44,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "hackerone",
   "ats": "ashby",
   "name": "hackerone",
@@ -5122,6 +5591,13 @@
   "name": "HackerRank Careers",
   "open_roles": 29,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "hadrian-automation",
+  "ats": "ashby",
+  "name": "hadrian-automation",
+  "open_roles": 148,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "halcyon",
@@ -5152,11 +5628,25 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "handshake",
+  "ats": "ashby",
+  "name": "handshake",
+  "open_roles": 67,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "happl",
   "ats": "ashby",
   "name": "happl",
   "open_roles": 6,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "happyrobot.ai",
+  "ats": "ashby",
+  "name": "happyrobot.ai",
+  "open_roles": 74,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "happyscribe.com",
@@ -5192,6 +5682,27 @@
   "name": "hashtagpaid",
   "open_roles": 6,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "hatch",
+  "ats": "ashby",
+  "name": "hatch",
+  "open_roles": 10,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "hcompany",
+  "ats": "ashby",
+  "name": "hcompany",
+  "open_roles": 24,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "headstart",
+  "ats": "ashby",
+  "name": "headstart",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "headway",
@@ -5234,6 +5745,13 @@
   "name": "heartbeathealth",
   "open_roles": 28,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "hebbia-ai",
+  "ats": "ashby",
+  "name": "hebbia-ai",
+  "open_roles": 23,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "hedge",
@@ -5488,6 +6006,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "hyperscale",
+  "ats": "ashby",
+  "name": "hyperscale",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "hyperspell",
   "ats": "ashby",
   "name": "hyperspell",
@@ -5726,11 +6251,25 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "intentlab",
+  "ats": "ashby",
+  "name": "intentlab",
+  "open_roles": 4,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "intercom",
   "ats": "greenhouse",
   "name": "Fin",
   "open_roles": 131,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "interface-ai",
+  "ats": "ashby",
+  "name": "interface-ai",
+  "open_roles": 27,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "interfere",
@@ -5801,6 +6340,13 @@
   "name": "Iterable",
   "open_roles": 19,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "iterativehealth",
+  "ats": "greenhouse",
+  "name": "Iterative Health",
+  "open_roles": 52,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "jamcity",
@@ -5915,6 +6461,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "kaizenlabs",
+  "ats": "ashby",
+  "name": "kaizenlabs",
+  "open_roles": 17,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "kalepa",
   "ats": "greenhouse",
   "name": "Kalepa",
@@ -5927,6 +6480,13 @@
   "name": "Kalshi",
   "open_roles": 28,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "kamiwaza",
+  "ats": "ashby",
+  "name": "kamiwaza",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "kapwing",
@@ -5948,6 +6508,13 @@
   "name": "kariusdx",
   "open_roles": 19,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "kastle",
+  "ats": "ashby",
+  "name": "kastle",
+  "open_roles": 13,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "kavak",
@@ -6118,6 +6685,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "kognitos",
+  "ats": "ashby",
+  "name": "kognitos",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "komodohealth",
   "ats": "greenhouse",
   "name": "Komodo Health",
@@ -6144,6 +6718,13 @@
   "name": "krea",
   "open_roles": 12,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "kubera-health",
+  "ats": "ashby",
+  "name": "kubera-health",
+  "open_roles": 1,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "kustomer",
@@ -6321,6 +6902,13 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "liberate",
+  "ats": "greenhouse",
+  "name": "Liberate",
+  "open_roles": 16,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "life360",
   "ats": "greenhouse",
   "name": "Life360",
@@ -6361,6 +6949,13 @@
   "name": "lightspark",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "lighttable",
+  "ats": "ashby",
+  "name": "lighttable",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "linear",
@@ -6454,6 +7049,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "lsp44",
+  "ats": "greenhouse",
+  "name": "LSP44",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "lucidmotors",
   "ats": "greenhouse",
   "name": "Lucid Motors",
@@ -6524,6 +7126,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "magentic",
+  "ats": "ashby",
+  "name": "magentic",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "magicpatterns",
   "ats": "ashby",
   "name": "magicpatterns",
@@ -6550,6 +7159,13 @@
   "name": "mammothbiosci",
   "open_roles": 1,
   "verified_at": "2026-09-05T04:36:50+00:00"
+ },
+ {
+  "slug": "mangodesk",
+  "ats": "ashby",
+  "name": "mangodesk",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "manifoldai",
@@ -6608,6 +7224,13 @@
   "verified_at": "2026-09-05T04:36:50+00:00"
  },
  {
+  "slug": "matchii",
+  "ats": "ashby",
+  "name": "matchii",
+  "open_roles": 12,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "materialize",
   "ats": "ashby",
   "name": "materialize",
@@ -6620,6 +7243,13 @@
   "name": "materialsecurity",
   "open_roles": 6,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "matia",
+  "ats": "ashby",
+  "name": "matia",
+  "open_roles": 12,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "matik",
@@ -6655,6 +7285,13 @@
   "name": "matterworks",
   "open_roles": 4,
   "verified_at": "2026-09-05T04:36:50+00:00"
+ },
+ {
+  "slug": "maven-agi",
+  "ats": "ashby",
+  "name": "maven-agi",
+  "open_roles": 17,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "mavenclinic",
@@ -6860,6 +7497,13 @@
   "verified_at": "2026-09-05T04:36:50+00:00"
  },
  {
+  "slug": "mintlify",
+  "ats": "ashby",
+  "name": "mintlify",
+  "open_roles": 19,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "mirage",
   "ats": "ashby",
   "name": "mirage",
@@ -6879,6 +7523,13 @@
   "name": "misolabs",
   "open_roles": 1,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "mistral.ai",
+  "ats": "ashby",
+  "name": "mistral.ai",
+  "open_roles": 178,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "mithril",
@@ -6937,6 +7588,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "monaco",
+  "ats": "ashby",
+  "name": "monaco",
+  "open_roles": 16,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "monad.foundation",
   "ats": "ashby",
   "name": "monad.foundation",
@@ -6949,6 +7607,13 @@
   "name": "monarchmoney",
   "open_roles": 9,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "mongodb",
+  "ats": "greenhouse",
+  "name": "MongoDB",
+  "open_roles": 415,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "montecarlodata",
@@ -7140,11 +7805,25 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "navi",
+  "ats": "ashby",
+  "name": "navi",
+  "open_roles": 9,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "navierai",
   "ats": "greenhouse",
   "name": "Navier AI",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "neara",
+  "ats": "ashby",
+  "name": "neara",
+  "open_roles": 36,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "nearai",
@@ -7238,6 +7917,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "nevis",
+  "ats": "ashby",
+  "name": "nevis",
+  "open_roles": 23,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "nevoya",
   "ats": "ashby",
   "name": "nevoya",
@@ -7294,11 +7980,25 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "nice",
+  "ats": "greenhouse",
+  "name": "NICE",
+  "open_roles": 177,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "nichecom",
   "ats": "greenhouse",
   "name": "Niche",
   "open_roles": 4,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "ninjatech.ai",
+  "ats": "ashby",
+  "name": "ninjatech.ai",
+  "open_roles": 11,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "niraenergy",
@@ -7329,6 +8029,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "northslope-technologies",
+  "ats": "ashby",
+  "name": "northslope-technologies",
+  "open_roles": 10,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "notabene",
   "ats": "ashby",
   "name": "notabene",
@@ -7348,6 +8055,13 @@
   "name": "notion",
   "open_roles": 133,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "noto",
+  "ats": "ashby",
+  "name": "noto",
+  "open_roles": 4,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "novacredit",
@@ -7546,11 +8260,25 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "omi",
+  "ats": "ashby",
+  "name": "omi",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "omnea",
   "ats": "ashby",
   "name": "omnea",
   "open_roles": 48,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "onebrief",
+  "ats": "ashby",
+  "name": "onebrief",
+  "open_roles": 26,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "onechronos",
@@ -7609,6 +8337,13 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "opaquesystems",
+  "ats": "greenhouse",
+  "name": "Opaque Systems",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "openai",
   "ats": "ashby",
   "name": "openai",
@@ -7621,6 +8356,13 @@
   "name": "opencall",
   "open_roles": 4,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "openclaw-foundation-inc",
+  "ats": "ashby",
+  "name": "openclaw-foundation-inc",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "openevidence",
@@ -7812,6 +8554,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "outsmart",
+  "ats": "ashby",
+  "name": "outsmart",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "overmind",
   "ats": "lever",
   "name": "overmind",
@@ -7980,6 +8729,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "partly.com",
+  "ats": "ashby",
+  "name": "partly.com",
+  "open_roles": 39,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "patch.io",
   "ats": "ashby",
   "name": "patch.io",
@@ -8034,6 +8790,13 @@
   "name": "PAX Labs",
   "open_roles": 4,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "payabli",
+  "ats": "ashby",
+  "name": "payabli",
+  "open_roles": 11,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "payrails",
@@ -8118,6 +8881,13 @@
   "name": "people-ai",
   "open_roles": 9,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "percepta",
+  "ats": "ashby",
+  "name": "percepta",
+  "open_roles": 11,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "percona",
@@ -8302,6 +9072,13 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "plane",
+  "ats": "ashby",
+  "name": "plane",
+  "open_roles": 31,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "planetlabs",
   "ats": "greenhouse",
   "name": "Planet",
@@ -8337,6 +9114,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "poetic",
+  "ats": "greenhouse",
+  "name": "Poetic",
+  "open_roles": 1,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "pointdigitalfinance",
   "ats": "greenhouse",
   "name": "Point Digital Finance, Inc.",
@@ -8365,11 +9149,25 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "polymarket",
+  "ats": "ashby",
+  "name": "polymarket",
+  "open_roles": 77,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "polymath",
   "ats": "ashby",
   "name": "polymath",
   "open_roles": 4,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "polymr",
+  "ats": "ashby",
+  "name": "polymr",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "pomelo-care",
@@ -8419,6 +9217,13 @@
   "name": "posthog",
   "open_roles": 9,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "postman",
+  "ats": "greenhouse",
+  "name": "Postman",
+  "open_roles": 63,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "postscript",
@@ -8575,6 +9380,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "prophecysimpledatalabs",
+  "ats": "greenhouse",
+  "name": "Prophecy",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "propublica",
   "ats": "greenhouse",
   "name": "ProPublica",
@@ -8638,6 +9450,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "pubmatic",
+  "ats": "greenhouse",
+  "name": "PubMatic",
+  "open_roles": 75,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "pulumicorporation",
   "ats": "greenhouse",
   "name": "Pulumi ",
@@ -8678,6 +9497,13 @@
   "name": "Qualia",
   "open_roles": 23,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "qualified-health-pbc",
+  "ats": "ashby",
+  "name": "qualified-health-pbc",
+  "open_roles": 27,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "qualtrics",
@@ -8727,6 +9553,13 @@
   "name": "quip",
   "open_roles": 5,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "qumis",
+  "ats": "ashby",
+  "name": "qumis",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "quora",
@@ -8876,6 +9709,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "rebuildmanufacturing",
+  "ats": "greenhouse",
+  "name": "Re:Build Manufacturing",
+  "open_roles": 134,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "recall",
   "ats": "greenhouse",
   "name": "Recall Labs",
@@ -8897,6 +9737,20 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "redapt",
+  "ats": "greenhouse",
+  "name": "Redapt",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "redcellpartners",
+  "ats": "greenhouse",
+  "name": "Red Cell Partners",
+  "open_roles": 23,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "reddit",
   "ats": "greenhouse",
   "name": "Reddit",
@@ -8909,6 +9763,13 @@
   "name": "reducto",
   "open_roles": 40,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "reflectionai",
+  "ats": "ashby",
+  "name": "reflectionai",
+  "open_roles": 50,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "reflex",
@@ -8951,6 +9812,13 @@
   "name": "relay",
   "open_roles": 3,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "relaypro",
+  "ats": "greenhouse",
+  "name": "Relay",
+  "open_roles": 25,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "relex",
@@ -9044,11 +9912,25 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "retell-ai",
+  "ats": "ashby",
+  "name": "retell-ai",
+  "open_roles": 35,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "revenuecat",
   "ats": "ashby",
   "name": "revenuecat",
   "open_roles": 19,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "revin",
+  "ats": "ashby",
+  "name": "revin",
+  "open_roles": 13,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "reviserobotics",
@@ -9114,11 +9996,25 @@
   "verified_at": "2026-09-06T02:43:38+00:00"
  },
  {
+  "slug": "rime",
+  "ats": "ashby",
+  "name": "rime",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "riotgames",
   "ats": "greenhouse",
   "name": "Riot Games",
   "open_roles": 163,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "riplo",
+  "ats": "ashby",
+  "name": "riplo",
+  "open_roles": 5,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "ripple",
@@ -9198,6 +10094,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "ropes",
+  "ats": "ashby",
+  "name": "ropes",
+  "open_roles": 4,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "rosebud",
   "ats": "greenhouse",
   "name": "Rosebud Hotel Organization",
@@ -9219,6 +10122,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "rowspace",
+  "ats": "ashby",
+  "name": "rowspace",
+  "open_roles": 19,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "runa",
   "ats": "ashby",
   "name": "runa",
@@ -9226,11 +10136,25 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "runlayer",
+  "ats": "ashby",
+  "name": "runlayer",
+  "open_roles": 18,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "runloop",
   "ats": "ashby",
   "name": "runloop",
   "open_roles": 3,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "runpod",
+  "ats": "ashby",
+  "name": "runpod",
+  "open_roles": 22,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "runway",
@@ -9301,6 +10225,13 @@
   "name": "sagecare",
   "open_roles": 13,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "sailorhealth",
+  "ats": "ashby",
+  "name": "sailorhealth",
+  "open_roles": 155,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "salesjack",
@@ -9401,6 +10332,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "scaled-cognition",
+  "ats": "ashby",
+  "name": "scaled-cognition",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "scality",
   "ats": "lever",
   "name": "scality",
@@ -9441,6 +10379,13 @@
   "name": "Scout AI",
   "open_roles": 30,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "seamflow",
+  "ats": "ashby",
+  "name": "seamflow",
+  "open_roles": 6,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "seesaw",
@@ -9497,6 +10442,13 @@
   "name": "sequence",
   "open_roles": 13,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "serotonin",
+  "ats": "lever",
+  "name": "serotonin",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "sesame",
@@ -9660,11 +10612,25 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "simular",
+  "ats": "ashby",
+  "name": "simular",
+  "open_roles": 22,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "simulmedia",
   "ats": "lever",
   "name": "simulmedia",
   "open_roles": 7,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "singlestore",
+  "ats": "greenhouse",
+  "name": "SingleStore",
+  "open_roles": 32,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "sironamedical",
@@ -9807,6 +10773,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "snorkelai",
+  "ats": "greenhouse",
+  "name": "Snorkel AI",
+  "open_roles": 37,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "snowflake",
   "ats": "ashby",
   "name": "snowflake",
@@ -9856,11 +10829,25 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "solstice",
+  "ats": "ashby",
+  "name": "solstice",
+  "open_roles": 16,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "solva",
   "ats": "ashby",
   "name": "solva",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "solve.ai",
+  "ats": "ashby",
+  "name": "solve.ai",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "solveintelligence",
@@ -10045,6 +11032,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "squadai",
+  "ats": "ashby",
+  "name": "squadai",
+  "open_roles": 4,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "squint.ai",
   "ats": "ashby",
   "name": "squint.ai",
@@ -10071,6 +11065,13 @@
   "name": "stacker",
   "open_roles": 4,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "stacklok",
+  "ats": "greenhouse",
+  "name": "Stacklok",
+  "open_roles": 4,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "starburst",
@@ -10262,6 +11263,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "superpilot-labs",
+  "ats": "ashby",
+  "name": "superpilot-labs",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "superset",
   "ats": "greenhouse",
   "name": "super{set} Hive Community ",
@@ -10421,6 +11429,13 @@
   "name": "taktile",
   "open_roles": 46,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "talkdesk2",
+  "ats": "greenhouse",
+  "name": "Talkdesk",
+  "open_roles": 49,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "talkiatry",
@@ -10731,6 +11746,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "tortus",
+  "ats": "ashby",
+  "name": "tortus",
+  "open_roles": 2,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "tovala",
   "ats": "lever",
   "name": "tovala",
@@ -10750,6 +11772,13 @@
   "name": "traba",
   "open_roles": 31,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "tracebit",
+  "ats": "ashby",
+  "name": "tracebit",
+  "open_roles": 7,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "tracelabs",
@@ -10836,6 +11865,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "tryalma",
+  "ats": "ashby",
+  "name": "tryalma",
+  "open_roles": 10,
+  "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
   "slug": "trychroma",
   "ats": "ashby",
   "name": "trychroma",
@@ -10855,6 +11891,13 @@
   "name": "tryriot",
   "open_roles": 23,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "tryroam",
+  "ats": "ashby",
+  "name": "tryroam",
+  "open_roles": 4,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "tsenta",
@@ -10883,6 +11926,13 @@
   "name": "turbopuffer",
   "open_roles": 7,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "turgon-ai",
+  "ats": "lever",
+  "name": "turgon-ai",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "turing",
@@ -10925,6 +11975,13 @@
   "name": "Twilio",
   "open_roles": 147,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "twin-so",
+  "ats": "ashby",
+  "name": "twin-so",
+  "open_roles": 3,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "twitch",
@@ -11002,6 +12059,13 @@
   "name": "unit",
   "open_roles": 4,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "universalagi",
+  "ats": "ashby",
+  "name": "universalagi",
+  "open_roles": 8,
+  "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
   "slug": "unstructured",
