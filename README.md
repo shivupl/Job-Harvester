@@ -33,6 +33,7 @@ and the workflow takes over. Verify re-runs every Monday morning.
 - Add a company you found elsewhere: put its board slug (the last path segment of
   its Greenhouse, Lever, or Ashby URL) on a line in `seeds-manual.txt`. The next
   morning run probes it; `python -m jobwatch verify --only-new` does it now.
+  Write `slug@ashby` to pin one ATS when another still answers with a stub.
 - New HN companies arrive on their own: every weekday morning the workflow re-reads
   the newest two "Who is hiring?" threads and probes any slug it hasn't confirmed.
 - Persistent fetch errors in a digest footer mean stale slugs: run verify.

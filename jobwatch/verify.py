@@ -13,9 +13,10 @@ from .store import Store
 from .util import now_utc
 
 
-async def probe(http: Http, slug: str) -> Optional[dict]:
-    """First ATS that returns >=1 posting wins. Empty is a miss: it means wrong ATS, no roles, or upstream error."""
-    for ats in PROBE_ORDER:
+async def probe(http: Http, slug: str, ats: Optional[str] = None) -> Optional[dict]:
+    """First ATS that returns >=1 posting wins. Empty is a miss: it means wrong ATS, no roles, or upstream error.
+    A pinned `ats` is the only one asked."""
+    for ats in ([ats] if ats else PROBE_ORDER):
         n, name = await ADAPTERS[ats].count(http, slug)
         if n > 0:
             return {"slug": slug, "ats": ats, "name": name, "open_roles": n}
@@ -35,17 +36,23 @@ def _write(path: Path, companies: list[dict]) -> None:
     path.write_text(json.dumps(companies, indent=1) + "\n")
 
 
-def read_seeds(*paths: Path) -> list[str]:
-    """Union of slug files. One slug per line; blank lines and `#` comments are ignored."""
-    out: set[str] = set()
+def read_seeds(*paths: Path) -> dict[str, Optional[str]]:
+    """Union of slug files → {slug: pinned ATS or None}, in slug order. One slug per
+    line; blank lines and `#` comments are ignored. `slug@ashby` pins the probe to
+    one ATS, for boards where another ATS still answers with a stub."""
+    out: dict[str, Optional[str]] = {}
     for path in paths:
         if not path.exists():
             continue
         for line in path.read_text().splitlines():
-            slug = line.split("#", 1)[0].strip()
-            if slug:
-                out.add(slug)
-    return sorted(out)
+            entry = line.split("#", 1)[0].strip()
+            if not entry:
+                continue
+            slug, _, ats = entry.partition("@")
+            if ats and ats not in ADAPTERS:
+                raise ValueError(f"{path.name}: unknown ATS {ats!r} for {slug!r}; use one of {sorted(ADAPTERS)}")
+            out[slug] = (ats or None) or out.get(slug)
+    return dict(sorted(out.items()))
 
 
 async def verify(http: Http, seeds_path: Path, companies_path: Path, store: Store,
@@ -71,7 +78,7 @@ async def verify(http: Http, seeds_path: Path, companies_path: Path, store: Stor
     stamp = now.replace(microsecond=0).isoformat()
     for i in range(0, len(todo), chunk):
         batch = todo[i:i + chunk]
-        results = await asyncio.gather(*(probe(http, s) for s in batch))
+        results = await asyncio.gather(*(probe(http, s, seeds[s]) for s in batch))
         for slug, r in zip(batch, results):
             if r:
                 companies.append({**r, "verified_at": stamp})

@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta, timezone
 
 import httpx
+import pytest
 
 from jobwatch.http import Http
 from jobwatch.store import Store
@@ -140,3 +141,24 @@ async def test_only_new_probes_unknown_seeds_and_keeps_the_rest(tmp_path):
     companies = json.loads(out.read_text())
     assert [c["slug"] for c in companies] == ["new", "old"]
     assert companies[1]["verified_at"] == (NOW - timedelta(days=6)).isoformat()   # untouched
+
+
+async def test_manual_seed_can_pin_the_ats(tmp_path):
+    seeds = tmp_path / "seeds.txt"
+    seeds.write_text("")
+    manual = tmp_path / "seeds-manual.txt"
+    manual.write_text("anyscale@ashby   # Lever has a 'we moved' stub\nplain\n")
+    http = make_http(router({("lever", "anyscale"): 1, ("ashby", "anyscale"): 5,
+                             ("lever", "plain"): 2, ("ashby", "plain"): 9}))
+    out = tmp_path / "companies.json"
+    await verify(http, seeds, out, Store(tmp_path / "t.db"), now=NOW, manual_path=manual)
+    got = {c["slug"]: (c["ats"], c["open_roles"]) for c in json.loads(out.read_text())}
+    assert got == {"anyscale": ("ashby", 5), "plain": ("lever", 2)}     # pinned skips Lever; unpinned keeps order
+
+
+def test_read_seeds_rejects_unknown_ats(tmp_path):
+    from jobwatch.verify import read_seeds
+    p = tmp_path / "m.txt"
+    p.write_text("acme@workday\n")
+    with pytest.raises(ValueError, match="workday"):
+        read_seeds(p)

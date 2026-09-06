@@ -1,6 +1,8 @@
 # Hand-kept board slugs, merged with seeds.txt on every verify.
 # One slug per line; the slug is the last path segment of the company's
 # Greenhouse, Lever, or Ashby board URL. Anything after # is a comment.
+# slug@ashby pins the probe to one ATS (greenhouse, lever, ashby) when
+# another ATS still answers with a stub board.
 imbue   # boards.greenhouse.io/imbue
 
 # Verified 2026-09-05 from the name list; each slug's postings mention the company.
@@ -156,3 +158,6 @@ trychroma             # Chroma (ashby)
 arizeai               # Arize (greenhouse)
 mazehq                # Maze (ashby)
 assembledhq           # Assembled (ashby)
+
+# Pinned: Lever has a one-line 'we moved' stub
+anyscale@ashby        # Anyscale (ashby)
