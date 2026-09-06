@@ -63,7 +63,7 @@ def _location_ok(p: Posting, profile: dict) -> bool:
         return True
     if p.remote is True and not non_us:
         return True
-    if p.remote is None and "remote" in low and not non_us:
+    if "remote" in low and not non_us:      # text wins regardless of the ATS flag
         return True
     return False
 
@@ -91,7 +91,8 @@ def prefilter(p: Posting, profile: dict = PROFILE) -> Optional[str]:
             return "function"
     if not _location_ok(p, profile):
         return "location"
-    years = min_years(p.title + "\n" + p.description)
-    if years is not None and years > profile["max_years"]:
-        return "years"
+    if profile.get("max_years") is not None:
+        years = min_years(p.title + "\n" + p.description)
+        if years is not None and years > profile["max_years"]:
+            return "years"
     return None

@@ -63,9 +63,9 @@ Read the whole posting. Titles lie; the body tells you the real level and the re
 Return only the JSON object."""
 
 
-def build_user_message(p: Posting, max_chars: int) -> str:
+def build_user_message(p: Posting, max_chars: Optional[int]) -> str:
     desc = p.description
-    if len(desc) > max_chars:
+    if max_chars is not None and len(desc) > max_chars:
         desc = desc[:max_chars] + "\n[truncated]"
     lines = [
         f"Title: {p.title}",

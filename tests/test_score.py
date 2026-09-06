@@ -75,9 +75,11 @@ def test_validate_clamps_and_normalizes():
         validate({"level": "mid"})
 
 
-def test_build_user_message_truncates():
+def test_build_user_message_truncates_only_when_asked():
     msg = build_user_message(mk(desc="y" * 10000), 6000)
     assert "y" * 6000 + "\n[truncated]" in msg and "y" * 6001 not in msg
+    full = build_user_message(mk(desc="y" * 10000), None)
+    assert "y" * 10000 in full and "[truncated]" not in full
 
 
 async def test_score_all_keys_by_posting_key_and_limits_concurrency():

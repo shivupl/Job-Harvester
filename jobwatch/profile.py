@@ -14,7 +14,7 @@ PROFILE = {
     "fetch_chunk": 50,             # boards fetched per batch; bounds memory
     "timezone": "America/Los_Angeles",
     # --- prefilter ---
-    "max_years": 5,                # stated minimum above this drops; 4-5 reaches the model
+    "max_years": None,             # None disables the years prefilter; the model reads the body
     "level_terms": [
         "senior", "sr", "principal", "director", "head of", "vp",
         "distinguished", "chief", "intern", "internship",
@@ -95,7 +95,7 @@ PROFILE = {
     "reasoning_effort": "low",     # openai reasoning models only; ignored by anthropic
     "max_completion_tokens": 2000, # openai: reasoning tokens count against this
     "score_concurrency": 5,
-    "max_description_chars": 6000,
+    "max_description_chars": None, # None sends the whole description; requirements often sit at the end
     "min_relevance": 6,            # shown when relevance >= this ...
     "min_fit": 4,                  # ... and fit >= this (4-5 is tagged 'stretch')
     "stretch_fit": 6,              # fit below this gets the 'stretch' tag

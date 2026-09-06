@@ -92,6 +92,8 @@ def test_early_career_bypass(title, expected):
     ("Remote - US", True, None),
     ("Remote", True, None),
     ("Remote", None, None),
+    ("Remote", False, None),                              # text wins over a false flag
+    ("Remote - US", False, None),
     ("N/A", None, None),
     ("", None, None),
     ("USA, Chile, UK, Uruguay, Canada", True, None),      # US-inclusive beats non-US
@@ -127,13 +129,13 @@ def test_min_years(text, expected):
     assert min_years(text) == expected
 
 
-def test_years_filter_reads_description_and_keeps_unknown():
-    assert prefilter(mk(description="Requirements: 8+ years of experience")) == "years"
-    assert prefilter(mk(description="Requirements: 6 years of experience")) == "years"
-    assert prefilter(mk(description="Requirements: 5+ years of experience")) is None   # max_years 5
-    assert prefilter(mk(description="4-6 years of experience")) is None
-    assert prefilter(mk(description="1-3 years of experience")) is None
-    assert prefilter(mk(description="no numbers here")) is None
+def test_years_filter_disabled_by_default_and_works_when_set():
+    from jobwatch.profile import PROFILE
+    assert prefilter(mk(description="Requirements: 8+ years of experience")) is None   # max_years None
+    strict = {**PROFILE, "max_years": 3}
+    assert prefilter(mk(description="Requirements: 8+ years of experience"), strict) == "years"
+    assert prefilter(mk(description="1-3 years of experience"), strict) is None
+    assert prefilter(mk(description="no numbers here"), strict) is None
 
 
 def test_first_failure_wins():
