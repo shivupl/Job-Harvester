@@ -102,7 +102,8 @@ dependency.
 ```
 
 `remote` is `True`, `False`, or `None` (unknown). `posted_at` is an ISO
-UTC string. `comp` is a display string or `None`.
+UTC string. `comp` is a display string or `None`; Ashby supplies it structurally, and for the
+rest the scorer extracts any stated base range from the body (`comp` in the schema; ATS value wins).
 
 ## Part 1 — harvest
 

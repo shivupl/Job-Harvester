@@ -25,8 +25,9 @@ SCHEMA = {
         "fit": {"type": "integer"},
         "relevance": {"type": "integer"},
         "reason": {"type": "string"},
+        "comp": {"type": "string"},
     },
-    "required": ["level", "category", "location_fit", "years_stated", "fit", "relevance", "reason"],
+    "required": ["level", "category", "location_fit", "years_stated", "fit", "relevance", "reason", "comp"],
     "additionalProperties": False,
 }
 
@@ -59,6 +60,7 @@ Read the whole posting. Titles lie; the body tells you the real level and the re
   0-2: not a building role.
   Ignore location for relevance; it is reported separately in location_fit.
 - reason: at most 15 words, specific to this posting, no fluff.
+- comp: the base salary range the posting states, normalized like "$120K – $160K" (append " + equity" or " + bonus" only if the posting says so; keep the currency if not USD; a single figure like "$150K" is fine). Use the Compensation line if one is given. Empty string if the posting states no pay. Never estimate or infer pay.
 
 Return only the JSON object."""
 
@@ -95,7 +97,14 @@ def validate(data: Any) -> dict:
         "fit": max(0, min(10, int(data["fit"]))),
         "relevance": max(0, min(10, int(data["relevance"]))),
         "reason": str(data["reason"]).strip()[:200],
+        "comp": _clean_comp(data.get("comp")),
     }
+
+
+def _clean_comp(v: Any) -> Optional[str]:
+    """LLM-extracted pay range; None unless it names a number."""
+    s = " ".join(str(v or "").split())[:80]
+    return s if any(ch.isdigit() for ch in s) else None
 
 
 def make_client(profile: dict = PROFILE):

@@ -43,14 +43,14 @@ def mk(i=1, desc="x" * 10):
 
 
 GOOD = json.dumps({"level": "new_grad", "category": "fde", "location_fit": "bay_area",
-                   "years_stated": -1, "fit": 8, "relevance": 9, "reason": "ok"})
+                   "years_stated": -1, "fit": 8, "relevance": 9, "reason": "ok", "comp": "$130K – $170K"})
 
 
 async def test_score_posting_sends_schema_and_cached_system_prompt():
     client = FakeClient([GOOD])
     r = await score_posting(client, mk(), ANTHROPIC)
     assert r == {"level": "new_grad", "category": "fde", "location_fit": "bay_area",
-                 "years_stated": None, "fit": 8, "relevance": 9, "reason": "ok"}
+                 "years_stated": None, "fit": 8, "relevance": 9, "reason": "ok", "comp": "$130K – $170K"}
     kw = client.messages.calls[0]
     assert kw["model"] == "claude-haiku-4-5"
     assert kw["output_config"]["format"]["schema"] == SCHEMA
@@ -70,9 +70,18 @@ def test_validate_clamps_and_normalizes():
     out = validate({"level": "weird", "category": "nope", "location_fit": "mars", "years_stated": 3,
                     "fit": 14, "relevance": -3, "reason": "r"})
     assert out == {"level": "unclear", "category": "other", "location_fit": "unknown", "years_stated": 3,
-                   "fit": 10, "relevance": 0, "reason": "r"}
+                   "fit": 10, "relevance": 0, "reason": "r", "comp": None}
     with pytest.raises(ValueError):
         validate({"level": "mid"})
+
+
+def test_validate_comp_keeps_only_real_figures():
+    base = {"level": "mid", "category": "swe", "location_fit": "unknown", "years_stated": -1,
+            "fit": 5, "relevance": 5, "reason": "r"}
+    assert validate({**base, "comp": "  $120K –\n$160K + equity "})["comp"] == "$120K – $160K + equity"
+    assert validate({**base, "comp": "competitive"})["comp"] is None      # words without a number are noise
+    assert validate({**base, "comp": ""})["comp"] is None
+    assert len(validate({**base, "comp": "9" * 200})["comp"]) == 80
 
 
 def test_build_user_message_truncates_only_when_asked():

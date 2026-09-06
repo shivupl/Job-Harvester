@@ -138,15 +138,16 @@ async def run(http: Http, store: Store, client, companies_path: Path, digests_di
             unscored.append({"title": p.title, "url": p.url, "company": p.company})
             continue
         funnel["scored"] += 1
+        comp = p.comp or r.get("comp")            # ATS-structured pay first, else what the model read
         store.update(p.key, status="scored", reason=r["reason"], fit=r["fit"], relevance=r["relevance"],
                      level=r["level"], category=r["category"], location_fit=r["location_fit"],
-                     years_stated=r["years_stated"])
+                     years_stated=r["years_stated"], comp=comp)
         if (r["relevance"] >= profile["min_relevance"] and r["fit"] >= profile["min_fit"]
                 and r["location_fit"] not in profile.get("hide_location_fits", [])):
             shown.append({"fit": r["fit"], "relevance": r["relevance"], "category": r["category"],
                           "location_fit": r["location_fit"], "title": p.title, "url": p.url,
                           "company": p.company, "location": p.location, "posted_at": p.posted_at,
-                          "comp": p.comp, "reason": r["reason"]})
+                          "comp": comp, "reason": r["reason"]})
     shown.sort(key=lambda d: d["posted_at"] or "", reverse=True)          # newest first...
     shown.sort(key=lambda d: (-d["relevance"], -d["fit"]))                 # ...within relevance, fit (stable)
     funnel["shown"] = len(shown)

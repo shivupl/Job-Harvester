@@ -22,15 +22,15 @@ def ashby_job(i, title, published, location="San Francisco", desc="New grads wel
 
 
 class FakeClient:
-    def __init__(self, fit=8, relevance=8, location_fit="bay_area"):
-        self.fit, self.relevance, self.location_fit = fit, relevance, location_fit
+    def __init__(self, fit=8, relevance=8, location_fit="bay_area", comp=""):
+        self.fit, self.relevance, self.location_fit, self.comp = fit, relevance, location_fit, comp
         self.calls = 0
         self.messages = self
 
     async def create(self, **kw):
         self.calls += 1
         text = json.dumps({"level": "new_grad", "category": "fde", "location_fit": self.location_fit, "years_stated": -1,
-                           "fit": self.fit, "relevance": self.relevance, "reason": "fits"})
+                           "fit": self.fit, "relevance": self.relevance, "reason": "fits", "comp": self.comp})
         return SimpleNamespace(content=[SimpleNamespace(type="text", text=text)])
 
 
@@ -203,6 +203,24 @@ async def test_scored_rows_keep_comp_and_excerpt(tmp_path):
     row = store.get("ashby:acme:j1")
     assert row["comp"] == "$120K – $150K" and len(row["excerpt"]) == 800
 
+
+async def test_model_extracted_comp_fills_in_when_ats_has_none(tmp_path):
+    companies, store, digests = setup(tmp_path)
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    job = ashby_job(1, "Product Engineer", fresh)
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url="u"), "baseline", None, NOW)
+    r = await run(make_http([job]), store, FakeClient(comp="$95K – $120K"), companies, digests, "midday",
+                  PROFILE, now=NOW)
+    row = store.get("ashby:acme:j1")
+    assert row["comp"] == "$95K – $120K"
+    assert "$95K – $120K" in (digests / "2026-09-04-midday.md").read_text()
+    # Structured ATS pay wins over the model's reading when both exist.
+    job2 = ashby_job(2, "Product Engineer", fresh)
+    job2["compensation"] = {"compensationTierSummary": "$200K"}
+    await run(make_http([job, job2]), store, FakeClient(comp="$1K"), companies, digests, "evening", PROFILE, now=NOW)
+    assert store.get("ashby:acme:j2")["comp"] == "$200K"
 
 async def test_enrich_fills_missing_details_without_model(tmp_path):
     companies, store, digests = setup(tmp_path)
