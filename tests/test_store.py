@@ -93,6 +93,7 @@ def test_release_with_rescore_also_releases_scored_and_unscored(tmp_path):
     s.insert(mk(2, posted_at="2026-09-03T00:00:00+00:00"), "unscored", None, NOW)
     s.insert(mk(3, posted_at="2026-09-03T00:00:00+00:00"), "dropped", "function", NOW)
     s.insert(mk(4, posted_at="2026-08-01T00:00:00+00:00"), "scored", "x", NOW, fit=9, relevance=9)
-    assert s.release_baseline_since("2026-09-01T00:00:00+00:00", rescore=True) == 2
-    assert not s.has("ashby:acme:1") and not s.has("ashby:acme:2")
-    assert s.has("ashby:acme:3") and s.has("ashby:acme:4")
+    s.insert(mk(5, posted_at="2026-09-03T00:00:00+00:00"), "stale", "stale", NOW)
+    assert s.release_baseline_since("2026-09-01T00:00:00+00:00", rescore=True) == 3
+    assert not s.has("ashby:acme:1") and not s.has("ashby:acme:2") and not s.has("ashby:acme:3")
+    assert s.has("ashby:acme:4") and s.has("ashby:acme:5")   # outside window; stale untouched

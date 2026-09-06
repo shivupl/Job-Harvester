@@ -68,6 +68,9 @@ def _location_ok(p: Posting, profile: dict) -> bool:
     return False
 
 
+# "Staff Engineer" is senior; "Member of Technical Staff" is any level.
+_STAFF = re.compile(r"(?<!technical )(?<!of )(?<![a-z0-9])staff(?![a-z0-9])", re.I)
+
 # "Software Engineer I" / "Engineer I, Platform" / "Engineer I (Remote)" but not "A.I."
 _LEVEL_ONE = re.compile(r"(?<=\s)I(?=\s*(?:$|[,(\-\u2013/|]))")
 
@@ -80,10 +83,12 @@ def _early_career(title: str, profile: dict) -> bool:
 def prefilter(p: Posting, profile: dict = PROFILE) -> Optional[str]:
     if _terms_re(profile["hard_level_terms"]).search(p.title):
         return "level"
-    if not _early_career(p.title, profile) and _terms_re(profile["level_terms"]).search(p.title):
-        return "level"
-    if _terms_re(profile["function_terms"]).search(p.title):
-        return "function"
+    if not _early_career(p.title, profile):
+        if _terms_re(profile["level_terms"]).search(p.title) or _STAFF.search(p.title):
+            return "level"
+    if not _terms_re(profile["builder_bypass"]).search(p.title):
+        if _terms_re(profile["function_terms"]).search(p.title):
+            return "function"
     if not _location_ok(p, profile):
         return "location"
     years = min_years(p.title + "\n" + p.description)

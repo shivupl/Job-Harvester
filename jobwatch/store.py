@@ -110,10 +110,13 @@ class Store:
         cutoff, so a backfill run re-evaluates them under current rules. With
         rescore=True, already-scored and unscored rows are released too, so a new
         model re-judges everything in the window."""
-        extra = " or status in ('scored', 'unscored')" if rescore else " or (status='scored' and fit is null)"
-        cur = self.con.execute(
-            "delete from seen where posted_at >= ? and (status='baseline' "
-            "or (status='dropped' and reason in ('level', 'location'))" + extra + ")", (cutoff_iso,))
+        if rescore:
+            # Model or rule change: re-evaluate everything in the window except stale.
+            cond = "status in ('baseline', 'dropped', 'scored', 'unscored')"
+        else:
+            cond = ("status='baseline' or (status='dropped' and reason in ('level', 'location')) "
+                    "or (status='scored' and fit is null)")
+        cur = self.con.execute(f"delete from seen where posted_at >= ? and ({cond})", (cutoff_iso,))
         self.con.commit()
         return cur.rowcount
 

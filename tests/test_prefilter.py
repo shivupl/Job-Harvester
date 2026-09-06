@@ -15,6 +15,20 @@ def mk(title="Software Engineer", location="San Francisco", remote=None, descrip
 
 @pytest.mark.parametrize("title,expected", [
     ("Senior Software Engineer", "level"),
+    ("Staff Software Engineer", "level"),
+    ("Staff Engineer, Platform", "level"),
+    ("Member of Technical Staff", None),                 # any level at AI labs
+    ("Member of Technical Staff, Agentic Systems", None),
+    ("Member of Staff", None),
+    ("Chief of Staff", "level"),                          # user: keep 'chief'
+    ("Technical Program Manager", None),                  # function, not level; model judges
+    ("Software Engineering Fellow", None),
+    ("Marketing Engineer", None),                         # builder bypass beats function
+    ("Finance Systems Engineer", None),
+    ("People Data Analyst", None),                        # 'people' no longer a term
+    ("Marketing Manager", None),                          # 'marketing' removed on purpose
+    ("Sales Development Representative", None),          # 'sdr' removed on purpose
+    ("Software Engineer, Finance", None),
     ("Sr. Engineer", "level"),
     ("Software Engineer II", "level"),
     ("Software Engineer, L5", "level"),
@@ -30,8 +44,11 @@ def mk(title="Software Engineer", location="San Francisco", remote=None, descrip
     ("Solutions Engineer", None),
     ("Account Executive", "function"),
     ("Technical Recruiter", "function"),
+    ("Recruiting Engineer", None),                        # bypass: an engineer title
+    ("HR Business Partner", "function"),
+    ("Associate Counsel, Product & Privacy", "function"),
     ("Product Designer", "function"),
-    ("People Operations Partner", "function"),
+    ("People Operations Partner", None),                 # "people" removed; model judges
     ("Forward Deployed Engineer", None),
     ("Founding Engineer", None),
     ("Software Engineer, New Grad", None),
@@ -111,10 +128,12 @@ def test_min_years(text, expected):
 
 
 def test_years_filter_reads_description_and_keeps_unknown():
-    assert prefilter(mk(description="Requirements: 5+ years of experience")) == "years"
+    assert prefilter(mk(description="Requirements: 8+ years of experience")) == "years"
+    assert prefilter(mk(description="Requirements: 6 years of experience")) == "years"
+    assert prefilter(mk(description="Requirements: 5+ years of experience")) is None   # max_years 5
+    assert prefilter(mk(description="4-6 years of experience")) is None
     assert prefilter(mk(description="1-3 years of experience")) is None
     assert prefilter(mk(description="no numbers here")) is None
-    assert prefilter(mk(description="3 years experience")) is None
 
 
 def test_first_failure_wins():

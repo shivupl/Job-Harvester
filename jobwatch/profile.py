@@ -14,15 +14,17 @@ PROFILE = {
     "fetch_chunk": 50,             # boards fetched per batch; bounds memory
     "timezone": "America/Los_Angeles",
     # --- prefilter ---
-    "max_years": 3,
+    "max_years": 5,                # stated minimum above this drops; 4-5 reaches the model
     "level_terms": [
-        "senior", "sr", "staff", "principal", "director", "head of", "vp",
-        "distinguished", "fellow", "chief", "intern", "internship",
+        "senior", "sr", "principal", "director", "head of", "vp",
+        "distinguished", "chief", "intern", "internship",
         "ii", "iii", "iv", "l4", "l5", "l6", "l7", "l8",
         # phrases replacing bare "manager" and "lead"
         "engineering manager", "general manager", "group manager",
-        "program manager", "project manager", "senior manager",
+        "senior manager",
         "tech lead", "team lead", "technical lead", "engineering lead",
+        # "staff" is handled separately in prefilter.py: it must not match
+        # "Member of Technical Staff", which is used at every level.
     ],
     # Skips the level check only. Function, location, years still apply,
     # so "Associate Counsel" and "Associate Recruiter" stay dropped.
@@ -34,12 +36,14 @@ PROFILE = {
     # Never bypassed, even by an early-career term in the same title.
     "hard_level_terms": ["intern", "internship"],
     "function_terms": [
-        "recruiter", "recruiting", "account executive", "account manager",
-        "sales development", "sdr", "bdr", "marketing", "finance",
-        "accounting", "legal", "counsel", "paralegal", "people", "hr",
-        "designer", "nurse", "physician", "clinician", "therapist",
-        "controller", "payroll", "executive assistant", "office manager",
+        "recruiter", "recruiting", "account executive", "accounting",
+        "legal", "counsel", "paralegal", "hr", "designer", "nurse",
+        "physician", "clinician", "therapist", "payroll",
+        "executive assistant", "office manager",
     ],
+    # A title with any of these skips the function check: "Marketing Engineer"
+    # is an engineer. Level, location, and years still apply.
+    "builder_bypass": ["engineer", "engineering", "developer", "programmer", "software", "scientist"],
     "bay_area_terms": [
         "san francisco", "sf", "bay area", "palo alto", "mountain view",
         "menlo park", "redwood city", "san mateo", "oakland", "berkeley",
