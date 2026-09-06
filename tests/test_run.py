@@ -6,8 +6,10 @@ import httpx
 
 from jobwatch.http import Http
 from jobwatch.models import Posting
-from jobwatch.profile import PROFILE
+from jobwatch.profile import PROFILE as _BASE
 from jobwatch.run import run
+
+PROFILE = {**_BASE, "provider": "anthropic", "model": "claude-haiku-4-5"}   # FakeClient is anthropic-shaped
 from jobwatch.store import Store
 
 NOW = datetime(2026, 9, 4, 14, 0, tzinfo=timezone.utc)   # 07:00 PDT

@@ -86,7 +86,10 @@ PROFILE = {
         "taiwan", "hong kong", "china", "shanghai", "beijing",
     ],
     # --- score ---
-    "model": "claude-haiku-4-5",
+    "provider": "openai",          # "openai" or "anthropic"; key from OPENAI_API_KEY / ANTHROPIC_API_KEY
+    "model": "gpt-5.6-luna",       # anthropic alternative: "claude-haiku-4-5"
+    "reasoning_effort": "low",     # openai reasoning models only; ignored by anthropic
+    "max_completion_tokens": 2000, # openai: reasoning tokens count against this
     "score_concurrency": 5,
     "max_description_chars": 6000,
     "min_relevance": 6,            # shown when relevance >= this ...

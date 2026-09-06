@@ -68,6 +68,7 @@ jobs:
         id: run
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           extra=""
           if [ -n "${{ inputs.backfill_days }}" ]; then extra="--backfill-days ${{ inputs.backfill_days }}"; fi

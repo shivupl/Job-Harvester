@@ -6,6 +6,7 @@ import json
 from typing import Any, Optional
 
 import anthropic
+import openai
 
 from .models import Posting
 from .profile import PROFILE
@@ -97,30 +98,74 @@ def validate(data: Any) -> dict:
     }
 
 
+def make_client(profile: dict = PROFILE):
+    """Build the scoring client for PROFILE["provider"]. Keys come from the environment."""
+    if profile["provider"] == "openai":
+        return openai.AsyncOpenAI()
+    if profile["provider"] == "anthropic":
+        return anthropic.AsyncAnthropic()
+    raise ValueError(f"unknown provider {profile['provider']!r}")
+
+
+async def _call_anthropic(client, p: Posting, profile: dict) -> str:
+    resp = await client.messages.create(
+        model=profile["model"],
+        max_tokens=300,
+        system=[{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
+        messages=[{"role": "user", "content": build_user_message(p, profile["max_description_chars"])}],
+        output_config={"format": {"type": "json_schema", "schema": SCHEMA}},
+    )
+    return next(b.text for b in resp.content if getattr(b, "type", "") == "text")
+
+
+async def _call_openai(client, p: Posting, profile: dict) -> str:
+    kwargs = {}
+    if profile.get("reasoning_effort"):
+        kwargs["reasoning_effort"] = profile["reasoning_effort"]
+    resp = await client.chat.completions.create(
+        model=profile["model"],
+        messages=[{"role": "system", "content": SYSTEM_PROMPT},
+                  {"role": "user", "content": build_user_message(p, profile["max_description_chars"])}],
+        response_format={"type": "json_schema",
+                         "json_schema": {"name": "screen", "schema": SCHEMA, "strict": True}},
+        max_completion_tokens=profile.get("max_completion_tokens", 2000),
+        **kwargs,
+    )
+    choice = resp.choices[0]
+    msg = choice.message
+    if getattr(msg, "refusal", None):
+        raise ValueError(f"refusal: {msg.refusal}")
+    if choice.finish_reason == "length" or not msg.content:
+        raise ValueError(f"truncated or empty (finish_reason={choice.finish_reason})")
+    return msg.content
+
+
+_CALLS = {"anthropic": _call_anthropic, "openai": _call_openai}
+_AUTH_ERRORS = (anthropic.AuthenticationError, openai.AuthenticationError)
+_STATUS_ERRORS = (anthropic.APIStatusError, openai.APIStatusError)
+_CONN_ERRORS = (anthropic.APIConnectionError, openai.APIConnectionError)
+
+
 async def score_posting(client, p: Posting, profile: dict = PROFILE) -> Optional[dict]:
     """Two attempts. Returns None on repeated failure; the caller surfaces the posting as unscored."""
+    call = _CALLS[profile["provider"]]
     for attempt in range(2):
-        resp = None
+        text = None
         try:
-            resp = await client.messages.create(
-                model=profile["model"],
-                max_tokens=300,
-                system=[{"type": "text", "text": SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
-                messages=[{"role": "user", "content": build_user_message(p, profile["max_description_chars"])}],
-                output_config={"format": {"type": "json_schema", "schema": SCHEMA}},
-            )
-        except anthropic.AuthenticationError:
+            text = await call(client, p, profile)
+        except _AUTH_ERRORS:
             raise                    # misconfiguration: fail the run loudly, never mark unscored
-        except anthropic.APIStatusError as e:
+        except _STATUS_ERRORS as e:
             if e.status_code < 500 and e.status_code != 429:
-                return None          # bad request: retrying won't help
-        except anthropic.APIConnectionError:
+                return None          # bad request / no model access: retrying won't help
+        except _CONN_ERRORS:
             pass
-        if resp is not None:
+        except (ValueError, StopIteration, KeyError, TypeError, IndexError):
+            pass                     # refusal, truncation, or shape mismatch: retry once
+        if text is not None:
             try:
-                text = next(b.text for b in resp.content if getattr(b, "type", "") == "text")
                 return validate(json.loads(text))
-            except (json.JSONDecodeError, StopIteration, ValueError, TypeError, KeyError):
+            except (json.JSONDecodeError, ValueError, TypeError, KeyError):
                 pass                 # malformed output: retry once
         if attempt == 0:
             await asyncio.sleep(1)

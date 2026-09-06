@@ -50,12 +50,12 @@ async def cmd_verify(args) -> dict:
 
 
 async def cmd_run(args) -> dict:
-    import anthropic
     from .run import run
+    from .score import make_client
     if not Path(args.companies).exists():
         sys.exit(f"{args.companies} not found: run `python -m jobwatch verify` first")
     http, store = make_http(), Store(args.db)
-    client = anthropic.AsyncAnthropic()
+    client = make_client()
     try:
         r = await run(http, store, client, Path(args.companies), Path(args.digests), args.slot,
                       backfill_days=args.backfill_days, board_path=Path(args.board))
