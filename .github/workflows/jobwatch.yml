@@ -95,6 +95,16 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # GitHub caps issue bodies at 65,536 chars; backfills can exceed it. Trim at a line
+          # boundary and point at the full file. Normal daily digests are a few KB.
+          python - "${{ steps.run.outputs.DIGEST }}" <<'EOF' > issue_body.md
+          import sys
+          path = sys.argv[1]; text = open(path, encoding="utf-8").read(); limit = 60000
+          if len(text) > limit:
+              cut = text.rfind("\n", 0, limit)
+              text = text[:cut] + f"\n\n_Truncated. Full digest: `{path}` in the repo, or run `python -m jobwatch board --open`._\n"
+          sys.stdout.write(text)
+          EOF
           gh issue create \
             --title "jobwatch ${{ steps.slot.outputs.date }} ${{ steps.slot.outputs.slot }} (${{ steps.run.outputs.SHOWN }})" \
-            --body-file "${{ steps.run.outputs.DIGEST }}"
+            --body-file issue_body.md
