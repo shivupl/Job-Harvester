@@ -70,6 +70,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "AfterQuery",
+  "ats": "ashby",
+  "name": "AfterQuery",
+  "open_roles": 34,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "Alpaca",
   "ats": "greenhouse",
   "name": "Alpaca ",
@@ -336,6 +343,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "Moonlake",
+  "ats": "ashby",
+  "name": "Moonlake",
+  "open_roles": 6,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "MotherDuck",
   "ats": "ashby",
   "name": "MotherDuck",
@@ -427,6 +441,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "Sanity",
+  "ats": "ashby",
+  "name": "Sanity",
+  "open_roles": 27,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "ScribdInc",
   "ats": "ashby",
   "name": "ScribdInc",
@@ -446,6 +467,13 @@
   "name": "SimbeRobotics",
   "open_roles": 16,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "Skip",
+  "ats": "ashby",
+  "name": "Skip",
+  "open_roles": 12,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "Solace",
@@ -686,6 +714,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "aerovect",
+  "ats": "ashby",
+  "name": "aerovect",
+  "open_roles": 40,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "afero",
   "ats": "lever",
   "name": "afero",
@@ -845,6 +880,13 @@
   "name": "Akido",
   "open_roles": 12,
   "verified_at": "2026-09-06T03:01:40+00:00"
+ },
+ {
+  "slug": "akunacapital",
+  "ats": "greenhouse",
+  "name": "Akuna Capital",
+  "open_roles": 35,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "akur8",
@@ -1169,6 +1211,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "apella",
+  "ats": "ashby",
+  "name": "apella",
+  "open_roles": 1,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "apolink",
   "ats": "ashby",
   "name": "apolink",
@@ -1463,6 +1512,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "ashby",
+  "ats": "ashby",
+  "name": "ashby",
+  "open_roles": 72,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "asimov",
   "ats": "ashby",
   "name": "asimov",
@@ -1736,6 +1792,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "axion",
+  "ats": "ashby",
+  "name": "axion",
+  "open_roles": 11,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "axle-careers",
   "ats": "ashby",
   "name": "axle-careers",
@@ -1904,6 +1967,20 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "bedrock-robotics",
+  "ats": "ashby",
+  "name": "bedrock-robotics",
+  "open_roles": 33,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
+  "slug": "bedrock-talent",
+  "ats": "ashby",
+  "name": "bedrock-talent",
+  "open_roles": 12,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "behavox",
   "ats": "greenhouse",
   "name": "Behavox",
@@ -1986,6 +2063,13 @@
   "name": "betterup",
   "open_roles": 10,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "beyondmath",
+  "ats": "ashby",
+  "name": "beyondmath",
+  "open_roles": 5,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "beyondreachlabs",
@@ -2226,6 +2310,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "bobyard",
+  "ats": "ashby",
+  "name": "bobyard",
+  "open_roles": 31,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "boku",
   "ats": "greenhouse",
   "name": "Boku",
@@ -2420,6 +2511,20 @@
   "name": "broccoli",
   "open_roles": 38,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "browserbase",
+  "ats": "ashby",
+  "name": "browserbase",
+  "open_roles": 9,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
+  "slug": "bubble",
+  "ats": "ashby",
+  "name": "bubble",
+  "open_roles": 11,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "buildkite",
@@ -2870,6 +2975,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "check-technologies",
+  "ats": "ashby",
+  "name": "check-technologies",
+  "open_roles": 18,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "checkbook",
   "ats": "greenhouse",
   "name": "Checkbook",
@@ -3003,6 +3115,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "clarasight",
+  "ats": "ashby",
+  "name": "clarasight",
+  "open_roles": 15,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "clarion",
   "ats": "ashby",
   "name": "clarion",
@@ -3092,6 +3211,13 @@
   "name": "clickup",
   "open_roles": 62,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "cloaked",
+  "ats": "ashby",
+  "name": "cloaked",
+  "open_roles": 13,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "cloudflare",
@@ -3218,6 +3344,13 @@
   "name": "Coefficient",
   "open_roles": 6,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "cogent-security",
+  "ats": "ashby",
+  "name": "cogent-security",
+  "open_roles": 30,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "cognite",
@@ -3470,6 +3603,13 @@
   "name": "convergentresearch",
   "open_roles": 21,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "convex-dev",
+  "ats": "ashby",
+  "name": "convex-dev",
+  "open_roles": 13,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "convey",
@@ -3766,6 +3906,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "dash0",
+  "ats": "ashby",
+  "name": "dash0",
+  "open_roles": 44,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "databricks",
   "ats": "greenhouse",
   "name": "Databricks",
@@ -3827,6 +3974,13 @@
   "name": "DAVID",
   "open_roles": 8,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "david-ai",
+  "ats": "ashby",
+  "name": "david-ai",
+  "open_roles": 13,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "daybreakhealth",
@@ -4193,6 +4347,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "drata",
+  "ats": "ashby",
+  "name": "drata",
+  "open_roles": 37,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "dreamhq",
   "ats": "ashby",
   "name": "dreamhq",
@@ -4424,6 +4585,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "ema",
+  "ats": "ashby",
+  "name": "ema",
+  "open_roles": 44,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "emberai",
   "ats": "ashby",
   "name": "emberai",
@@ -4557,6 +4725,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "epsilon-health",
+  "ats": "ashby",
+  "name": "epsilon-health",
+  "open_roles": 8,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "epsilon3",
   "ats": "lever",
   "name": "epsilon3",
@@ -4653,6 +4828,13 @@
   "name": "Everlaw",
   "open_roles": 31,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "everstar",
+  "ats": "ashby",
+  "name": "everstar",
+  "open_roles": 3,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "evervault",
@@ -4912,6 +5094,13 @@
   "name": "fireworks",
   "open_roles": 69,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "first-resonance",
+  "ats": "ashby",
+  "name": "first-resonance",
+  "open_roles": 15,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "firstround",
@@ -5194,6 +5383,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "freed",
+  "ats": "ashby",
+  "name": "freed",
+  "open_roles": 4,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "freeformfuturecorp",
   "ats": "greenhouse",
   "name": "Freeform",
@@ -5381,6 +5577,13 @@
   "name": "Invite-Only Job Board ",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "geniusai",
+  "ats": "ashby",
+  "name": "geniusai",
+  "open_roles": 20,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "genspark",
@@ -5649,6 +5852,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "grand",
+  "ats": "ashby",
+  "name": "grand",
+  "open_roles": 3,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "granola",
   "ats": "ashby",
   "name": "granola",
@@ -5752,6 +5962,13 @@
   "name": "grow-therapy",
   "open_roles": 33,
   "verified_at": "2026-09-06T02:43:38+00:00"
+ },
+ {
+  "slug": "growthprotocol",
+  "ats": "ashby",
+  "name": "growthprotocol",
+  "open_roles": 10,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "groww",
@@ -5873,6 +6090,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "harmattan-ai",
+  "ats": "ashby",
+  "name": "harmattan-ai",
+  "open_roles": 173,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "harperinsure",
   "ats": "ashby",
   "name": "harperinsure",
@@ -5906,6 +6130,13 @@
   "name": "hatch",
   "open_roles": 10,
   "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "haus",
+  "ats": "ashby",
+  "name": "haus",
+  "open_roles": 13,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "hcompany",
@@ -5990,6 +6221,13 @@
   "name": "hedra",
   "open_roles": 8,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "heidihealth.com.au",
+  "ats": "ashby",
+  "name": "heidihealth.com.au",
+  "open_roles": 91,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "helion",
@@ -6174,6 +6412,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "horizon3ai",
+  "ats": "ashby",
+  "name": "horizon3ai",
+  "open_roles": 100,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "hotplate",
   "ats": "ashby",
   "name": "hotplate",
@@ -6242,6 +6487,13 @@
   "name": "HumanSignal",
   "open_roles": 49,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "hume-ai",
+  "ats": "ashby",
+  "name": "hume-ai",
+  "open_roles": 2,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "hyperbound",
@@ -6545,6 +6797,20 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "intology",
+  "ats": "ashby",
+  "name": "intology",
+  "open_roles": 2,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
+  "slug": "intrinsic-safety",
+  "ats": "ashby",
+  "name": "intrinsic-safety",
+  "open_roles": 11,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "intrinsicrobotics",
   "ats": "greenhouse",
   "name": "Intrinsic",
@@ -6664,6 +6930,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "jobs-valence",
+  "ats": "ashby",
+  "name": "jobs-valence",
+  "open_roles": 19,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "jobscan-2",
   "ats": "lever",
   "name": "jobscan-2",
@@ -6683,6 +6956,13 @@
   "name": "Jukebox Health",
   "open_roles": 43,
   "verified_at": "2026-09-05T04:16:19+00:00"
+ },
+ {
+  "slug": "julius",
+  "ats": "ashby",
+  "name": "julius",
+  "open_roles": 4,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "jumio",
@@ -7126,6 +7406,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "lavendo",
+  "ats": "ashby",
+  "name": "lavendo",
+  "open_roles": 14,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "layerfi",
   "ats": "ashby",
   "name": "layerfi",
@@ -7189,6 +7476,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "level-ai",
+  "ats": "ashby",
+  "name": "level-ai",
+  "open_roles": 19,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "levelpath",
   "ats": "ashby",
   "name": "levelpath",
@@ -7224,6 +7518,13 @@
   "verified_at": "2026-09-05T04:16:19+00:00"
  },
  {
+  "slug": "lightfield",
+  "ats": "ashby",
+  "name": "lightfield",
+  "open_roles": 21,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "lightning",
   "ats": "ashby",
   "name": "lightning",
@@ -7243,6 +7544,13 @@
   "name": "lightspark",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "lightspeed",
+  "ats": "ashby",
+  "name": "lightspeed",
+  "open_roles": 4,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "lighttable",
@@ -7348,6 +7656,13 @@
   "name": "Lookout",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "lovable",
+  "ats": "ashby",
+  "name": "lovable",
+  "open_roles": 81,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "lsp44",
@@ -7630,6 +7945,13 @@
   "verified_at": "2026-09-06T11:24:44+00:00"
  },
  {
+  "slug": "maximor",
+  "ats": "ashby",
+  "name": "maximor",
+  "open_roles": 9,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "maymobility",
   "ats": "greenhouse",
   "name": "May Mobility",
@@ -7791,6 +8113,13 @@
   "verified_at": "2026-09-05T04:36:50+00:00"
  },
  {
+  "slug": "metaview",
+  "ats": "ashby",
+  "name": "metaview",
+  "open_roles": 33,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "meter",
   "ats": "ashby",
   "name": "meter",
@@ -7833,6 +8162,13 @@
   "verified_at": "2026-09-05T04:36:50+00:00"
  },
  {
+  "slug": "midjourney",
+  "ats": "ashby",
+  "name": "midjourney",
+  "open_roles": 16,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "mintlify",
   "ats": "ashby",
   "name": "mintlify",
@@ -7866,6 +8202,13 @@
   "name": "mistral.ai",
   "open_roles": 178,
   "verified_at": "2026-09-06T10:11:09+00:00"
+ },
+ {
+  "slug": "miter",
+  "ats": "ashby",
+  "name": "miter",
+  "open_roles": 12,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "mithril",
@@ -8057,6 +8400,13 @@
   "verified_at": "2026-09-06T11:24:44+00:00"
  },
  {
+  "slug": "mural",
+  "ats": "ashby",
+  "name": "mural",
+  "open_roles": 10,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "mutiny",
   "ats": "ashby",
   "name": "mutiny",
@@ -8090,6 +8440,13 @@
   "name": "mytos",
   "open_roles": 10,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "n1",
+  "ats": "ashby",
+  "name": "n1",
+  "open_roles": 10,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "n8n",
@@ -8209,6 +8566,13 @@
   "name": "Neighborhoods.com",
   "open_roles": 1,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "nelo",
+  "ats": "ashby",
+  "name": "nelo",
+  "open_roles": 9,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "neo-tax",
@@ -8377,6 +8741,13 @@
   "name": "nomic",
   "open_roles": 4,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "nooks",
+  "ats": "ashby",
+  "name": "nooks",
+  "open_roles": 48,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "norm-ai",
@@ -8687,6 +9058,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "onhires",
+  "ats": "ashby",
+  "name": "onhires",
+  "open_roles": 47,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "onoshealth",
   "ats": "ashby",
   "name": "onoshealth",
@@ -8825,6 +9203,13 @@
   "name": "orb",
   "open_roles": 22,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "orbital",
+  "ats": "ashby",
+  "name": "orbital",
+  "open_roles": 22,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "orbitaloperations",
@@ -9485,6 +9870,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "pivotrobotics",
+  "ats": "ashby",
+  "name": "pivotrobotics",
+  "open_roles": 6,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "plaid",
   "ats": "ashby",
   "name": "plaid",
@@ -9518,6 +9910,13 @@
   "name": "PlanetScale",
   "open_roles": 13,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "plenful",
+  "ats": "ashby",
+  "name": "plenful",
+  "open_roles": 16,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "ployai",
@@ -9674,6 +10073,13 @@
   "verified_at": "2026-09-06T11:24:44+00:00"
  },
  {
+  "slug": "pragmatike",
+  "ats": "ashby",
+  "name": "pragmatike",
+  "open_roles": 71,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "praxent",
   "ats": "greenhouse",
   "name": "Praxent",
@@ -9770,6 +10176,13 @@
   "name": "productgenius",
   "open_roles": 1,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "profound",
+  "ats": "ashby",
+  "name": "profound",
+  "open_roles": 76,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "project-healthy-minds",
@@ -9898,6 +10311,13 @@
   "verified_at": "2026-09-06T10:11:09+00:00"
  },
  {
+  "slug": "pulse",
+  "ats": "ashby",
+  "name": "pulse",
+  "open_roles": 9,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "pulumicorporation",
   "ats": "greenhouse",
   "name": "Pulumi ",
@@ -9924,6 +10344,13 @@
   "name": "pylon",
   "open_roles": 12,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "pylon-labs",
+  "ats": "ashby",
+  "name": "pylon-labs",
+  "open_roles": 20,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "pythnetwork",
@@ -10003,6 +10430,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "quizlet-inc",
+  "ats": "ashby",
+  "name": "quizlet-inc",
+  "open_roles": 7,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "qumis",
   "ats": "ashby",
   "name": "qumis",
@@ -10071,6 +10505,13 @@
   "name": "rai",
   "open_roles": 4,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "rain",
+  "ats": "ashby",
+  "name": "rain",
+  "open_roles": 49,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "raindrop",
@@ -10232,6 +10673,13 @@
   "name": "reframesystems",
   "open_roles": 43,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "regard",
+  "ats": "ashby",
+  "name": "regard",
+  "open_roles": 6,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "reka",
@@ -10514,6 +10962,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "roadrunner",
+  "ats": "ashby",
+  "name": "roadrunner",
+  "open_roles": 9,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "robinhood",
   "ats": "greenhouse",
   "name": "Robinhood",
@@ -10610,6 +11065,13 @@
   "name": "runa",
   "open_roles": 2,
   "verified_at": "2026-09-06T04:54:57+00:00"
+ },
+ {
+  "slug": "runetech",
+  "ats": "ashby",
+  "name": "runetech",
+  "open_roles": 14,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "runlayer",
@@ -10836,6 +11298,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "scan-com",
+  "ats": "ashby",
+  "name": "scan-com",
+  "open_roles": 11,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "scape",
   "ats": "ashby",
   "name": "scape",
@@ -10883,6 +11352,13 @@
   "name": "Seesaw",
   "open_roles": 2,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "sei-labs",
+  "ats": "ashby",
+  "name": "sei-labs",
+  "open_roles": 7,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "semgrep",
@@ -11326,6 +11802,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "socure",
+  "ats": "ashby",
+  "name": "socure",
+  "open_roles": 84,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "sofarocean",
   "ats": "ashby",
   "name": "sofarocean",
@@ -11457,6 +11940,20 @@
   "name": "speckle",
   "open_roles": 3,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "specter",
+  "ats": "ashby",
+  "name": "specter",
+  "open_roles": 38,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
+  "slug": "spector-ai",
+  "ats": "ashby",
+  "name": "spector-ai",
+  "open_roles": 6,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "speechmatics",
@@ -11683,6 +12180,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "stradahq",
+  "ats": "ashby",
+  "name": "stradahq",
+  "open_roles": 4,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "strava",
   "ats": "ashby",
   "name": "strava",
@@ -11865,6 +12369,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "sweedpos.com",
+  "ats": "ashby",
+  "name": "sweedpos.com",
+  "open_roles": 9,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "sweep",
   "ats": "ashby",
   "name": "sweep",
@@ -11947,6 +12458,13 @@
   "name": "synapticure",
   "open_roles": 3,
   "verified_at": "2026-09-06T11:24:44+00:00"
+ },
+ {
+  "slug": "synthesia",
+  "ats": "ashby",
+  "name": "synthesia",
+  "open_roles": 58,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "sysdig",
@@ -12642,6 +13160,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "uipath",
+  "ats": "ashby",
+  "name": "uipath",
+  "open_roles": 113,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "ultimagenomics",
   "ats": "greenhouse",
   "name": "Ultima Genomics",
@@ -12682,6 +13207,13 @@
   "name": "universe",
   "open_roles": 16,
   "verified_at": "2026-09-06T11:24:44+00:00"
+ },
+ {
+  "slug": "unlimitedindustries",
+  "ats": "ashby",
+  "name": "unlimitedindustries",
+  "open_roles": 4,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "unstructured",
@@ -12831,6 +13363,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "vast",
+  "ats": "greenhouse",
+  "name": "Vast",
+  "open_roles": 198,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "vectara",
   "ats": "greenhouse",
   "name": "Vectara",
@@ -12857,6 +13396,13 @@
   "name": "velo3d",
   "open_roles": 38,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "vendelux",
+  "ats": "ashby",
+  "name": "vendelux",
+  "open_roles": 21,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "verahealth",
@@ -12920,6 +13466,13 @@
   "name": "Verkada",
   "open_roles": 289,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "versemedical",
+  "ats": "ashby",
+  "name": "versemedical",
+  "open_roles": 27,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "verto",
@@ -12999,6 +13552,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "vibe",
+  "ats": "ashby",
+  "name": "vibe",
+  "open_roles": 17,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "videoamp",
   "ats": "greenhouse",
   "name": "VideoAmp Careers Website ",
@@ -13060,6 +13620,13 @@
   "name": "Vivodyne",
   "open_roles": 4,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "vizcom",
+  "ats": "ashby",
+  "name": "vizcom",
+  "open_roles": 10,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "voize",
@@ -13202,6 +13769,13 @@
   "verified_at": "2026-09-06T04:54:57+00:00"
  },
  {
+  "slug": "wealth-com",
+  "ats": "ashby",
+  "name": "wealth-com",
+  "open_roles": 17,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "wealthfront",
   "ats": "lever",
   "name": "wealthfront",
@@ -13300,6 +13874,13 @@
   "verified_at": "2026-09-05T09:03:05+00:00"
  },
  {
+  "slug": "wispr-flow",
+  "ats": "ashby",
+  "name": "wispr-flow",
+  "open_roles": 23,
+  "verified_at": "2026-09-07T08:37:27+00:00"
+ },
+ {
   "slug": "wistia",
   "ats": "ashby",
   "name": "wistia",
@@ -13312,6 +13893,13 @@
   "name": "withdaydream",
   "open_roles": 3,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "within-ai",
+  "ats": "ashby",
+  "name": "within-ai",
+  "open_roles": 10,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "wizinc",
@@ -13557,6 +14145,13 @@
   "name": "zilliz",
   "open_roles": 14,
   "verified_at": "2026-09-05T09:03:05+00:00"
+ },
+ {
+  "slug": "zip",
+  "ats": "ashby",
+  "name": "zip",
+  "open_roles": 122,
+  "verified_at": "2026-09-07T08:37:27+00:00"
  },
  {
   "slug": "zippi",
