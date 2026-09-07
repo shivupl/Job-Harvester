@@ -38,7 +38,7 @@ def test_refresh_pulls_then_rebuilds_and_opens(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr("webbrowser.open", lambda url: opened.append(url))
     db, out = tmp_path / "t.db", tmp_path / "board.html"
     cli.main(["refresh", "--db", str(db), "--out", str(out)])
-    assert calls == [["git", "pull", "--rebase", "--quiet"]]
+    assert calls == [["git", "checkout", "--", str(out)], ["git", "pull", "--rebase", "--autostash", "--quiet"]]
     assert out.exists() and opened == [out.resolve().as_uri()]
     assert '"rows": 0' in capsys.readouterr().out
 

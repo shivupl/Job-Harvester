@@ -99,7 +99,9 @@ async def cmd_board(args) -> dict:
 async def cmd_refresh(args) -> dict:
     """git pull, rebuild the board from the pulled database, open it."""
     import subprocess
-    r = subprocess.run(["git", "pull", "--rebase", "--quiet"], capture_output=True, text=True)
+    # A locally rebuilt board.html would block the pull; it is regenerated below anyway.
+    subprocess.run(["git", "checkout", "--", args.out], capture_output=True, text=True)
+    r = subprocess.run(["git", "pull", "--rebase", "--autostash", "--quiet"], capture_output=True, text=True)
     if r.returncode != 0:
         sys.exit(f"git pull failed:\n{r.stderr.strip() or r.stdout.strip()}")
     args.open = True
