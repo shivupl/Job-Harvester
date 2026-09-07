@@ -20,6 +20,10 @@ Preferences: `jobwatch/profile.py`. There is no other configuration.
 Then push to GitHub, add `ANTHROPIC_API_KEY` under Settings → Secrets → Actions,
 and the workflow takes over. Verify re-runs every Monday morning.
 
+## Day to day
+
+    .venv/bin/python -m jobwatch refresh            # git pull, rebuild board.html, open it
+
 ## Adjusting
 
 - Slots: edit the three cron lines in `.github/workflows/jobwatch.yml` and the

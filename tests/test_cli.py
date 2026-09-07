@@ -27,3 +27,25 @@ def test_board_command_writes_file(tmp_path, capsys):
     main(["board", "--db", str(db), "--out", str(out)])
     assert out.exists() and "Nothing to look at right now" in out.read_text()
     assert '"rows": 0' in capsys.readouterr().out
+
+
+def test_refresh_pulls_then_rebuilds_and_opens(tmp_path, monkeypatch, capsys):
+    import subprocess
+    from jobwatch import __main__ as cli
+    calls = []
+    monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: calls.append(cmd) or subprocess.CompletedProcess(cmd, 0, "Already up to date.\n", ""))
+    opened = []
+    monkeypatch.setattr("webbrowser.open", lambda url: opened.append(url))
+    db, out = tmp_path / "t.db", tmp_path / "board.html"
+    cli.main(["refresh", "--db", str(db), "--out", str(out)])
+    assert calls == [["git", "pull", "--rebase", "--quiet"]]
+    assert out.exists() and opened == [out.resolve().as_uri()]
+    assert '"rows": 0' in capsys.readouterr().out
+
+
+def test_refresh_stops_when_pull_fails(tmp_path, monkeypatch):
+    import subprocess, pytest
+    from jobwatch import __main__ as cli
+    monkeypatch.setattr(subprocess, "run", lambda cmd, **kw: subprocess.CompletedProcess(cmd, 1, "", "error: cannot pull with rebase"))
+    with pytest.raises(SystemExit, match="cannot pull"):
+        cli.main(["refresh", "--db", str(tmp_path / "t.db"), "--out", str(tmp_path / "b.html")])

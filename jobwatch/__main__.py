@@ -96,6 +96,18 @@ async def cmd_board(args) -> dict:
     return {"rows": n, "board": args.out}
 
 
+async def cmd_refresh(args) -> dict:
+    """git pull, rebuild the board from the pulled database, open it."""
+    import subprocess
+    r = subprocess.run(["git", "pull", "--rebase", "--quiet"], capture_output=True, text=True)
+    if r.returncode != 0:
+        sys.exit(f"git pull failed:\n{r.stderr.strip() or r.stdout.strip()}")
+    args.open = True
+    out = await cmd_board(args)
+    out["pulled"] = r.stdout.strip() or "up to date"
+    return out
+
+
 def main(argv=None) -> None:
     load_dotenv()
     ap = argparse.ArgumentParser(prog="jobwatch")
@@ -139,6 +151,11 @@ def main(argv=None) -> None:
     b.add_argument("--out", default="board.html")
     b.add_argument("--open", action="store_true", help="open it in your browser")
     b.set_defaults(fn=cmd_board)
+
+    f = sub.add_parser("refresh", help="git pull, then rebuild and open the board")
+    f.add_argument("--db", default="jobwatch.db")
+    f.add_argument("--out", default="board.html")
+    f.set_defaults(fn=cmd_refresh)
 
     args = ap.parse_args(argv)
     summary = asyncio.run(args.fn(args))
