@@ -125,7 +125,8 @@ body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 #grid.arrivals{display:block}
 .day{display:grid;grid-template-columns:150px 1fr;gap:20px;margin:6px 0 26px}
 .day .lab{position:sticky;top:12px;align-self:start;padding-top:2px}
-.day .lab .d{font:600 14px var(--sans);color:var(--accent)}
+.day .lab .d{font:600 14px var(--sans);color:var(--ink)}
+.day .lab .d.now{color:var(--accent)}
 .day .lab .m{font:11px var(--mono);color:var(--faint);margin-top:3px;line-height:1.6}
 .day .lab .m span{display:block}
 .rule{height:1px;background:linear-gradient(90deg,var(--accent) 0,var(--accent) 150px,var(--line) 150px);margin:0 0 20px}
@@ -189,7 +190,7 @@ let tab = 'all'; try { tab = localStorage.getItem(TAB_KEY) || 'all'; } catch (e)
 const VISIT_KEY = 'jobwatch.lastvisit';
 let lastGen = null; try { lastGen = localStorage.getItem(VISIT_KEY); } catch (e) {}
 try { if (!lastGen || D.generated_at > lastGen) localStorage.setItem(VISIT_KEY, D.generated_at); } catch (e) {}
-const isNew = r => !lastGen || (r.first_seen || '') > lastGen;
+const isNew = r => !!lastGen && (r.first_seen || '') > lastGen;
 const newTotal = D.rows.filter(isNew).length;
 let arrivals = newTotal > 0;
 const dayFmt = new Intl.DateTimeFormat('en-CA', {timeZone: D.tz, year: 'numeric', month: '2-digit', day: '2-digit'});
@@ -324,18 +325,25 @@ function render(){
   $('#grid').classList.toggle('arrivals', arrivals);
   const empty = `<div class="empty">Nothing here with these filters. Try another tab, clear the search, or switch the view.</div>`;
   if (!arrivals) { $('#grid').innerHTML = visible.map(cardHtml).join('') || empty; return; }
-  const groups = new Map();
-  for (const r of visible) if (isNew(r)) { const k = dayKey(r.first_seen); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(r); }
-  const older = visible.length - [...groups.values()].reduce((n, g) => n + g.length, 0);
+  // Buckets: just now (since the board you last opened), today, yesterday, then earlier collapsed.
+  const today = dayKey(D.generated_at), yday = dayKey(new Date(new Date(D.generated_at).getTime() - 864e5).toISOString());
+  const buckets = [['now', 'Just now', []], ['today', 'Today', []], ['yday', 'Yesterday', []]];
+  let older = 0;
+  for (const r of visible) {
+    const k = isNew(r) ? 'now' : dayKey(r.first_seen) === today ? 'today' : dayKey(r.first_seen) === yday ? 'yday' : null;
+    if (k) buckets.find(b => b[0] === k)[2].push(r); else older++;
+  }
   let html = '';
-  for (const k of [...groups.keys()].sort().reverse()) {
-    const g = groups.get(k), runs = new Set(g.map(r => r.first_seen)).size, ng = g.filter(r => r.level === 'new_grad').length;
-    html += `<section class="day"><div class="lab"><div class="d">${esc(dayName(k, g[0].first_seen))}</div><div class="m">
-        <span>${esc(labelFmt.format(new Date(g[0].first_seen)))} · ${runs} run${runs === 1 ? '' : 's'}</span><span>${g.length} new</span>${ng ? `<span>${ng} new grad</span>` : ''}</div></div>
+  for (const [k, name, g] of buckets) {
+    if (!g.length) continue;
+    const runs = new Set(g.map(r => r.first_seen)).size, ng = g.filter(r => r.level === 'new_grad').length;
+    const when = k === 'now' ? 'since you last opened the board' : `${labelFmt.format(new Date(g[0].first_seen))} · ${runs} run${runs === 1 ? '' : 's'}`;
+    html += `<section class="day"><div class="lab"><div class="d ${k === 'now' ? 'now' : ''}">${name}</div><div class="m">
+        <span>${esc(when)}</span><span>${g.length} role${g.length === 1 ? '' : 's'}</span>${ng ? `<span>${ng} new grad</span>` : ''}</div></div>
       <div class="grid">${g.map(cardHtml).join('')}</div></section><div class="rule"></div>`;
   }
-  if (!groups.size) html += `<div class="empty">${newTotal ? 'No new arrivals match these filters.' : 'Nothing has arrived since you last opened the board.'}</div>`;
-  html += `<div class="collapsed"><span><b>Earlier</b> · ${older} role${older === 1 ? ' was' : 's were'} already on the board</span><button class="btn" id="showall">Show all</button></div>`;
+  if (!html) html += `<div class="empty">Nothing arrived today or yesterday with these filters.</div>`;
+  html += `<div class="collapsed"><span><b>Earlier</b> · ${older} role${older === 1 ? '' : 's'} from before yesterday</span><button class="btn" id="showall">Show all</button></div>`;
   $('#grid').innerHTML = html;
 }
 

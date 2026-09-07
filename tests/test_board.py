@@ -90,4 +90,5 @@ def test_arrivals_mode_markup(tmp_path):
     html = render_board(s.board_rows(PROFILE, NOW), NOW, PROFILE)
     assert 'id="mode"' in html and "jobwatch.lastvisit" in html
     assert '"tz": "America/Los_Angeles"' in html                 # day grouping uses the profile timezone
-    assert "already on the board" in html and 'id="showall"' in html
+    assert "from before yesterday" in html and 'id="showall"' in html
+    assert "'Just now'" in html and "'Yesterday'" in html
