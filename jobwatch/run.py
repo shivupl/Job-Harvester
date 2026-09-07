@@ -51,6 +51,42 @@ def write_board(store: Store, path: Path, profile: dict = PROFILE, now: Optional
     return len(rows)
 
 
+async def archive(http: Http, store: Store, client, companies_path: Path, board_path: Path,
+                  profile: dict = PROFILE, now: Optional[datetime] = None) -> dict:
+    """One-off: score the still-open postings that were too old to score when first seen,
+    and write them to a separate board. Rows become status 'archived'; the daily board,
+    digest, and runs are untouched."""
+    now = now or now_utc()
+    companies = json.loads(companies_path.read_text())
+    stale = store.stale_keys()
+    funnel = {"stale": len(stale), "prefiltered": 0, "scored": 0, "shown": 0}
+    survivors: list[Posting] = []
+    chunk = profile.get("fetch_chunk", 50)
+    for i in range(0, len(companies), chunk):
+        postings, _ = await fetch_all(http, companies[i:i + chunk])
+        for p in postings:
+            if p.key not in stale:
+                continue
+            if prefilter(p, profile):
+                funnel["prefiltered"] += 1          # stays 'stale'; nothing to look at
+                continue
+            store.update(p.key, location=p.location, url=p.url, comp=p.comp, excerpt=p.description[:EXCERPT_CHARS])
+            survivors.append(p)
+    results = await score_all(client, survivors, profile) if survivors else {}
+    for p in survivors:
+        r = results.get(p.key)
+        if r is None:
+            continue
+        funnel["scored"] += 1
+        store.update(p.key, status="archived", reason=r["reason"], fit=r["fit"], relevance=r["relevance"],
+                     level=r["level"], category=r["category"], location_fit=r["location_fit"],
+                     years_stated=r["years_stated"], comp=p.comp or r.get("comp"))
+    rows = store.archive_rows(profile)
+    board_path.write_text(render_board(rows, now, profile, archive=True))
+    funnel["shown"] = len(rows)
+    return funnel
+
+
 @dataclass
 class RunResult:
     shown: int

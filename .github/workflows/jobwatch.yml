@@ -27,6 +27,10 @@ on:
         type: boolean
         default: false
         description: with backfill_days, also re-judge already-scored postings (model change)
+      archive:
+        type: boolean
+        default: false
+        description: one-off, score still-open postings older than the stale gate into board-archive.html (skips the digest)
 
 # Runs queue behind each other; never overlap, never cancel.
 concurrency:
@@ -76,8 +80,16 @@ jobs:
         if: steps.slot.outputs.verify == 'true'
         run: python -m jobwatch verify
 
+      - name: Archive older still-open postings
+        if: inputs.archive == true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python -m jobwatch archive
+
       - name: Run digest
         id: run
+        if: inputs.archive != true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -93,7 +105,7 @@ jobs:
         run: |
           git config user.name "jobwatch-bot"
           git config user.email "jobwatch-bot@users.noreply.github.com"
-          git add -A -- jobwatch.db seeds.txt companies.json digests board.html
+          git add -A -- jobwatch.db seeds.txt companies.json digests board.html board-archive.html
           git commit -m "jobwatch ${{ steps.slot.outputs.date }} ${{ steps.slot.outputs.slot }}" || echo "nothing to commit"
           git pull --rebase
           git push

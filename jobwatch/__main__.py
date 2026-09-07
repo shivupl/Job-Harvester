@@ -96,6 +96,18 @@ async def cmd_board(args) -> dict:
     return {"rows": n, "board": args.out}
 
 
+async def cmd_archive(args) -> dict:
+    from .run import archive
+    from .score import make_client
+    http, store = make_http(), Store(args.db)
+    client = make_client()
+    try:
+        return await archive(http, store, client, Path(args.companies), Path(args.out))
+    finally:
+        await http.aclose()
+        store.close()
+
+
 async def cmd_refresh(args) -> dict:
     """git pull, rebuild the board from the pulled database, open it."""
     import subprocess
@@ -153,6 +165,12 @@ def main(argv=None) -> None:
     b.add_argument("--out", default="board.html")
     b.add_argument("--open", action="store_true", help="open it in your browser")
     b.set_defaults(fn=cmd_board)
+
+    a = sub.add_parser("archive", help="one-off: score still-open postings older than the stale gate into board-archive.html")
+    a.add_argument("--companies", default="companies.json")
+    a.add_argument("--db", default="jobwatch.db")
+    a.add_argument("--out", default="board-archive.html")
+    a.set_defaults(fn=cmd_archive)
 
     f = sub.add_parser("refresh", help="git pull, then rebuild and open the board")
     f.add_argument("--db", default="jobwatch.db")

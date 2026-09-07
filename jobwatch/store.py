@@ -163,6 +163,24 @@ class Store:
         ).fetchall()
         return [dict(r) for r in rows]
 
+    def stale_keys(self) -> set[str]:
+        """Postings recorded as too old to score when first seen."""
+        return {r[0] for r in self.con.execute("select key from seen where status='stale'")}
+
+    def archive_rows(self, profile: dict) -> list[dict]:
+        """Older, still-open postings scored by `archive`, for board-archive.html. No window."""
+        hidden = list(profile.get("hide_location_fits", []))
+        placeholders = ",".join("?" * len(hidden)) or "''"
+        rows = self.con.execute(
+            "select key, title, company, url, fit, relevance, category, location_fit, location, "
+            "posted_at, reason, first_seen, comp, excerpt, level, years_stated from seen "
+            "where status='archived' and fit is not null and relevance >= ? and fit >= ? "
+            f"and coalesce(location_fit, 'unknown') not in ({placeholders}) "
+            "order by relevance desc, fit desc, posted_at desc",
+            [profile["min_relevance"], profile["min_fit"]] + hidden,
+        ).fetchall()
+        return [dict(r) for r in rows]
+
     def keys_missing_details(self) -> set[str]:
         """Scored postings with no excerpt yet (rows written before the column existed)."""
         return {r[0] for r in self.con.execute(

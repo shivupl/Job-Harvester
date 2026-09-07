@@ -53,6 +53,7 @@ Read the whole posting. Titles lie; the body tells you the real level and the re
   3-5: reads as mid-level; 3+ years implied by responsibilities; a stretch.
   0-2: senior in substance, or requirements the candidate cannot meet.
   Penalize implied seniority even when the title sounds junior. Ignore location and company fame for fit.
+  The candidate has already graduated and can start now. A posting that hires for a start a year or more away (a "2027 new grad" cohort, a summer-2027 class) is a worse fit: take 2 off and say so in the reason. A still-open posting hiring for an immediate start is a plus, not a minus.
 - relevance: 0-10, how much this role matches what the candidate wants, judged by the decisive criterion above.
   9-10: writing code and building most days, in a target category, at a startup.
   6-8: mostly building, or a target category with some non-building duties.

@@ -102,7 +102,8 @@ PROFILE = {
     "hide_location_fits": ["non_us"],   # model-tagged location fits never shown
     "board_days": 30,              # board.html shows eligible postings first seen within this window
     "candidate": (
-        "Computer science new grad (2026) who ships independently: three "
+        "Computer science graduate (June 2026), available to start "
+        "immediately, who ships independently: three "
         "published Adobe Express add-ons with 4,500+ installs and $8,000 in "
         "competitive Adobe developer grants, plus multi-agent AI pipelines "
         "with VLM-based visual QA and GPU inference deployed to production. "

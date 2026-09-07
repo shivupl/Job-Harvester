@@ -236,3 +236,29 @@ async def test_enrich_fills_missing_details_without_model(tmp_path):
     row = store.get("ashby:acme:j1")
     assert row["excerpt"] == "real description text" and row["comp"] == "$1"
     assert (await enrich(make_http([job]), store, companies, PROFILE))["missing"] == 0
+
+
+async def test_archive_scores_stale_postings_into_a_separate_board(tmp_path):
+    from jobwatch.run import archive
+    companies, store, digests = setup(tmp_path)
+    old = (NOW - timedelta(days=60)).isoformat()
+    fresh = (NOW - timedelta(hours=1)).isoformat()
+    jobs = [ashby_job(1, "Product Engineer", old), ashby_job(2, "Senior Engineer", old), ashby_job(3, "Product Engineer", fresh)]
+    await run(make_http([]), store, FakeClient(), companies, digests, "morning", PROFILE, now=NOW)
+    store.insert(Posting(ats="ashby", slug="acme", job_id="seed", title="x", company="acme", location="",
+                         remote=None, description="", posted_at=None, url=""), "baseline", None, NOW)
+    await run(make_http(jobs), store, FakeClient(), companies, digests, "midday", PROFILE, now=NOW)
+    assert store.get("ashby:acme:j1")["status"] == "stale" and store.get("ashby:acme:j3")["status"] == "scored"
+    out = tmp_path / "board-archive.html"
+    r = await archive(make_http(jobs), store, FakeClient(fit=9, relevance=9), companies, out, PROFILE, now=NOW)
+    assert r == {"stale": 2, "prefiltered": 1, "scored": 1, "shown": 1}
+    row = store.get("ashby:acme:j1")
+    assert row["status"] == "archived" and row["fit"] == 9 and row["url"] == "https://jobs.ashbyhq.com/acme/j1"
+    assert store.get("ashby:acme:j2")["status"] == "stale"          # level drop stays stale, not archived
+    assert store.get("ashby:acme:j3")["status"] == "scored"         # the live board is untouched
+    assert [x["key"] for x in store.board_rows(PROFILE, NOW)] == ["ashby:acme:j3"]
+    assert [x["key"] for x in store.archive_rows(PROFILE)] == ["ashby:acme:j1"]
+    html = out.read_text()
+    assert "<h1>jobwatch archive</h1>" in html and '"ns": "jobwatch.archive"' in html    # its own title and browser keys
+    # Running again does nothing: nothing is stale and unscored any more.
+    assert (await archive(make_http(jobs), store, FakeClient(), companies, out, PROFILE, now=NOW))["scored"] == 0

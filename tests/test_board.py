@@ -77,9 +77,9 @@ def test_new_grad_cards_are_marked_and_seen_button_is_gone(tmp_path):
     assert "data-seen" not in html and "seenbtn" not in html     # no corner button on cards
     assert "r.level === 'new_grad'" in html                       # class is driven by the scorer's level
     assert 'data-act="applied"' in html and 'data-act="hidden"' in html and 'data-act="saved"' in html
-    assert "jobwatch.saved" in html and "t('saved', 'Saved', 'saved')" in html   # Saved tab lists saved keys
-    assert "jobwatch.savedrows" in html and "off the board" in html               # saved cards outlive the board window
-    assert "jobwatch.applied" in html and "jobwatch.hidden" in html   # persisted per browser
+    assert "NS + '.saved'" in html and "t('saved', 'Saved', 'saved')" in html   # Saved tab lists saved keys
+    assert "NS + '.savedrows'" in html and "off the board" in html               # saved cards outlive the board window
+    assert "NS + '.applied'" in html and "NS + '.hidden'" in html and '"ns": "jobwatch"' in html   # persisted per browser
     assert 'id="view"' in html and 'id="hideseen"' not in html
     assert '<h3><a href="${esc(r.url)}" target="_blank" rel="noopener"' in html   # title links straight to the posting
 
@@ -88,7 +88,7 @@ def test_arrivals_mode_markup(tmp_path):
     s = Store(tmp_path / "t.db")
     scored(s, 1, 9, 9)
     html = render_board(s.board_rows(PROFILE, NOW), NOW, PROFILE)
-    assert 'id="mode"' in html and "jobwatch.lastvisit" in html
+    assert 'id="mode"' in html and "NS + '.lastvisit'" in html
     assert '"tz": "America/Los_Angeles"' in html                 # day grouping uses the profile timezone
     assert "from before yesterday" in html and 'id="showall"' in html
     assert "'Just now'" in html and "'Yesterday'" in html

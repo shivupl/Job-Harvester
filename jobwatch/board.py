@@ -170,12 +170,13 @@ body.open #panel{transform:none}
 
 _JS = """
 const D = JSON.parse(document.getElementById('data').textContent);
-const SEEN_KEY = 'jobwatch.seen', APPLIED_KEY = 'jobwatch.applied', HIDDEN_KEY = 'jobwatch.hidden', SAVED_KEY = 'jobwatch.saved', TAB_KEY = 'jobwatch.tab';
+const NS = D.ns || 'jobwatch';
+const SEEN_KEY = NS + '.seen', APPLIED_KEY = NS + '.applied', HIDDEN_KEY = NS + '.hidden', SAVED_KEY = NS + '.saved', TAB_KEY = NS + '.tab';
 function loadSet(k){ try { return new Set(JSON.parse(localStorage.getItem(k) || '[]')); } catch (e) { return new Set(); } }
 function saveSet(k, v){ try { localStorage.setItem(k, JSON.stringify([...v])); } catch (e) {} }
 let seen = loadSet(SEEN_KEY), applied = loadSet(APPLIED_KEY), hidden = loadSet(HIDDEN_KEY), saved = loadSet(SAVED_KEY);
 // Saved cards are copied into the browser so the Saved tab keeps them after they age off the board.
-const SAVED_ROWS_KEY = 'jobwatch.savedrows';
+const SAVED_ROWS_KEY = NS + '.savedrows';
 let savedRows = {}; try { savedRows = JSON.parse(localStorage.getItem(SAVED_ROWS_KEY) || '{}') || {}; } catch (e) {}
 function saveRows(){ try { localStorage.setItem(SAVED_ROWS_KEY, JSON.stringify(savedRows)); } catch (e) {} }
 const byKey = new Map(D.rows.map(r => [r.key, r]));
@@ -187,7 +188,7 @@ function rowByKey(k){ return byKey.get(k) || goneRows.find(r => r.key === k); }
 function saveSeen(){ saveSet(SEEN_KEY, seen); }
 let tab = 'all'; try { tab = localStorage.getItem(TAB_KEY) || 'all'; } catch (e) {}
 // "New" means first seen after the newest board you had opened before this one.
-const VISIT_KEY = 'jobwatch.lastvisit';
+const VISIT_KEY = NS + '.lastvisit';
 let lastGen = null; try { lastGen = localStorage.getItem(VISIT_KEY); } catch (e) {}
 try { if (!lastGen || D.generated_at > lastGen) localStorage.setItem(VISIT_KEY, D.generated_at); } catch (e) {}
 const isNew = r => !!lastGen && (r.first_seen || '') > lastGen;
@@ -451,9 +452,25 @@ def _summary(rows: list[dict], now: datetime, profile: dict) -> str:
     return ". ".join(parts) + "."
 
 
-def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
+def _archive_summary(rows: list[dict], profile: dict) -> str:
+    n = len(rows)
+    if n == 0:
+        return "No older postings scored yet."
+    stretch = sum(1 for r in rows if r["fit"] < profile["stretch_fit"])
+    ng = sum(1 for r in rows if r.get("level") == "new_grad")
+    parts = [f"<em>{n - stretch}</em> still-open role{'s' if n - stretch != 1 else ''} posted more than "
+             f"{profile['max_posting_age_days']} days ago and worth a look"]
+    if ng:
+        parts.append(f"<em>{ng}</em> explicitly new grad")
+    if stretch:
+        parts.append(f"<em>{stretch}</em> more in the Stretch tab")
+    return ". ".join(parts) + ". Older listings can be evergreen or forgotten; the posting age is on every card."
+
+
+def render_board(rows: list[dict], now: datetime, profile: dict, archive: bool = False) -> str:
     data = {
         "generated_at": now.replace(microsecond=0).isoformat(),
+        "ns": "jobwatch.archive" if archive else "jobwatch",
         "tz": profile["timezone"],
         "stretch_fit": profile["stretch_fit"],
         "categories": [list(c) for c in CATEGORY_ORDER],
@@ -471,10 +488,10 @@ def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
 <body>
 <main class="page">
   <header class="masthead">
-    <h1>jobwatch</h1>
+    <h1>{"jobwatch archive" if archive else "jobwatch"}</h1>
     <div class="right"><time datetime="{data['generated_at']}">{date_long}</time><button class="theme" id="theme" type="button">theme: system</button></div>
   </header>
-  <p class="summary">{_summary(rows, now, profile)} <span id="since"></span></p>
+  <p class="summary">{_archive_summary(rows, profile) if archive else _summary(rows, now, profile)} <span id="since"></span></p>
 
   <nav class="tabs" id="tabs" role="tablist"></nav>
 
