@@ -76,7 +76,8 @@ def test_new_grad_cards_are_marked_and_seen_button_is_gone(tmp_path):
     assert "card.newgrad" in html and "--gold:" in html          # style present in the CSS
     assert "data-seen" not in html and "seenbtn" not in html     # no corner button on cards
     assert "r.level === 'new_grad'" in html                       # class is driven by the scorer's level
-    assert 'data-act="applied"' in html and 'data-act="hidden"' in html
+    assert 'data-act="applied"' in html and 'data-act="hidden"' in html and 'data-act="saved"' in html
+    assert "jobwatch.saved" in html and "t('saved', 'Saved', 'saved')" in html   # Saved tab lists saved keys
     assert "jobwatch.applied" in html and "jobwatch.hidden" in html   # persisted per browser
     assert 'id="view"' in html and 'id="hideseen"' not in html
     assert '<h3><a href="${esc(r.url)}" target="_blank" rel="noopener"' in html   # title links straight to the posting
