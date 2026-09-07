@@ -79,6 +79,7 @@ def test_new_grad_cards_are_marked_and_seen_button_is_gone(tmp_path):
     assert 'data-act="applied"' in html and 'data-act="hidden"' in html
     assert "jobwatch.applied" in html and "jobwatch.hidden" in html   # persisted per browser
     assert 'id="view"' in html and 'id="hideseen"' not in html
+    assert '<h3><a href="${esc(r.url)}" target="_blank" rel="noopener"' in html   # title links straight to the posting
 
 
 def test_arrivals_mode_markup(tmp_path):

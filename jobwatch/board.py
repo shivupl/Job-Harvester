@@ -91,6 +91,10 @@ body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .card.newgrad h3{color:var(--gold)}
 .tag.newgrad{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--gold-soft);color:var(--gold);font:500 10.5px var(--mono);letter-spacing:.02em;white-space:nowrap}
 .card h3{font:600 15px/1.3 var(--sans);margin:4px 0 0;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card h3 a{color:inherit;text-decoration:none}
+.card h3 a:hover{text-decoration:underline;text-underline-offset:3px}
+.card h3 a::after{content:" ↗";font:500 12px var(--mono);color:var(--faint);white-space:nowrap}
+.card h3 a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 .card .why{color:var(--muted);font-size:13px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .comp{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;max-width:100%;padding:4px 10px;border-radius:999px;background:var(--good-soft);color:var(--good);font-size:12px;font-weight:500}
 .comp svg{width:13px;height:13px;flex:none}
@@ -265,7 +269,7 @@ function cardHtml(r){
       <div class="l"><b title="${esc(r.company)}">${esc(co)}</b>${esc(age(r.posted_at))}</div>
       <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span>${ng ? '<span class="tag newgrad" title="The posting explicitly targets new grads">new grad</span>' : ''}${isApplied ? '<span class="tag applied">applied</span>' : ''}</div>
     </div>
-    <h3>${esc(r.title)}</h3>
+    <h3><a href="${esc(r.url)}" target="_blank" rel="noopener" title="Open the posting in a new tab">${esc(r.title)}</a></h3>
     ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
     ${r.comp ? `<span class="comp" title="${esc(r.comp)}">${ICON.cash}<span>${esc(r.comp)}</span></span>` : ''}
     ${actsHtml(r.key)}
@@ -374,6 +378,7 @@ $('#tabs').addEventListener('click', e => {
 $('#mode').addEventListener('click', () => { arrivals = !arrivals; render(); });
 $('#grid').addEventListener('click', e => {
   if (e.target.closest('#showall')) { arrivals = false; render(); return; }
+  if (e.target.closest('h3 a')) return;                      // title link opens the posting, not the panel
   const card = e.target.closest('.card'); if (!card) return;
   const act = e.target.closest('[data-act]');
   if (act) { e.stopPropagation(); toggleAct(card.dataset.key, act.dataset.act); return; }
