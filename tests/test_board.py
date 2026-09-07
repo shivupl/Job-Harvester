@@ -79,3 +79,12 @@ def test_new_grad_cards_are_marked_and_seen_button_is_gone(tmp_path):
     assert 'data-act="applied"' in html and 'data-act="hidden"' in html
     assert "jobwatch.applied" in html and "jobwatch.hidden" in html   # persisted per browser
     assert 'id="view"' in html and 'id="hideseen"' not in html
+
+
+def test_arrivals_mode_markup(tmp_path):
+    s = Store(tmp_path / "t.db")
+    scored(s, 1, 9, 9)
+    html = render_board(s.board_rows(PROFILE, NOW), NOW, PROFILE)
+    assert 'id="mode"' in html and "jobwatch.lastvisit" in html
+    assert '"tz": "America/Los_Angeles"' in html                 # day grouping uses the profile timezone
+    assert "already on the board" in html and 'id="showall"' in html

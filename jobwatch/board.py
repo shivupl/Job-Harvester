@@ -11,6 +11,8 @@ import html
 import json
 from datetime import datetime
 
+from zoneinfo import ZoneInfo
+
 from .digest import CATEGORY_ORDER
 
 _CSS = """
@@ -108,6 +110,23 @@ body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .cat.fde{--c:var(--ok)}.cat.product{--c:var(--warn)}.cat.applied_ai{--c:var(--good)}.cat.swe{--c:var(--rel)}.cat.devrel{--c:#E07AA0}.cat.other{--c:var(--faint)}
 
 .empty{grid-column:1/-1;padding:56px 0;text-align:center;color:var(--muted)}
+.mode{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:500 12px var(--mono);cursor:pointer}
+.mode:hover{border-color:var(--faint);color:var(--ink)}
+.mode.on{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,transparent)}
+.mode .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+#grid.arrivals{display:block}
+.day{display:grid;grid-template-columns:150px 1fr;gap:20px;margin:6px 0 26px}
+.day .lab{position:sticky;top:12px;align-self:start;padding-top:2px}
+.day .lab .d{font:600 14px var(--sans);color:var(--accent)}
+.day .lab .m{font:11px var(--mono);color:var(--faint);margin-top:3px;line-height:1.6}
+.day .lab .m span{display:block}
+.rule{height:1px;background:linear-gradient(90deg,var(--accent) 0,var(--accent) 150px,var(--line) 150px);margin:0 0 20px}
+.collapsed{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--muted);font-size:13px}
+.collapsed b{color:var(--ink);font-weight:600}
+.collapsed .btn{margin-left:auto;font:500 11px var(--mono);padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
+.collapsed .btn:hover{border-color:var(--faint);color:var(--ink)}
+.arrivals .empty{padding:28px 0}
+@media (max-width:900px){.day{grid-template-columns:1fr}.day .lab{position:static}}
 
 #panel{position:fixed;top:0;right:0;bottom:0;width:var(--panel-w);max-width:100vw;background:var(--card);
   border-left:1px solid var(--line);padding:28px 28px 32px;overflow:auto;transform:translateX(100%);transition:transform .18s ease}
@@ -148,6 +167,20 @@ function saveSet(k, v){ try { localStorage.setItem(k, JSON.stringify([...v])); }
 let seen = loadSet(SEEN_KEY), applied = loadSet(APPLIED_KEY), hidden = loadSet(HIDDEN_KEY);
 function saveSeen(){ saveSet(SEEN_KEY, seen); }
 let tab = 'all'; try { tab = localStorage.getItem(TAB_KEY) || 'all'; } catch (e) {}
+// "New" means first seen after the newest board you had opened before this one.
+const VISIT_KEY = 'jobwatch.lastvisit';
+let lastGen = null; try { lastGen = localStorage.getItem(VISIT_KEY); } catch (e) {}
+try { if (!lastGen || D.generated_at > lastGen) localStorage.setItem(VISIT_KEY, D.generated_at); } catch (e) {}
+const isNew = r => !lastGen || (r.first_seen || '') > lastGen;
+const newTotal = D.rows.filter(isNew).length;
+let arrivals = newTotal > 0;
+const dayFmt = new Intl.DateTimeFormat('en-CA', {timeZone: D.tz, year: 'numeric', month: '2-digit', day: '2-digit'});
+const labelFmt = new Intl.DateTimeFormat('en-US', {timeZone: D.tz, weekday: 'short', month: 'short', day: 'numeric'});
+function dayKey(iso){ return dayFmt.format(new Date(iso)); }
+function dayName(key, iso){
+  const today = dayKey(D.generated_at), y = dayKey(new Date(new Date(D.generated_at).getTime() - 864e5).toISOString());
+  return key === today ? 'Today' : key === y ? 'Yesterday' : labelFmt.format(new Date(iso));
+}
 const THEME_KEY = 'jobwatch.theme';
 function applyTheme(){
   let t = 'system'; try { t = localStorage.getItem(THEME_KEY) || 'system'; } catch (e) {}
@@ -254,14 +287,34 @@ function renderTabs(){
   $('#tabs').innerHTML = t('all', 'All roles') + D.categories.map(([k, v]) => t(k, v)).join('') + t('stretch', 'Stretch', 'stretch');
 }
 
+function sinceText(){
+  if (!lastGen || !newTotal) return '';
+  return `<em>${newTotal}</em> arrived since you last opened the board.`;
+}
 function render(){
+  $('#since').innerHTML = sinceText();
   renderTabs();
   visible = rows(tab);
   $('#count').textContent = `${visible.length} shown`;
   $('#view option[value=applied]').textContent = `Applied (${applied.size})`;
   $('#view option[value=hidden]').textContent = `Hidden (${hidden.size})`;
-  $('#grid').innerHTML = visible.map(cardHtml).join('') ||
-    `<div class="empty">Nothing here with these filters. Try another tab, clear the search, or switch the view.</div>`;
+  const mode = $('#mode'); mode.classList.toggle('on', arrivals); mode.setAttribute('aria-pressed', arrivals);
+  $('#grid').classList.toggle('arrivals', arrivals);
+  const empty = `<div class="empty">Nothing here with these filters. Try another tab, clear the search, or switch the view.</div>`;
+  if (!arrivals) { $('#grid').innerHTML = visible.map(cardHtml).join('') || empty; return; }
+  const groups = new Map();
+  for (const r of visible) if (isNew(r)) { const k = dayKey(r.first_seen); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(r); }
+  const older = visible.length - [...groups.values()].reduce((n, g) => n + g.length, 0);
+  let html = '';
+  for (const k of [...groups.keys()].sort().reverse()) {
+    const g = groups.get(k), runs = new Set(g.map(r => r.first_seen)).size, ng = g.filter(r => r.level === 'new_grad').length;
+    html += `<section class="day"><div class="lab"><div class="d">${esc(dayName(k, g[0].first_seen))}</div><div class="m">
+        <span>${esc(labelFmt.format(new Date(g[0].first_seen)))} · ${runs} run${runs === 1 ? '' : 's'}</span><span>${g.length} new</span>${ng ? `<span>${ng} new grad</span>` : ''}</div></div>
+      <div class="grid">${g.map(cardHtml).join('')}</div></section><div class="rule"></div>`;
+  }
+  if (!groups.size) html += `<div class="empty">${newTotal ? 'No new arrivals match these filters.' : 'Nothing has arrived since you last opened the board.'}</div>`;
+  html += `<div class="collapsed"><span><b>Earlier</b> · ${older} role${older === 1 ? ' was' : 's were'} already on the board</span><button class="btn" id="showall">Show all</button></div>`;
+  $('#grid').innerHTML = html;
 }
 
 function showPanel(key){
@@ -318,7 +371,9 @@ $('#tabs').addEventListener('click', e => {
   tab = b.dataset.tab; try { localStorage.setItem(TAB_KEY, tab); } catch (err) {}
   render();
 });
+$('#mode').addEventListener('click', () => { arrivals = !arrivals; render(); });
 $('#grid').addEventListener('click', e => {
+  if (e.target.closest('#showall')) { arrivals = false; render(); return; }
   const card = e.target.closest('.card'); if (!card) return;
   const act = e.target.closest('[data-act]');
   if (act) { e.stopPropagation(); toggleAct(card.dataset.key, act.dataset.act); return; }
@@ -367,6 +422,7 @@ def _summary(rows: list[dict], now: datetime, profile: dict) -> str:
 def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
     data = {
         "generated_at": now.replace(microsecond=0).isoformat(),
+        "tz": profile["timezone"],
         "stretch_fit": profile["stretch_fit"],
         "categories": [list(c) for c in CATEGORY_ORDER],
         "rows": rows,
@@ -376,7 +432,7 @@ def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
     loc_opts = "".join(f'<option value="{k}">{v}</option>' for k, v in
                        [("bay_area", "Bay Area"), ("us_remote", "US remote"), ("other_us", "Elsewhere in the US"),
                         ("unknown", "Location not stated")])
-    date_long = now.strftime("%A, %B %-d")
+    date_long = now.astimezone(ZoneInfo(profile["timezone"])).strftime("%A, %B %-d")
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>jobwatch</title><style>{_CSS}</style></head>
@@ -386,7 +442,7 @@ def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
     <h1>jobwatch</h1>
     <div class="right"><time datetime="{data['generated_at']}">{date_long}</time><button class="theme" id="theme" type="button">theme: system</button></div>
   </header>
-  <p class="summary">{_summary(rows, now, profile)}</p>
+  <p class="summary">{_summary(rows, now, profile)} <span id="since"></span></p>
 
   <nav class="tabs" id="tabs" role="tablist"></nav>
 
@@ -394,6 +450,7 @@ def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
     <input id="q" type="search" placeholder="Search titles, companies, reasons" aria-label="search">
     <select id="loc" aria-label="location"><option value="">All locations</option>{loc_opts}</select>
     <select id="sort" aria-label="sort"><option value="fit">Sort by fit</option><option value="relevance">Sort by relevance</option><option value="posted">Newest posted</option><option value="company">Company A–Z</option></select>
+    <button class="mode" id="mode" type="button" aria-pressed="false" title="Group what arrived since you last opened the board"><span class="dot"></span>Arrivals</button>
     <select id="view" aria-label="view"><option value="active">Active</option><option value="unseen">Unseen only</option><option value="applied">Applied</option><option value="hidden">Hidden</option></select>
     <span class="count" id="count"></span>
   </div>
