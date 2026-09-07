@@ -108,6 +108,8 @@ body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .act.on.save{background:color-mix(in srgb,var(--accent) 14%,transparent);border-color:var(--accent);color:var(--accent)}
 .tab.saved{margin-left:0}
 .card.applied{border-color:var(--good)}
+.card.gone{border-style:dashed}
+.tag.gone{display:inline-block;padding:1px 7px;border-radius:999px;background:color-mix(in srgb,var(--faint) 18%,transparent);color:var(--muted);font:500 10.5px var(--mono);white-space:nowrap}
 .tag.applied{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--good-soft);color:var(--good);font:500 10.5px var(--mono);letter-spacing:.02em;white-space:nowrap}
 #panel .acts{justify-content:flex-start;margin-top:0}
 .kv{display:flex;align-items:baseline;gap:6px}.kv b{font-size:15px;font-weight:500;color:var(--ink)}
@@ -171,6 +173,16 @@ const SEEN_KEY = 'jobwatch.seen', APPLIED_KEY = 'jobwatch.applied', HIDDEN_KEY =
 function loadSet(k){ try { return new Set(JSON.parse(localStorage.getItem(k) || '[]')); } catch (e) { return new Set(); } }
 function saveSet(k, v){ try { localStorage.setItem(k, JSON.stringify([...v])); } catch (e) {} }
 let seen = loadSet(SEEN_KEY), applied = loadSet(APPLIED_KEY), hidden = loadSet(HIDDEN_KEY), saved = loadSet(SAVED_KEY);
+// Saved cards are copied into the browser so the Saved tab keeps them after they age off the board.
+const SAVED_ROWS_KEY = 'jobwatch.savedrows';
+let savedRows = {}; try { savedRows = JSON.parse(localStorage.getItem(SAVED_ROWS_KEY) || '{}') || {}; } catch (e) {}
+function saveRows(){ try { localStorage.setItem(SAVED_ROWS_KEY, JSON.stringify(savedRows)); } catch (e) {} }
+const byKey = new Map(D.rows.map(r => [r.key, r]));
+for (const k of saved) if (byKey.has(k)) savedRows[k] = byKey.get(k);        // refresh copies from the live board
+for (const k of Object.keys(savedRows)) if (!saved.has(k)) delete savedRows[k];
+saveRows();
+const goneRows = [...saved].filter(k => !byKey.has(k) && savedRows[k]).map(k => ({...savedRows[k], gone: true}));
+function rowByKey(k){ return byKey.get(k) || goneRows.find(r => r.key === k); }
 function saveSeen(){ saveSet(SEEN_KEY, seen); }
 let tab = 'all'; try { tab = localStorage.getItem(TAB_KEY) || 'all'; } catch (e) {}
 // "New" means first seen after the newest board you had opened before this one.
@@ -246,7 +258,8 @@ function rows(t){
   const q = $('#q').value.toLowerCase(), loc = $('#loc').value, view = $('#view').value, sort = $('#sort').value;
   const inView = r => view === 'applied' ? applied.has(r.key) : view === 'hidden' ? hidden.has(r.key)
     : view === 'unseen' ? !hidden.has(r.key) && !seen.has(r.key) && !applied.has(r.key) : !hidden.has(r.key);
-  let out = D.rows.filter(r => inTab(r, t) && (!loc || r.location_fit === loc) && inView(r)
+  const base = t === 'saved' ? D.rows.concat(goneRows) : D.rows;
+  let out = base.filter(r => inTab(r, t) && (!loc || r.location_fit === loc) && inView(r)
     && (!q || (r.title + ' ' + r.company + ' ' + (r.reason || '') + ' ' + (r.location || '')).toLowerCase().includes(q)));
   const byRel = (a, b) => (b.relevance - a.relevance) || (b.fit - a.fit) || (b.posted_at || '').localeCompare(a.posted_at || '');
   const byFit = (a, b) => (b.fit - a.fit) || (b.relevance - a.relevance) || (b.posted_at || '').localeCompare(a.posted_at || '');
@@ -268,10 +281,10 @@ function cardHtml(r){
   const isSeen = seen.has(r.key), bay = r.location_fit === 'bay_area', ng = r.level === 'new_grad';
   const isApplied = applied.has(r.key), isHidden = hidden.has(r.key);
   const co = r.company ? r.company[0].toUpperCase() + r.company.slice(1) : '';
-  return `<div class="card ${isSeen ? 'seen' : ''} ${ng ? 'newgrad' : ''} ${isApplied ? 'applied' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}${ng ? ', new grad role' : ''}">
+  return `<div class="card ${isSeen ? 'seen' : ''} ${ng ? 'newgrad' : ''} ${isApplied ? 'applied' : ''} ${r.gone ? 'gone' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}${ng ? ', new grad role' : ''}">
     <div class="top">
       <div class="l"><b title="${esc(r.company)}">${esc(co)}</b>${esc(age(r.posted_at))}</div>
-      <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span>${ng ? '<span class="tag newgrad" title="The posting explicitly targets new grads">new grad</span>' : ''}${isApplied ? '<span class="tag applied">applied</span>' : ''}</div>
+      <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span>${ng ? '<span class="tag newgrad" title="The posting explicitly targets new grads">new grad</span>' : ''}${isApplied ? '<span class="tag applied">applied</span>' : ''}${r.gone ? '<span class="tag gone" title="Aged off the board or no longer shown; the link may still work">off the board</span>' : ''}</div>
     </div>
     <h3><a href="${esc(r.url)}" target="_blank" rel="noopener" title="Open the posting in a new tab">${esc(r.title)}</a></h3>
     ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
@@ -291,7 +304,7 @@ function renderTabs(){
   counts.all = base.filter(r => !isStretch(r)).length;
   for (const [k] of D.categories) counts[k] = base.filter(r => !isStretch(r) && r.category === k).length;
   counts.stretch = base.filter(isStretch).length;
-  counts.saved = base.filter(r => saved.has(r.key)).length;
+  counts.saved = saved.size;
   const t = (key, label, cls='') => `<button class="tab ${cls} ${tab === key ? 'active' : ''}" data-tab="${key}" role="tab" aria-selected="${tab === key}">${esc(label)}<span class="n">${counts[key] || 0}</span></button>`;
   $('#tabs').innerHTML = t('all', 'All roles') + D.categories.map(([k, v]) => t(k, v)).join('') + t('stretch', 'Stretch', 'stretch') + t('saved', 'Saved', 'saved');
 }
@@ -327,7 +340,7 @@ function render(){
 }
 
 function showPanel(key){
-  const r = D.rows.find(x => x.key === key); if (!r) return;
+  const r = rowByKey(key); if (!r) return;
   selected = key;
   $('#panel').innerHTML = `
     <button class="close" aria-label="Close">×</button>
@@ -369,6 +382,7 @@ function toggleAct(key, which){
   const set = {applied, hidden, saved}[which];
   if (set.has(key)) set.delete(key); else set.add(key);
   saveSet({applied: APPLIED_KEY, hidden: HIDDEN_KEY, saved: SAVED_KEY}[which], set);
+  if (which === 'saved') { if (set.has(key) && byKey.has(key)) savedRows[key] = byKey.get(key); else delete savedRows[key]; saveRows(); }
   if (which === 'hidden' && selected === key && set.has(key) && $('#view').value !== 'hidden') closePanel();
   render(); if (selected === key) showPanel(key);
 }
