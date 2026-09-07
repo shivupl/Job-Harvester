@@ -94,6 +94,14 @@ body.open .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .comp svg{width:13px;height:13px;flex:none}
 .comp span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .foot{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:10px;border-top:1px solid var(--line);font:11px var(--mono);color:var(--faint)}
+.acts{display:flex;gap:6px;justify-content:flex-end;margin-top:auto}
+.card .acts+.foot{margin-top:0}
+.act{font:500 11px var(--mono);padding:4px 9px;border-radius:5px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;line-height:1}
+.act:hover{border-color:var(--faint);color:var(--ink)}
+.act.on{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.card.applied{border-color:var(--good)}
+.tag.applied{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--good-soft);color:var(--good);font:500 10.5px var(--mono);letter-spacing:.02em;white-space:nowrap}
+#panel .acts{justify-content:flex-start;margin-top:0}
 .kv{display:flex;align-items:baseline;gap:6px}.kv b{font-size:15px;font-weight:500;color:var(--ink)}
 .kv.good b{color:var(--good)}.kv.ok b{color:var(--ok)}.kv.warn b{color:var(--warn)}
 .cat{margin-left:auto;padding:2px 8px;border-radius:4px;font:11px var(--sans);background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);white-space:nowrap}
@@ -134,9 +142,11 @@ body.open #panel{transform:none}
 
 _JS = """
 const D = JSON.parse(document.getElementById('data').textContent);
-const SEEN_KEY = 'jobwatch.seen', TAB_KEY = 'jobwatch.tab';
-let seen = new Set(); try { seen = new Set(JSON.parse(localStorage.getItem(SEEN_KEY) || '[]')); } catch (e) {}
-function saveSeen(){ try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen])); } catch (e) {} }
+const SEEN_KEY = 'jobwatch.seen', APPLIED_KEY = 'jobwatch.applied', HIDDEN_KEY = 'jobwatch.hidden', TAB_KEY = 'jobwatch.tab';
+function loadSet(k){ try { return new Set(JSON.parse(localStorage.getItem(k) || '[]')); } catch (e) { return new Set(); } }
+function saveSet(k, v){ try { localStorage.setItem(k, JSON.stringify([...v])); } catch (e) {} }
+let seen = loadSet(SEEN_KEY), applied = loadSet(APPLIED_KEY), hidden = loadSet(HIDDEN_KEY);
+function saveSeen(){ saveSet(SEEN_KEY, seen); }
 let tab = 'all'; try { tab = localStorage.getItem(TAB_KEY) || 'all'; } catch (e) {}
 const THEME_KEY = 'jobwatch.theme';
 function applyTheme(){
@@ -193,8 +203,10 @@ function inTab(r, t){
   return t === 'all' || r.category === t;
 }
 function rows(t){
-  const q = $('#q').value.toLowerCase(), loc = $('#loc').value, hideSeen = $('#hideseen').checked, sort = $('#sort').value;
-  let out = D.rows.filter(r => inTab(r, t) && (!loc || r.location_fit === loc) && (!hideSeen || !seen.has(r.key))
+  const q = $('#q').value.toLowerCase(), loc = $('#loc').value, view = $('#view').value, sort = $('#sort').value;
+  const inView = r => view === 'applied' ? applied.has(r.key) : view === 'hidden' ? hidden.has(r.key)
+    : view === 'unseen' ? !hidden.has(r.key) && !seen.has(r.key) && !applied.has(r.key) : !hidden.has(r.key);
+  let out = D.rows.filter(r => inTab(r, t) && (!loc || r.location_fit === loc) && inView(r)
     && (!q || (r.title + ' ' + r.company + ' ' + (r.reason || '') + ' ' + (r.location || '')).toLowerCase().includes(q)));
   const byRel = (a, b) => (b.relevance - a.relevance) || (b.fit - a.fit) || (b.posted_at || '').localeCompare(a.posted_at || '');
   const byFit = (a, b) => (b.fit - a.fit) || (b.relevance - a.relevance) || (b.posted_at || '').localeCompare(a.posted_at || '');
@@ -204,17 +216,26 @@ function rows(t){
   return out;
 }
 
+function actsHtml(key){
+  const a = applied.has(key), h = hidden.has(key);
+  return `<div class="acts">
+      <button class="act ${a ? 'on' : ''}" data-act="applied" title="${a ? 'Applied. Click to undo' : 'Mark as applied'}">${a ? 'Applied ✓' : 'Applied'}</button>
+      <button class="act" data-act="hidden" title="${h ? 'Put it back on the board' : 'Hide this role from the board'}">${h ? 'Unhide' : 'Hide'}</button>
+    </div>`;
+}
 function cardHtml(r){
   const isSeen = seen.has(r.key), bay = r.location_fit === 'bay_area', ng = r.level === 'new_grad';
+  const isApplied = applied.has(r.key), isHidden = hidden.has(r.key);
   const co = r.company ? r.company[0].toUpperCase() + r.company.slice(1) : '';
-  return `<div class="card ${isSeen ? 'seen' : ''} ${ng ? 'newgrad' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}${ng ? ', new grad role' : ''}">
+  return `<div class="card ${isSeen ? 'seen' : ''} ${ng ? 'newgrad' : ''} ${isApplied ? 'applied' : ''} ${selected === r.key ? 'selected' : ''}" data-key="${esc(r.key)}" tabindex="0" role="button" aria-label="${esc(r.title)} at ${esc(r.company)}${ng ? ', new grad role' : ''}">
     <div class="top">
       <div class="l"><b title="${esc(r.company)}">${esc(co)}</b>${esc(age(r.posted_at))}</div>
-      <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span>${ng ? '<span class="tag newgrad" title="The posting explicitly targets new grads">new grad</span>' : ''}</div>
+      <div class="r"><span class="loc ${bay ? 'bay' : ''}" title="${esc(r.location || '')}">${esc(locLabel(r))}</span>${ng ? '<span class="tag newgrad" title="The posting explicitly targets new grads">new grad</span>' : ''}${isApplied ? '<span class="tag applied">applied</span>' : ''}</div>
     </div>
     <h3>${esc(r.title)}</h3>
     ${r.reason ? `<div class="why">${esc(r.reason)}</div>` : ''}
     ${r.comp ? `<span class="comp" title="${esc(r.comp)}">${ICON.cash}<span>${esc(r.comp)}</span></span>` : ''}
+    ${actsHtml(r.key)}
     <div class="foot">
       <span class="kv ${fitClass(r.fit)}">fit <b>${r.fit}</b></span>
       <span class="kv">rel <b>${r.relevance}</b></span>
@@ -237,8 +258,10 @@ function render(){
   renderTabs();
   visible = rows(tab);
   $('#count').textContent = `${visible.length} shown`;
+  $('#view option[value=applied]').textContent = `Applied (${applied.size})`;
+  $('#view option[value=hidden]').textContent = `Hidden (${hidden.size})`;
   $('#grid').innerHTML = visible.map(cardHtml).join('') ||
-    `<div class="empty">Nothing here with these filters. Try another tab, clear the search, or show seen roles.</div>`;
+    `<div class="empty">Nothing here with these filters. Try another tab, clear the search, or switch the view.</div>`;
 }
 
 function showPanel(key){
@@ -266,6 +289,7 @@ function showPanel(key){
       <a class="open-link" href="${esc(r.url)}" target="_blank" rel="noopener">Open posting</a>
       <label class="check"><input type="checkbox" id="panel-seen" ${seen.has(r.key) ? 'checked' : ''}> Mark seen</label>
     </div>
+    ${actsHtml(r.key)}
     <div class="hint">Esc closes. Left and right arrows move between cards.</div>`;
   document.body.classList.add('open');
   render();
@@ -279,6 +303,13 @@ function move(delta){
   const next = visible[Math.min(visible.length - 1, Math.max(0, i + delta))];
   if (next && next.key !== selected) showPanel(next.key);
 }
+function toggleAct(key, which){
+  const set = which === 'applied' ? applied : hidden;
+  if (set.has(key)) set.delete(key); else set.add(key);
+  saveSet(which === 'applied' ? APPLIED_KEY : HIDDEN_KEY, set);
+  if (which === 'hidden' && selected === key && set.has(key) && $('#view').value !== 'hidden') closePanel();
+  render(); if (selected === key) showPanel(key);
+}
 function toggleSeen(key, on){ if (on) seen.add(key); else seen.delete(key); saveSeen(); render(); if (selected === key) showPanel(key); }
 
 document.getElementById('theme').addEventListener('click', cycleTheme);
@@ -289,13 +320,19 @@ $('#tabs').addEventListener('click', e => {
 });
 $('#grid').addEventListener('click', e => {
   const card = e.target.closest('.card'); if (!card) return;
+  const act = e.target.closest('[data-act]');
+  if (act) { e.stopPropagation(); toggleAct(card.dataset.key, act.dataset.act); return; }
   showPanel(card.dataset.key);
 });
 $('#grid').addEventListener('keydown', e => {
   const card = e.target.closest('.card'); if (!card) return;
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showPanel(card.dataset.key); }
 });
-$('#panel').addEventListener('click', e => { if (e.target.closest('.close')) closePanel(); });
+$('#panel').addEventListener('click', e => {
+  if (e.target.closest('.close')) { closePanel(); return; }
+  const act = e.target.closest('[data-act]');
+  if (act && selected) toggleAct(selected, act.dataset.act);
+});
 $('#panel').addEventListener('change', e => { if (e.target.id === 'panel-seen' && selected) toggleSeen(selected, e.target.checked); });
 document.addEventListener('keydown', e => {
   if (e.target.matches('input, select, textarea')) return;
@@ -303,7 +340,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') { e.preventDefault(); move(1); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
 });
-['#q', '#loc', '#hideseen', '#sort'].forEach(s => $(s).addEventListener('input', render));
+['#q', '#loc', '#view', '#sort'].forEach(s => $(s).addEventListener('input', render));
 render();
 """
 
@@ -357,7 +394,7 @@ def render_board(rows: list[dict], now: datetime, profile: dict) -> str:
     <input id="q" type="search" placeholder="Search titles, companies, reasons" aria-label="search">
     <select id="loc" aria-label="location"><option value="">All locations</option>{loc_opts}</select>
     <select id="sort" aria-label="sort"><option value="fit">Sort by fit</option><option value="relevance">Sort by relevance</option><option value="posted">Newest posted</option><option value="company">Company A–Z</option></select>
-    <label class="check"><input id="hideseen" type="checkbox"> Hide seen</label>
+    <select id="view" aria-label="view"><option value="active">Active</option><option value="unseen">Unseen only</option><option value="applied">Applied</option><option value="hidden">Hidden</option></select>
     <span class="count" id="count"></span>
   </div>
 
