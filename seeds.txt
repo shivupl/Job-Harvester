@@ -1243,6 +1243,7 @@ lambdal
 lambdaschool
 landing
 langdock
+langfuse
 larkhealth
 lassie
 latitude
