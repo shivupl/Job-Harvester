@@ -119,6 +119,11 @@ async def cmd_refresh(args) -> dict:
     args.open = True
     out = await cmd_board(args)
     out["pulled"] = r.stdout.strip() or "up to date"
+    if args.archive:
+        import webbrowser
+        if Path(args.archive_out).exists():
+            webbrowser.open(Path(args.archive_out).resolve().as_uri())
+            out["archive"] = args.archive_out
     return out
 
 
@@ -175,6 +180,8 @@ def main(argv=None) -> None:
     f = sub.add_parser("refresh", help="git pull, then rebuild and open the board")
     f.add_argument("--db", default="jobwatch.db")
     f.add_argument("--out", default="board.html")
+    f.add_argument("--archive", action="store_true", help="also open board-archive.html")
+    f.add_argument("--archive-out", default="board-archive.html")
     f.set_defaults(fn=cmd_refresh)
 
     args = ap.parse_args(argv)

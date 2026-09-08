@@ -23,6 +23,7 @@ and the workflow takes over. Verify re-runs every Monday morning.
 ## Day to day
 
     .venv/bin/python -m jobwatch refresh            # git pull, rebuild board.html, open it
+    .venv/bin/python -m jobwatch refresh --archive  # ...and open board-archive.html (older still-open roles)
 
 ## Adjusting
 
