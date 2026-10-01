@@ -1603,6 +1603,7 @@ paytient
 paytm
 paytronix
 paywithpenguin
+pdtpartners
 peak6
 pear
 pearlhealth
@@ -2142,6 +2143,7 @@ thousandeyes
 thredup
 threeflow
 threekit
+thundercompute
 ticketcity
 ticketevolution
 tildei
