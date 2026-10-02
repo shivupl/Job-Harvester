@@ -982,6 +982,7 @@ giphy
 github
 gitlab
 givecampus
+givedirectly
 glass-health-inc
 globalityinc
 gloo
@@ -1031,6 +1032,7 @@ groundspeed
 grouparoo
 groupninemedia
 grovo
+growfig
 growtherapy
 gtv
 gusto
@@ -1179,11 +1181,13 @@ joyn
 jukeboxhealth
 junglescout
 juniperplatform
+jupus
 justwatch
 justworks
 juullabs
 juvo
 jyve
+k2spacecorporation
 kaiahealthsoftwaregmbh
 kalepa
 kamcord
@@ -1772,6 +1776,7 @@ raven-ops
 readme
 realm
 realscout
+rebar
 recharge
 recogni
 recrue
@@ -1985,6 +1990,7 @@ soloioinc
 solsten
 solvhealth
 solvvy
+somana.tech
 sonatype
 sonder
 songtrust

@@ -5544,6 +5544,13 @@
   "verified_at": "2026-09-28T20:21:16+00:00"
  },
  {
+  "slug": "givedirectly",
+  "ats": "greenhouse",
+  "name": "GiveDirectly",
+  "open_roles": 38,
+  "verified_at": "2026-10-02T18:54:33+00:00"
+ },
+ {
   "slug": "glass-health-inc",
   "ats": "lever",
   "name": "glass-health-inc",
@@ -5822,6 +5829,13 @@
   "name": "grow-therapy",
   "open_roles": 31,
   "verified_at": "2026-09-28T20:21:16+00:00"
+ },
+ {
+  "slug": "growfig",
+  "ats": "ashby",
+  "name": "growfig",
+  "open_roles": 2,
+  "verified_at": "2026-10-02T18:54:33+00:00"
  },
  {
   "slug": "growthprotocol",
@@ -6839,6 +6853,13 @@
   "verified_at": "2026-09-28T20:21:16+00:00"
  },
  {
+  "slug": "jupus",
+  "ats": "ashby",
+  "name": "jupus",
+  "open_roles": 4,
+  "verified_at": "2026-10-02T18:54:33+00:00"
+ },
+ {
   "slug": "justwatch",
   "ats": "lever",
   "name": "justwatch",
@@ -6865,6 +6886,13 @@
   "name": "k-id",
   "open_roles": 10,
   "verified_at": "2026-09-28T20:21:16+00:00"
+ },
+ {
+  "slug": "k2spacecorporation",
+  "ats": "greenhouse",
+  "name": "K2 Space ",
+  "open_roles": 249,
+  "verified_at": "2026-10-02T18:54:33+00:00"
  },
  {
   "slug": "kaizenlabs",
@@ -10339,6 +10367,13 @@
   "verified_at": "2026-09-28T20:21:16+00:00"
  },
  {
+  "slug": "rebar",
+  "ats": "ashby",
+  "name": "rebar",
+  "open_roles": 11,
+  "verified_at": "2026-10-02T18:54:33+00:00"
+ },
+ {
   "slug": "rebuildmanufacturing",
   "ats": "greenhouse",
   "name": "Re:Build Manufacturing",
@@ -11583,6 +11618,13 @@
   "name": "solveintelligence",
   "open_roles": 18,
   "verified_at": "2026-09-28T20:21:16+00:00"
+ },
+ {
+  "slug": "somana.tech",
+  "ats": "ashby",
+  "name": "somana.tech",
+  "open_roles": 4,
+  "verified_at": "2026-10-02T18:54:33+00:00"
  },
  {
   "slug": "sonatype",
