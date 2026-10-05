@@ -908,6 +908,7 @@ fluxai
 followup
 followupboss
 fond
+footprint
 forallsecure
 forbes
 forerunner
@@ -1235,6 +1236,7 @@ kong
 konvu
 kraken
 kraken123
+krakentech
 ksanahealthinc
 kubecost
 kumospace
@@ -1369,6 +1371,7 @@ memphismeats
 memsql
 mendaerainc
 mendix
+menlo
 mentimeter
 mercari
 mercato
@@ -1952,6 +1955,7 @@ simplebet
 simplehabit
 simulmedia
 singleops
+singlestore
 sironamedical
 sisu
 siteline
