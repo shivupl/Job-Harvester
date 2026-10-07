@@ -1327,6 +1327,7 @@ majorleaguebaseballadvancedmedi
 majorleaguebaseballadvancedmedia
 makeschool
 mammothbiosci
+manifest
 manifoldai
 mantrahealth
 mapbox
@@ -1334,6 +1335,7 @@ markforged
 marlettefunding
 mashgin
 masteryconnect
+mastra
 matchgroup
 materialize
 materiom

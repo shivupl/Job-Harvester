@@ -7616,6 +7616,13 @@
   "verified_at": "2026-10-05T21:51:27+00:00"
  },
  {
+  "slug": "manifest",
+  "ats": "greenhouse",
+  "name": "Manifest",
+  "open_roles": 4,
+  "verified_at": "2026-10-07T19:41:13+00:00"
+ },
+ {
   "slug": "manifoldai",
   "ats": "greenhouse",
   "name": "Manifold AI",
