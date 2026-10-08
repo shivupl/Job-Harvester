@@ -6104,6 +6104,13 @@
   "verified_at": "2026-10-05T21:51:27+00:00"
  },
  {
+  "slug": "hevenaerotech",
+  "ats": "greenhouse",
+  "name": "Heven AeroTech",
+  "open_roles": 29,
+  "verified_at": "2026-10-08T19:38:16+00:00"
+ },
+ {
   "slug": "hex",
   "ats": "ashby",
   "name": "hex",
@@ -6389,6 +6396,13 @@
   "name": "Icarus",
   "open_roles": 24,
   "verified_at": "2026-10-05T21:51:27+00:00"
+ },
+ {
+  "slug": "iceye",
+  "ats": "ashby",
+  "name": "iceye",
+  "open_roles": 189,
+  "verified_at": "2026-10-08T19:38:16+00:00"
  },
  {
   "slug": "ideo",

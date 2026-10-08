@@ -1065,6 +1065,7 @@ heliolytics
 hellosign
 help
 heretic-fund
+hevenaerotech
 heyjobs
 heyrowan
 highalphaprelaunch
@@ -1115,6 +1116,7 @@ ibkr
 ibkrexternal
 ibotta
 icapitalnetwork
+iceye
 ideo
 idme
 ifttt
