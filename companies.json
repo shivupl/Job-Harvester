@@ -2051,6 +2051,13 @@
   "verified_at": "2026-10-20T00:39:58+00:00"
  },
  {
+  "slug": "blab",
+  "ats": "greenhouse",
+  "name": "B Lab",
+  "open_roles": 10,
+  "verified_at": "2026-10-22T18:14:24+00:00"
+ },
+ {
   "slug": "blablacar",
   "ats": "lever",
   "name": "blablacar",
@@ -9576,6 +9583,13 @@
   "verified_at": "2026-10-20T00:39:58+00:00"
  },
  {
+  "slug": "pod-network",
+  "ats": "ashby",
+  "name": "pod-network",
+  "open_roles": 4,
+  "verified_at": "2026-10-22T18:14:24+00:00"
+ },
+ {
   "slug": "poesis",
   "ats": "ashby",
   "name": "poesis",
@@ -10183,6 +10197,13 @@
   "name": "read-ai",
   "open_roles": 17,
   "verified_at": "2026-10-20T00:39:58+00:00"
+ },
+ {
+  "slug": "readme",
+  "ats": "ashby",
+  "name": "readme",
+  "open_roles": 2,
+  "verified_at": "2026-10-22T18:14:24+00:00"
  },
  {
   "slug": "realitydefender",
@@ -11534,6 +11555,13 @@
   "name": "sphere",
   "open_roles": 16,
   "verified_at": "2026-10-20T00:39:58+00:00"
+ },
+ {
+  "slug": "spherecast",
+  "ats": "ashby",
+  "name": "spherecast",
+  "open_roles": 2,
+  "verified_at": "2026-10-22T18:14:24+00:00"
  },
  {
   "slug": "sphinxdefense",
