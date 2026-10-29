@@ -1085,6 +1085,13 @@
   "verified_at": "2026-10-26T19:42:05+00:00"
  },
  {
+  "slug": "anomalo",
+  "ats": "ashby",
+  "name": "anomalo",
+  "open_roles": 1,
+  "verified_at": "2026-10-29T19:23:14+00:00"
+ },
+ {
   "slug": "ansabiotechnologies",
   "ats": "greenhouse",
   "name": "Ansa Biotechnologies",
@@ -3073,6 +3080,13 @@
   "verified_at": "2026-10-26T19:42:05+00:00"
  },
  {
+  "slug": "clueso",
+  "ats": "ashby",
+  "name": "clueso",
+  "open_roles": 3,
+  "verified_at": "2026-10-29T19:23:14+00:00"
+ },
+ {
   "slug": "clutch",
   "ats": "greenhouse",
   "name": "Clutch Technologies Inc.",
@@ -3722,6 +3736,13 @@
   "name": "dataleap",
   "open_roles": 8,
   "verified_at": "2026-10-26T19:42:05+00:00"
+ },
+ {
+  "slug": "dataro",
+  "ats": "ashby",
+  "name": "dataro",
+  "open_roles": 1,
+  "verified_at": "2026-10-29T19:23:14+00:00"
  },
  {
   "slug": "dave",
@@ -12549,6 +12570,13 @@
   "name": "Turing",
   "open_roles": 33,
   "verified_at": "2026-10-26T19:42:05+00:00"
+ },
+ {
+  "slug": "turion-space",
+  "ats": "ashby",
+  "name": "turion-space",
+  "open_roles": 8,
+  "verified_at": "2026-10-29T19:23:14+00:00"
  },
  {
   "slug": "turnkey",
