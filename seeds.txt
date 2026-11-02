@@ -321,6 +321,7 @@ autogravitycorporation
 automox
 autonomic
 autosoftdms
+auw
 avalabs
 avalabsecosystem
 avantifinancialgroup
@@ -824,6 +825,7 @@ epfl
 ephemera
 epickids
 epirus
+equall
 equals
 equityzen
 esper-3
@@ -1795,6 +1797,7 @@ reddit
 redguava
 redpanda
 redpandadata
+reducto
 reflektive
 reflexionmedical
 reframesystems
