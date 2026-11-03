@@ -3374,6 +3374,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "controlplane",
+  "ats": "greenhouse",
+  "name": "ControlPlane",
+  "open_roles": 4,
+  "verified_at": "2026-11-03T20:23:42+00:00"
+ },
+ {
   "slug": "conveo",
   "ats": "ashby",
   "name": "conveo",
@@ -5787,6 +5794,13 @@
   "name": "hatch",
   "open_roles": 8,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "hatchcareers",
+  "ats": "greenhouse",
+  "name": "Hatch",
+  "open_roles": 7,
+  "verified_at": "2026-11-03T20:23:42+00:00"
  },
  {
   "slug": "haus",
