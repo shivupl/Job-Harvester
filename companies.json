@@ -392,6 +392,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "Pocket",
+  "ats": "ashby",
+  "name": "Pocket",
+  "open_roles": 17,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "RadicalAI",
   "ats": "lever",
   "name": "RadicalAI",
@@ -411,6 +418,13 @@
   "name": "Sanity",
   "open_roles": 33,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "Scholarly",
+  "ats": "ashby",
+  "name": "Scholarly",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "ScribdInc",
@@ -481,6 +495,13 @@
   "name": "Uniswap",
   "open_roles": 9,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "UpMetrics",
+  "ats": "lever",
+  "name": "UpMetrics",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "Verse",
@@ -602,6 +623,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "aclima",
+  "ats": "ashby",
+  "name": "aclima",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "acryldata",
   "ats": "greenhouse",
   "name": "DataHub",
@@ -705,6 +733,13 @@
   "name": "aghanim",
   "open_roles": 26,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "agilesix",
+  "ats": "greenhouse",
+  "name": "Agile Six Applications",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "agilityrobotics",
@@ -915,6 +950,13 @@
   "name": "alluxio",
   "open_roles": 11,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "alma",
+  "ats": "ashby",
+  "name": "alma",
+  "open_roles": 24,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "alpha9oncology",
@@ -1790,6 +1832,13 @@
   "name": "Backblaze External Website",
   "open_roles": 33,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "backerkit",
+  "ats": "lever",
+  "name": "backerkit",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "backflip",
@@ -3066,6 +3115,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "coalesce",
+  "ats": "ashby",
+  "name": "coalesce",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "coast",
   "ats": "greenhouse",
   "name": "Coast",
@@ -3183,6 +3239,13 @@
   "name": "coinflow",
   "open_roles": 19,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "cointracker",
+  "ats": "ashby",
+  "name": "cointracker",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "colabsoftware",
@@ -5047,6 +5110,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "fossa",
+  "ats": "ashby",
+  "name": "fossa",
+  "open_roles": 2,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "found",
   "ats": "greenhouse",
   "name": "Found",
@@ -5474,6 +5544,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "goodrx",
+  "ats": "ashby",
+  "name": "goodrx",
+  "open_roles": 5,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "goody",
   "ats": "greenhouse",
   "name": "Goody Garage Doors",
@@ -5556,6 +5633,13 @@
   "name": "graymatter-robotics",
   "open_roles": 14,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "greatquestion",
+  "ats": "ashby",
+  "name": "greatquestion",
+  "open_roles": 5,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "greenboard",
@@ -5964,6 +6048,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "heyjobs",
+  "ats": "ashby",
+  "name": "heyjobs",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "heyrowan",
   "ats": "lever",
   "name": "heyrowan",
@@ -5983,6 +6074,13 @@
   "name": "Highnote",
   "open_roles": 5,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "highrise",
+  "ats": "greenhouse",
+  "name": "Highrise AI",
+  "open_roles": 7,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "hightouch",
@@ -7854,6 +7952,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "mixmode",
+  "ats": "greenhouse",
+  "name": "MixMode",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "mixpanel",
   "ats": "greenhouse",
   "name": "Mixpanel",
@@ -7936,6 +8041,13 @@
   "name": "montecarlodata",
   "open_roles": 10,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "monterra",
+  "ats": "ashby",
+  "name": "monterra",
+  "open_roles": 2,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "monumental",
@@ -8447,6 +8559,13 @@
   "name": "Obsidian Security",
   "open_roles": 15,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "ocrolus",
+  "ats": "ashby",
+  "name": "ocrolus",
+  "open_roles": 6,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "octantbio",
@@ -9198,6 +9317,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "peregrine",
+  "ats": "greenhouse",
+  "name": "Peregrine",
+  "open_roles": 25,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "peregrinetechnologies",
   "ats": "greenhouse",
   "name": "Peregrine Technologies",
@@ -9819,6 +9945,13 @@
   "name": "Pulumi ",
   "open_roles": 4,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "purchasingplatform",
+  "ats": "lever",
+  "name": "purchasingplatform",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "pushpay",
@@ -12222,6 +12355,13 @@
   "verified_at": "2026-11-02T22:34:01+00:00"
  },
  {
+  "slug": "tolmo",
+  "ats": "ashby",
+  "name": "tolmo",
+  "open_roles": 5,
+  "verified_at": "2026-11-05T20:54:45+00:00"
+ },
+ {
   "slug": "tonal",
   "ats": "ashby",
   "name": "tonal",
@@ -12290,6 +12430,13 @@
   "name": "tradepost",
   "open_roles": 4,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "treasuryprime",
+  "ats": "greenhouse",
+  "name": "Treasury Prime",
+  "open_roles": 2,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "tremendous",
@@ -13186,6 +13333,13 @@
   "name": "WellSaid",
   "open_roles": 1,
   "verified_at": "2026-11-02T22:34:01+00:00"
+ },
+ {
+  "slug": "wellth",
+  "ats": "ashby",
+  "name": "wellth",
+  "open_roles": 1,
+  "verified_at": "2026-11-05T20:54:45+00:00"
  },
  {
   "slug": "wheelhouse",
