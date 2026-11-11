@@ -1512,6 +1512,7 @@ oboe
 obsidiansecurity
 ocrolus
 octoenergy
+odinlabs
 odyssey
 offchainlabs
 offerfit
