@@ -91,6 +91,13 @@
   "verified_at": "2026-11-09T23:15:40+00:00"
  },
  {
+  "slug": "AngleHealth",
+  "ats": "ashby",
+  "name": "AngleHealth",
+  "open_roles": 1,
+  "verified_at": "2026-11-12T21:16:18+00:00"
+ },
+ {
   "slug": "Anima",
   "ats": "ashby",
   "name": "Anima",
@@ -831,6 +838,13 @@
   "name": "Airtame",
   "open_roles": 3,
   "verified_at": "2026-11-09T23:15:40+00:00"
+ },
+ {
+  "slug": "airtasker",
+  "ats": "ashby",
+  "name": "airtasker",
+  "open_roles": 2,
+  "verified_at": "2026-11-12T21:16:18+00:00"
  },
  {
   "slug": "airwallex",
@@ -3267,6 +3281,13 @@
   "name": "collate",
   "open_roles": 17,
   "verified_at": "2026-11-09T23:15:40+00:00"
+ },
+ {
+  "slug": "collectivehealth",
+  "ats": "greenhouse",
+  "name": "Collective Health",
+  "open_roles": 2,
+  "verified_at": "2026-11-12T21:16:18+00:00"
  },
  {
   "slug": "colonist",
@@ -12362,6 +12383,13 @@
   "verified_at": "2026-11-09T23:15:40+00:00"
  },
  {
+  "slug": "trellis",
+  "ats": "lever",
+  "name": "trellis",
+  "open_roles": 2,
+  "verified_at": "2026-11-12T21:16:18+00:00"
+ },
+ {
   "slug": "tremendous",
   "ats": "ashby",
   "name": "tremendous",
@@ -13585,6 +13613,13 @@
   "name": "zippymh",
   "open_roles": 16,
   "verified_at": "2026-11-09T23:15:40+00:00"
+ },
+ {
+  "slug": "zoo",
+  "ats": "greenhouse",
+  "name": "Zoo",
+  "open_roles": 8,
+  "verified_at": "2026-11-12T21:16:18+00:00"
  },
  {
   "slug": "zoox",
