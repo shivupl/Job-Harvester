@@ -1008,6 +1008,13 @@
   "verified_at": "2026-11-09T23:15:40+00:00"
  },
  {
+  "slug": "alternativepayments",
+  "ats": "ashby",
+  "name": "alternativepayments",
+  "open_roles": 12,
+  "verified_at": "2026-11-13T20:43:59+00:00"
+ },
+ {
   "slug": "altimate",
   "ats": "ashby",
   "name": "altimate",
@@ -2301,6 +2308,13 @@
   "name": "bolna",
   "open_roles": 6,
   "verified_at": "2026-11-09T23:15:40+00:00"
+ },
+ {
+  "slug": "bonfireanalytics",
+  "ats": "ashby",
+  "name": "bonfireanalytics",
+  "open_roles": 3,
+  "verified_at": "2026-11-13T20:43:59+00:00"
  },
  {
   "slug": "boom",

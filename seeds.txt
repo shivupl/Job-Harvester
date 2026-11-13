@@ -203,6 +203,7 @@ alma
 alpaca
 alt
 altanaai
+alternativepayments
 altimate
 alto
 altspace
@@ -428,6 +429,7 @@ bold
 boldpenguin
 bolt
 bondfinancialtechnologies
+bonfireanalytics
 bonobos
 bonusly
 booknooklearning
