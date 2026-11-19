@@ -4256,6 +4256,13 @@
   "verified_at": "2026-11-16T23:10:42+00:00"
  },
  {
+  "slug": "edlink",
+  "ats": "ashby",
+  "name": "edlink",
+  "open_roles": 1,
+  "verified_at": "2026-11-19T21:57:07+00:00"
+ },
+ {
   "slug": "eggai",
   "ats": "greenhouse",
   "name": "EggAI",
@@ -8428,6 +8435,13 @@
   "verified_at": "2026-11-16T23:10:42+00:00"
  },
  {
+  "slug": "nudgesecurity",
+  "ats": "ashby",
+  "name": "nudgesecurity",
+  "open_roles": 5,
+  "verified_at": "2026-11-19T21:57:07+00:00"
+ },
+ {
   "slug": "numeral",
   "ats": "ashby",
   "name": "numeral",
@@ -12248,6 +12262,13 @@
   "name": "topline-pro",
   "open_roles": 9,
   "verified_at": "2026-11-16T23:10:42+00:00"
+ },
+ {
+  "slug": "topsort",
+  "ats": "greenhouse",
+  "name": "Topsort",
+  "open_roles": 7,
+  "verified_at": "2026-11-19T21:57:07+00:00"
  },
  {
   "slug": "toptal",
